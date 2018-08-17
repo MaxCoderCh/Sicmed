@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.assessmen.mapper.pra.read.PatientIpssScoreReadMapper">
+    <resultMap id="BaseResultMap" type="com.prostate.assessmen.entity.PatientIpssScore">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="patient_id" jdbcType="VARCHAR" property="patientId"/>
+        <result column="ipss_score" jdbcType="VARCHAR" property="ipssScore"/>
+        <result column="answer" jdbcType="VARCHAR" property="answer"/>
+        <result column="option_score" jdbcType="VARCHAR" property="optionScore"/>
+        <result column="caution" jdbcType="VARCHAR" property="caution"/>
+        <result column="score_type" jdbcType="VARCHAR" property="scoreType"/>
+        <result column="create_doctor" jdbcType="VARCHAR" property="createDoctor"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_doctor" jdbcType="VARCHAR" property="updateDoctor"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="delete_doctor" jdbcType="VARCHAR" property="deleteDoctor"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,ipss_score, caution,option_score ,score_type, create_time
+    </sql>
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pra_patient_ipss_score
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <!--================================================================================-->
+    <resultMap id="BeanResultMap" type="com.prostate.assessmen.beans.IpssScoreBean">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="ipss_score" jdbcType="VARCHAR" property="ipssScore"/>
+        <result column="answer" jdbcType="VARCHAR" property="answer"/>
+        <result column="option_score" jdbcType="VARCHAR" property="optionScore"/>
+        <result column="caution" jdbcType="VARCHAR" property="caution"/>
+        <result column="score_type" jdbcType="VARCHAR" property="scoreType"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Bean_Column_List">
+        id,ipss_score,answer, caution,option_score ,score_type, create_time
+    </sql>
+    <select id="getById" parameterType="java.lang.String" resultMap="BeanResultMap">
+        select
+        <include refid="Bean_Column_List"/>
+        from pra_patient_ipss_score
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+
+    <sql id="CreateTimeAndPatientId_Column_List">
+        id, create_time
+    </sql>
+
+    <select id="selectByCreateTimeAndPatientId" parameterType="com.prostate.assessmen.entity.PatientIpssScore" resultMap="BaseResultMap">
+        select
+        <include refid="CreateTimeAndPatientId_Column_List"/>
+        from pra_patient_ipss_score
+        <where>
+            del_flag = 0
+            <if test="patientId != null">
+                AND patient_id = #{patientId,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.master.FeedbackWriteMapper">
+
+
+
+	<insert id="save" parameterType="com.prostate.stata.entity.FeedbackDO">
+		<selectKey keyProperty="id" resultType="string" order="BEFORE">
+			select replace(uuid(), '-', '') as id from dual
+		</selectKey>
+		insert into customer_feedback
+		(
+			`id`,
+			`feedback_text`,
+			`reply_info`,
+			`reply_state`,
+			`create_user`,
+			`create_time`
+		)
+		values
+		(
+			#{id},
+			#{feedbackText},
+			#{replyInfo},
+			#{replyState},
+			#{createUser},
+			#{createTime}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.prostate.stata.entity.FeedbackDO">
+		update customer_feedback
+		<set>
+			<if test="feedbackText != null">`feedback_text` = #{feedbackText}, </if>
+			<if test="replyInfo != null">`reply_info` = #{replyInfo}, </if>
+			<if test="replyState != null">`reply_state` = #{replyState}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="remove">
+		delete from customer_feedback where id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from customer_feedback where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

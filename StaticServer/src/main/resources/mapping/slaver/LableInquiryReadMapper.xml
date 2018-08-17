@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.slaver.LableInquiryReadMapper">
+  <resultMap id="BaseResultMap" type="com.prostate.stata.entity.LableInquiry">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="lable_name" jdbcType="VARCHAR" property="lableName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id AS id, lable_name AS lableName, create_time AS createTime, create_user AS createUser
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lable_inquiry
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <sql id="selectByParams_Column_List">
+    id, lable_name
+  </sql>
+  <select id="selectByParams" parameterType="com.prostate.stata.entity.LableInquiry" resultMap="BaseResultMap">
+    select
+    <include refid="selectByParams_Column_List" />
+    from lable_inquiry
+    <where>
+      <if test="lableName != null">
+        lable_name = #{lableName,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createUser != null">
+        AND create_user = #{createUser,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+</mapper>

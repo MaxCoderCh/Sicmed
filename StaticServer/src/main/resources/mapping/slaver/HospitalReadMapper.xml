@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.slaver.HospitalReadMapper">
+  <resultMap id="BaseResultMap" type="com.prostate.stata.entity.Hospital">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="hospital_name" jdbcType="VARCHAR" property="hospitalName" />
+    <result column="hospital_alias" jdbcType="VARCHAR" property="hospitalAlias" />
+    <result column="hospital_inform" jdbcType="VARCHAR" property="hospitalInform" />
+    <result column="hospital_grade" jdbcType="VARCHAR" property="hospitalGrade" />
+    <result column="hospital_weight" jdbcType="INTEGER" property="hospitalWeight" />
+    <result column="type_id" jdbcType="VARCHAR" property="typeId" />
+    <result column="city_id" jdbcType="VARCHAR" property="cityId" />
+    <result column="activation_flag" jdbcType="CHAR" property="activationFlag" />
+    <result column="order_weight" jdbcType="VARCHAR" property="orderWeight" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, hospital_name, hospital_alias, hospital_inform, hospital_grade, hospital_weight, 
+    type_id, city_id, activation_flag, order_weight, create_user, create_time, update_user, 
+    update_time, delete_user, delete_time, del_flag
+  </sql>
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_hospital
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <sql id="selectByParams_Column_List">
+    id, hospital_name
+  </sql>
+
+  <!--无参查询所有的医院信息、-->
+  <select id="selectByParams" parameterType="com.prostate.stata.entity.Hospital" resultMap="BaseResultMap">
+    select
+    <include refid="selectByParams_Column_List" />
+    from base_hospital
+    <where>
+      <if test="id != null">
+         id = #{id,jdbcType=TIMESTAMP}
+      </if>
+      <if test="hospitalName != null">
+        AND hospital_name = #{hospitalName,jdbcType=TIMESTAMP}
+      </if>
+      <if test="hospitalAlias != null">
+        AND hospital_alias = #{hospitalAlias,jdbcType=TIMESTAMP}
+      </if>
+      <if test="hospitalInform != null">
+        AND hospital_inform = #{hospitalInform,jdbcType=TIMESTAMP}
+      </if>
+      <if test="hospitalGrade != null">
+      AND hospital_grade = #{hospitalGrade,jdbcType=TIMESTAMP}
+    </if>
+      <if test="hospitalWeight != null">
+      AND hospital_weight = #{hospitalWeight,jdbcType=TIMESTAMP}
+    </if>
+      <if test="typeId != null">
+      AND type_id = #{typeId,jdbcType=TIMESTAMP}
+    </if>
+      <if test="cityId != null">
+      AND city_id = #{cityId,jdbcType=TIMESTAMP}
+    </if>
+      <if test="activationFlag != null">
+        AND activation_flag = #{activationFlag,jdbcType=TIMESTAMP}
+      </if>
+      <if test="orderWeight != null">
+        AND order_weight = #{orderWeight,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createUser != null">
+        AND create_user = #{createUser,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUser != null">
+        AND update_user = #{updateUser,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateTime != null">
+        AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="deleteUser != null">
+        AND delete_user = #{deleteUser,jdbcType=TIMESTAMP}
+      </if>
+      <if test="deleteTime != null">
+        AND delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="delFlag != null">
+        AND del_flag = #{delFlag,jdbcType=TIMESTAMP}
+      </if>
+
+
+    </where>
+  </select>
+
+
+</mapper>

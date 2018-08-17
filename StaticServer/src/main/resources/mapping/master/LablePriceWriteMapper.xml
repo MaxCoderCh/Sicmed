@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.master.LablePriceWriteMapper">
+  <resultMap id="BaseResultMap" type="com.prostate.stata.entity.LablePrice">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="lable_name" jdbcType="VARCHAR" property="lableName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, lable_name, create_time, create_user
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from lable_price
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from lable_price
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.prostate.stata.entity.LablePrice">
+    insert into lable_price (id, lable_name, create_time, 
+      create_user)
+    values (#{id,jdbcType=VARCHAR}, #{lableName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.prostate.stata.entity.LablePrice">
+    insert into lable_price
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="lableName != null">
+        lable_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="lableName != null">
+        #{lableName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.stata.entity.LablePrice">
+    update lable_price
+    <set>
+      <if test="lableName != null">
+        lable_name = #{lableName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.prostate.stata.entity.LablePrice">
+    update lable_price
+    set lable_name = #{lableName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

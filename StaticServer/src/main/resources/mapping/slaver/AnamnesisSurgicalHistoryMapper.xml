@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.slaver.AnamnesisSurgicalHistoryReadMapper">
+  <resultMap id="BaseResultMap" type="com.prostate.stata.entity.AnamnesisSurgicalHistory">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="surgical_history_name" jdbcType="VARCHAR" property="surgicalHistoryName" />
+    <result column="surgical_history_spell_name" jdbcType="VARCHAR" property="surgicalHistorySpellName" />
+    <result column="surgical_history_number" jdbcType="VARCHAR" property="surgicalHistoryNumber" />
+    <result column="order_weight" jdbcType="INTEGER" property="orderWeight" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+  </resultMap>
+  <!--根据 ID 查询 中文名称 -->
+  <sql id="CH_Column_List">
+    surgical_history_name
+  </sql>
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="CH_Column_List" />
+    from base_anamnesis_surgical_history
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <sql id="Base_Column_List">
+    id, surgical_history_name, surgical_history_spell_name, surgical_history_number, 
+    order_weight, create_user, create_time, update_user, update_time, delete_user, delete_time, 
+    del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_anamnesis_surgical_history
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <!--模糊查询 正在服用的药物 -->
+  <resultMap id="AnamnesisSurgicalHistoryListResultMap" type="com.prostate.stata.entity.AnamnesisSurgicalHistory">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="surgical_history_name" jdbcType="VARCHAR" property="surgicalHistoryName" />
+  </resultMap>
+  <sql id="AnamnesisSurgicalHistoryList_Column_List">
+    id, surgical_history_name
+  </sql>
+  <select id="selectByParams" parameterType="com.prostate.stata.entity.AnamnesisSurgicalHistory" resultMap="AnamnesisSurgicalHistoryListResultMap">
+    select
+    <include refid="AnamnesisSurgicalHistoryList_Column_List" />
+    from base_anamnesis_surgical_history
+    <where>
+      del_flag = 0
+      <if test="surgicalHistorySpellName!=null and surgicalHistorySpellName!=''">
+        AND surgical_history_spell_name LIKE CONCAT('%',CONCAT(#{surgicalHistorySpellName,jdbcType=VARCHAR}),'%')
+      </if>
+    </where>
+    ORDER BY order_weight DESC
+    limit 0,10
+  </select>
+
+  <insert id="insertSelective" parameterType="com.prostate.stata.entity.AnamnesisSurgicalHistory">
+    <selectKey keyProperty="id" resultType="string" order="BEFORE">
+      select replace(uuid(), '-', '') as id from dual
+    </selectKey>
+    insert into base_anamnesis_surgical_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="surgicalHistoryName != null">
+        surgical_history_name,
+      </if>
+      <if test="surgicalHistorySpellName != null">
+        surgical_history_spell_name,
+      </if>
+      <if test="surgicalHistoryNumber != null">
+        surgical_history_number,
+      </if>
+      <if test="orderWeight != null">
+        order_weight,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteUser != null">
+        delete_user,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="surgicalHistoryName != null">
+        #{surgicalHistoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="surgicalHistorySpellName != null">
+        #{surgicalHistorySpellName,jdbcType=VARCHAR},
+      </if>
+      <if test="surgicalHistoryNumber != null">
+        #{surgicalHistoryNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderWeight != null">
+        #{orderWeight,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteUser != null">
+        #{deleteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.stata.entity.AnamnesisSurgicalHistory">
+    update base_anamnesis_surgical_history
+    <set>
+      <if test="surgicalHistoryName != null">
+        surgical_history_name = #{surgicalHistoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="surgicalHistorySpellName != null">
+        surgical_history_spell_name = #{surgicalHistorySpellName,jdbcType=VARCHAR},
+      </if>
+      <if test="surgicalHistoryNumber != null">
+        surgical_history_number = #{surgicalHistoryNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderWeight != null">
+        order_weight = #{orderWeight,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteUser != null">
+        delete_user = #{deleteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.prostate.stata.entity.AnamnesisSurgicalHistory">
+    update base_anamnesis_surgical_history
+    set surgical_history_name = #{surgicalHistoryName,jdbcType=VARCHAR},
+      surgical_history_spell_name = #{surgicalHistorySpellName,jdbcType=VARCHAR},
+      surgical_history_number = #{surgicalHistoryNumber,jdbcType=VARCHAR},
+      order_weight = #{orderWeight,jdbcType=INTEGER},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_user = #{deleteUser,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicmed.goods.mapper.master.GoodsInquiryWriteMapper">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from goods_inquiry
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insertSelective" parameterType="com.sicmed.goods.entity.GoodsInquiry">
+        <selectKey keyProperty="id" resultType="string" order="BEFORE">
+            select replace(uuid(), '-', '') as id from dual
+        </selectKey>
+        insert into goods_inquiry
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="doctor != null">
+                doctor,
+            </if>
+            <if test="goodsPrice != null">
+                goods_price,
+            </if>
+            <if test="goodsType != null">
+                goods_type,
+            </if>
+            <if test="goodsStatus != null">
+                goods_status,
+            </if>
+            <if test="goodsDescription != null">
+                goods_description,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateUser != null">
+                update_user,
+            </if>
+            <if test="deleteTime != null">
+                delete_time,
+            </if>
+            <if test="deleteUser != null">
+                delete_user,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="doctor != null">
+                #{doctor,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsPrice != null">
+                #{goodsPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsType != null">
+                #{goodsType,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsStatus != null">
+                #{goodsStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsDescription != null">
+                #{goodsDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null">
+                #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteTime != null">
+                #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteUser != null">
+                #{deleteUser,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sicmed.goods.entity.GoodsInquiry">
+        update goods_inquiry
+        <set>
+            <if test="doctor != null">
+                doctor = #{doctor,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsPrice != null">
+                goods_price = #{goodsPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsType != null">
+                goods_type = #{goodsType,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsStatus != null">
+                goods_status = #{goodsStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsDescription != null">
+                goods_description = #{goodsDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUser != null">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteTime != null">
+                delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteUser != null">
+                delete_user = #{deleteUser,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="ban" parameterType="com.sicmed.goods.entity.GoodsInquiry">
+        update goods_inquiry
+        <set>
+            goods_status = 'DISABLE'
+        </set>
+        where doctor = #{doctor,jdbcType=VARCHAR}
+        AND goods_status = #{goodsStatus,jdbcType=VARCHAR}
+        AND goods_type = #{goodsType,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.sicmed.goods.entity.GoodsInquiry">
+        update goods_inquiry
+        set doctor = #{doctor,jdbcType=VARCHAR},
+        goods_price = #{goodsPrice,jdbcType=VARCHAR},
+        goods_type = #{goodsType,jdbcType=VARCHAR},
+        goods_status = #{goodsStatus,jdbcType=VARCHAR},
+        goods_description = #{goodsDescription,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_user = #{createUser,jdbcType=VARCHAR},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_user = #{updateUser,jdbcType=VARCHAR},
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+        delete_user = #{deleteUser,jdbcType=VARCHAR},
+        del_flag = #{delFlag,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

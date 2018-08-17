@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.slaver.EducationReadMapper">
+  <resultMap id="BaseResultMap" type="com.prostate.stata.entity.Education">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="education_name" jdbcType="VARCHAR" property="educationName" />
+    <result column="education_number" jdbcType="VARCHAR" property="educationNumber" />
+    <result column="order_weight" jdbcType="VARCHAR" property="orderWeight" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+  </resultMap>
+
+  <sql id="CH_Column_List">
+    education_name
+  </sql>
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="CH_Column_List" />
+    from base_education
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <sql id="Base_Column_List">
+    id, education_name, education_number, order_weight, create_user, create_time, update_user, update_time,
+    delete_user, delete_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_education
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <!-- 根据不同的参数 查询 学历列表 参数载体:com.prostate.stata.entity.Education -->
+  <resultMap id="EducationListResultMap" type="com.prostate.stata.entity.Education">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="education_name" jdbcType="VARCHAR" property="educationName" />
+  </resultMap>
+  <sql id="EducationList_Column_List">
+    id, education_name
+  </sql>
+  <select id="selectByParams" parameterType="com.prostate.stata.entity.Education" resultMap="BaseResultMap">
+    select
+    <include refid="EducationList_Column_List" />
+    from base_education
+    <where>
+      del_flag = 0
+        <if test="educationName != '' and educationName != null">
+          AND education_name = #{educationName,jdbcType=VARCHAR}
+        </if>
+      <if test="educationNumber != '' and educationNumber != null">
+        AND education_number = #{educationNumber,jdbcType=VARCHAR}
+      </if>
+    </where>
+    ORDER BY order_weight ASC
+  </select>
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.slaver.VersionInformationReadMapper">
+
+
+	<sql id="Base_Column_List">
+		 id AS id,
+			 version_number AS versionNumber,
+			 version_details AS versionDetails,
+			 create_user AS createUser,
+			 create_time AS createTime
+	</sql>
+
+
+	<select id="get" resultType="com.prostate.stata.entity.VersionInformationDO">
+		select <include refid="Base_Column_List" /> from version_information where id = #{value}
+	</select>
+
+	<select id="getByVersionNumber" resultType="com.prostate.stata.entity.VersionInformationDO">
+		select <include refid="Base_Column_List" /> from version_information where version_number = #{value}
+	</select>
+
+
+
+	<select id="list" resultType="com.prostate.stata.entity.VersionInformationDO">
+		select <include refid="Base_Column_List" /> from version_information
+        <where>
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="versionNumber != null and versionNumber != ''"> and version_number = #{versionNumber} </if>
+		  		  <if test="versionDetails != null and versionDetails != ''"> and version_details = #{versionDetails} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from version_information
+		 <where>
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="versionNumber != null and versionNumber != ''"> and version_number = #{versionNumber} </if>
+		  		  <if test="versionDetails != null and versionDetails != ''"> and version_details = #{versionDetails} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		</where>
+	</select>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.slaver.ScaleReadMapper">
+  <resultMap id="BaseResultMap" type="com.prostate.stata.entity.Scale">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="scale_title" jdbcType="VARCHAR" property="scaleTitle" />
+    <result column="scale_score" jdbcType="VARCHAR" property="scaleScore" />
+    <result column="scale_type" jdbcType="CHAR" property="scaleType" />
+    <result column="scale_weight" jdbcType="VARCHAR" property="scaleWeight" />
+    <result column="order_weight" jdbcType="VARCHAR" property="orderWeight" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, parent_id, scale_title, scale_score, scale_type, scale_weight, order_weight, 
+    create_user, create_time, delete_user, delete_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_scale
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+
+
+  <!--查询 量表 评估项-->
+  <resultMap id="ScaleListResultMap" type="com.prostate.stata.beans.ScaleBean">
+    <id column="parentScaleId" jdbcType="VARCHAR" property="id"/>
+    <result column="parentScaleTitle" jdbcType="VARCHAR" property="scaleTitle"/>
+    <result column="parentScaleScore" jdbcType="VARCHAR" property="scaleScore"/>
+    <result column="parentScaleType" jdbcType="VARCHAR" property="scaleType"/>
+    <collection property="childList" ofType="com.prostate.stata.beans.ScaleBean" javaType="ArrayList">
+      <id column="childScaleId" jdbcType="VARCHAR" property="id"/>
+      <result column="childScaleTitle" jdbcType="VARCHAR" property="scaleTitle"/>
+      <result column="childScaleScore" jdbcType="VARCHAR" property="scaleScore"/>
+      <result column="childScaleType" jdbcType="VARCHAR" property="scaleType"/>
+      <collection property="childList" ofType="com.prostate.stata.entity.Scale" javaType="ArrayList">
+        <id column="grandsonId" jdbcType="VARCHAR" property="id"/>
+        <result column="grandsonTitle" jdbcType="VARCHAR" property="scaleTitle"/>
+        <result column="grandsonScore" jdbcType="VARCHAR" property="scaleScore"/>
+      </collection>
+    </collection>
+  </resultMap>
+  <sql id="ScaleList_Column_List">
+    parentScale.id parentScaleId, parentScale.scale_title parentScaleTitle, parentScale.scale_score parentScaleScore,
+    parentScale.scale_type parentScaleType,
+    childScale.id childScaleId, childScale.scale_title childScaleTitle,childScale.scale_score childScaleScore,
+    childScale.scale_type childScaleType,
+    grandsonScale.id grandsonId, grandsonScale.scale_title grandsonTitle,grandsonScale.scale_score grandsonScore
+  </sql>
+  <sql id="ScaleList_Left_Join">
+    LEFT JOIN base_scale childScale ON childScale.parent_id = parentScale.id
+    LEFT JOIN base_scale grandsonScale ON grandsonScale.parent_id = childScale.id
+  </sql>
+  <select id="selectByParamss" parameterType="com.prostate.stata.entity.Scale" resultMap="ScaleListResultMap">
+    select
+    <include refid="ScaleList_Column_List"/>
+    from base_scale parentScale
+    <include refid="ScaleList_Left_Join"/>
+    <where>
+      parentScale.del_flag = 0
+      AND parentScale.parent_id is null
+      AND childScale.parent_id is not null
+      AND grandsonScale.parent_id is not null
+    </where>
+    GROUP BY grandsonScale.id
+    ORDER BY parentScale.scale_weight ASC,childScale.scale_weight ASC,grandsonScale.scale_weight ASC
+  </select>
+</mapper>

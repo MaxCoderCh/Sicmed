@@ -1,0 +1,64 @@
+package com.prostate.record.service.impl;
+
+import com.prostate.record.entity.Anamnesis;
+import com.prostate.record.mapper.slaver.AnamnesisReadMapper;
+import com.prostate.record.mapper.master.AnamnesisWriteMapper;
+import com.prostate.record.service.AnamnesisService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Slf4j
+@Service
+public class AnamnesisServiceImpl implements AnamnesisService {
+
+    @Autowired
+    private AnamnesisWriteMapper anamnesisWriteMapper;
+
+    @Autowired
+    private AnamnesisReadMapper anamnesisReadMapper;
+
+    @CacheEvict(value = "HealthRrecord", key = "#anamnesis.getPatientId()", condition = "true", beforeInvocation = true)
+    @Override
+    public int insertSelective(Anamnesis anamnesis) {
+        return anamnesisWriteMapper.insertSelective(anamnesis);
+    }
+
+    @CacheEvict(value = "HealthRrecord", key = "#patientId", condition = "true", beforeInvocation = true)
+    @Override
+    public int deleteById(String id,String patientId) {
+        return anamnesisWriteMapper.deleteById(id);
+    }
+
+    @CacheEvict(value = "HealthRrecord", key = "#anamnesis.getPatientId()", condition = "true", beforeInvocation = true)
+    @Override
+    public int updateSelective(Anamnesis anamnesis) {
+        return anamnesisWriteMapper.updateSelective(anamnesis);
+    }
+
+    @Override
+    public Anamnesis selectById(String id) {
+        return anamnesisReadMapper.selectById(id);
+    }
+
+    @Override
+    public List<Anamnesis> selectByParams(Anamnesis anamnesis) {
+        return anamnesisReadMapper.selectByParams(anamnesis);
+    }
+
+    @Override
+    public int deleteById(String id) {
+        return 0;
+    }
+
+
+    @Override
+    public boolean checkRepeated(Anamnesis anamnesis) {
+        int i = anamnesisReadMapper.checkRepeated(anamnesis);
+        return i > 0 ? true : false;
+    }
+
+}

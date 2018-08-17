@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.assessmen.mapper.pra.write.PatientIpssScoreWriteMapper">
+
+    <insert id="insertSelective" parameterType="com.prostate.assessmen.entity.PatientIpssScore">
+        <selectKey keyProperty="id" resultType="java.lang.String"
+                   order="BEFORE">
+            select replace(uuid(),'-','') from dual
+        </selectKey>
+        insert into pra_patient_ipss_score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="patientId != null">
+                patient_id,
+            </if>
+            <if test="ipssScore != null">
+                ipss_score,
+            </if>
+            <if test="answer != null">
+                answer,
+            </if>
+            <if test="optionScore != null">
+                option_score,
+            </if>
+            <if test="caution != null">
+                caution,
+            </if>
+            <if test="createDoctor != null">
+                create_doctor,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateDoctor != null">
+                update_doctor,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleteDoctor != null">
+                delete_doctor,
+            </if>
+            <if test="deleteTime != null">
+                delete_time,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="patientId != null">
+                #{patientId,jdbcType=VARCHAR},
+            </if>
+            <if test="ipssScore != null">
+                #{ipssScore,jdbcType=VARCHAR},
+            </if>
+            <if test="answer != null">
+                #{answer,jdbcType=VARCHAR},
+            </if>
+            <if test="optionScore != null">
+                #{optionScore,jdbcType=VARCHAR},
+            </if>
+            <if test="caution != null">
+                #{caution,jdbcType=VARCHAR},
+            </if>
+            <if test="createDoctor != null">
+                #{createDoctor,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDoctor != null">
+                #{updateDoctor,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteDoctor != null">
+                #{deleteDoctor,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteTime != null">
+                #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertSelectiveById" parameterType="com.prostate.assessmen.entity.PatientIpssScore">
+        insert into pra_patient_ipss_score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="patientId != null">
+                patient_id,
+            </if>
+            <if test="ipssScore != null">
+                ipss_score,
+            </if>
+            <if test="answer != null">
+                answer,
+            </if>
+            <if test="optionScore != null">
+                option_score,
+            </if>
+            <if test="caution != null">
+                caution,
+            </if>
+            <if test="createDoctor != null">
+                create_doctor,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateDoctor != null">
+                update_doctor,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleteDoctor != null">
+                delete_doctor,
+            </if>
+            <if test="deleteTime != null">
+                delete_time,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="patientId != null">
+                #{patientId,jdbcType=VARCHAR},
+            </if>
+            <if test="ipssScore != null">
+                #{ipssScore,jdbcType=VARCHAR},
+            </if>
+            <if test="answer != null">
+                #{answer,jdbcType=VARCHAR},
+            </if>
+            <if test="optionScore != null">
+                #{optionScore,jdbcType=VARCHAR},
+            </if>
+            <if test="caution != null">
+                #{caution,jdbcType=VARCHAR},
+            </if>
+            <if test="createDoctor != null">
+                #{createDoctor,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDoctor != null">
+                #{updateDoctor,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteDoctor != null">
+                #{deleteDoctor,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteTime != null">
+                #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateSelective" parameterType="com.prostate.assessmen.entity.PatientIpssScore">
+        update pra_patient_ipss_score
+        <set>
+            <if test="patientId != null">
+                patient_id = #{patientId,jdbcType=VARCHAR},
+            </if>
+            <if test="ipssScore != null">
+                ipss_score = #{ipssScore,jdbcType=VARCHAR},
+            </if>
+            <if test="answer != null">
+                answer = #{answer,jdbcType=VARCHAR},
+            </if>
+            <if test="optionScore != null">
+                option_score = #{optionScore,jdbcType=VARCHAR},
+            </if>
+            <if test="caution != null">
+                caution = #{caution,jdbcType=VARCHAR},
+            </if>
+            <if test="createDoctor != null">
+                create_doctor = #{createDoctor,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDoctor != null">
+                update_doctor = #{updateDoctor,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleteDoctor != null">
+                delete_doctor = #{deleteDoctor,jdbcType=VARCHAR},
+            </if>
+            <if test="deleteTime != null">
+                delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.assessmen.mapper.pra.read.ProstaticMedicalExaminationReadMapper">
+    <resultMap id="BaseResultMap" type="com.prostate.assessmen.entity.ProstaticMedicalExamination">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="patient_id" jdbcType="VARCHAR" property="patientId"/>
+        <result column="blood_routine_answer" jdbcType="VARCHAR" property="bloodRoutineAnswer"/>
+        <result column="digital_rectal_answer" jdbcType="VARCHAR" property="digitalRectalAnswer"/>
+        <result column="expressed_prostatic_secretion_answer" jdbcType="VARCHAR" property="expressedProstaticSecretionAnswer"/>
+        <result column="specific_antigen_answer" jdbcType="VARCHAR" property="specificAntigenAnswer"/>
+        <result column="ultrasonography_b_answer" jdbcType="VARCHAR" property="ultrasonographyBAnswer"/>
+        <result column="urine_flow_rate_answer" jdbcType="VARCHAR" property="urineFlowRateAnswer"/>
+        <result column="urine_routine_answer" jdbcType="VARCHAR" property="urineRoutineAnswer"/>
+        <result column="medical_examination_remark" jdbcType="VARCHAR" property="medicalExaminationRemark"/>
+        <result column="blood_routine_remark" jdbcType="VARCHAR" property="bloodRoutineRemark"/>
+        <result column="digital_rectal_remark" jdbcType="VARCHAR" property="digitalRectalRemark"/>
+        <result column="expressed_prostatic_secretion_remark" jdbcType="VARCHAR" property="expressedProstaticSecretionRemark"/>
+        <result column="specific_antigen_remark" jdbcType="VARCHAR" property="specificAntigenRemark"/>
+        <result column="ultrasonography_b_remark" jdbcType="VARCHAR" property="ultrasonographyBRemark"/>
+        <result column="urine_flow_rate_remark" jdbcType="VARCHAR" property="urineFlowRateRemark"/>
+        <result column="urine_routine_remark" jdbcType="VARCHAR" property="urineRoutineRemark"/>
+        <result column="create_doctor" jdbcType="VARCHAR" property="createDoctor"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_doctor" jdbcType="VARCHAR" property="updateDoctor"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="delete_doctor" jdbcType="VARCHAR" property="deleteDoctor"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+        <result column="urine_routine_inspect_time" jdbcType="TIMESTAMP" property="urineRoutineInspectTime"/>
+        <result column="urine_flow_rate_inspect_time" jdbcType="TIMESTAMP" property="urineFlowRateInspectTime"/>
+        <result column="ultrasonography_b_inspect_time" jdbcType="TIMESTAMP" property="ultrasonographyBInspectTime"/>
+        <result column="digital_rectal_inspect_time" jdbcType="TIMESTAMP" property="digitalRectalInspectTime"/>
+        <result column="expressed_prostatic_secretion_inspect_time" jdbcType="TIMESTAMP" property="expressedProstaticSecretionInspectTime"/>
+        <result column="specific_antigen_inspect_time" jdbcType="TIMESTAMP" property="specificAntigenInspectTime"/>
+        <result column="blood_routine_inspect_time" jdbcType="TIMESTAMP" property="bloodRoutineInspectTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, patient_id, blood_routine_answer, digital_rectal_answer, expressed_prostatic_secretion_answer,
+        specific_antigen_answer, ultrasonography_b_answer, urine_flow_rate_answer, urine_routine_answer,
+        medical_examination_remark, blood_routine_remark, digital_rectal_remark, expressed_prostatic_secretion_remark,
+        specific_antigen_remark, ultrasonography_b_remark, urine_flow_rate_remark, urine_routine_remark,
+        create_doctor, create_time, update_doctor, update_time, delete_doctor, delete_time,
+        del_flag, urine_routine_inspect_time, urine_flow_rate_inspect_time, ultrasonography_b_inspect_time,
+        digital_rectal_inspect_time, expressed_prostatic_secretion_inspect_time, specific_antigen_inspect_time,
+        blood_routine_inspect_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pra_prostatic_medical_examination
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <sql id="ProstaticMedicalExamination_List_Column_List">
+        id,medical_examination_remark, blood_routine_remark, digital_rectal_remark, expressed_prostatic_secretion_remark,
+        specific_antigen_remark, ultrasonography_b_remark, urine_flow_rate_remark, urine_routine_remark,
+        create_doctor, create_time
+    </sql>
+    <select id="selectByParams" parameterType="com.prostate.assessmen.entity.ProstaticMedicalExamination" resultMap="BaseResultMap">
+        select
+        <include refid="ProstaticMedicalExamination_List_Column_List"/>
+        from pra_prostatic_medical_examination
+        <where>
+            patient_id = #{patientId,jdbcType=VARCHAR}
+        </where>
+        ORDER BY create_time DESC
+    </select>
+    <sql id="CreateTimeAndPatientId_Column_List">
+        id, create_time
+    </sql>
+    <select id="selectByCreateTimeAndPatientId" parameterType="com.prostate.assessmen.entity.ProstaticMedicalExamination" resultMap="BaseResultMap">
+        select
+        <include refid="CreateTimeAndPatientId_Column_List"/>
+        from pra_prostatic_medical_examination
+        <where>
+            del_flag = 0
+            <if test="patientId != null">
+                AND patient_id = #{patientId,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+    <select id="selectByPatientAndData" parameterType="com.prostate.assessmen.entity.ProstaticMedicalExamination" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pra_prostatic_medical_examination
+        <where>
+            del_flag = 0
+            <if test="patientId != null">
+                AND patient_id = #{patientId,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+    </select>
+</mapper>

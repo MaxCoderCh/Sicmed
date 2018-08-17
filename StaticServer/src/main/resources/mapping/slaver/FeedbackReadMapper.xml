@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.slaver.FeedbackReadMapper">
+
+
+	<sql id="Base_Column_List">
+		 id  AS id,
+			 feedback_text  AS feedbackText,
+			 reply_info  AS replyInfo,
+			 reply_state  AS replyState,
+			 create_user  AS createUser,
+			 create_time  AS createTime
+	</sql>
+
+	<select id="get" resultType="com.prostate.stata.entity.FeedbackDO">
+		select <include refid="Base_Column_List" /> from customer_feedback where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.prostate.stata.entity.FeedbackDO">
+		select <include refid="Base_Column_List" /> from customer_feedback
+        <where>
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="feedbackText != null and feedbackText != ''"> and feedback_text = #{feedbackText} </if>
+		  		  <if test="replyInfo != null and replyInfo != ''"> and reply_info = #{replyInfo} </if>
+		  		  <if test="replyState != null and replyState != ''"> and reply_state = #{replyState} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by reply_state desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from customer_feedback
+		 <where>
+			  <if test="id != null and id != ''"> and id = #{id} </if>
+			  <if test="feedbackText != null and feedbackText != ''"> and feedback_text = #{feedbackText} </if>
+			  <if test="replyInfo != null and replyInfo != ''"> and reply_info = #{replyInfo} </if>
+			  <if test="replyState != null and replyState != ''"> and reply_state = #{replyState} </if>
+			  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+			  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		 </where>
+	</select>
+</mapper>

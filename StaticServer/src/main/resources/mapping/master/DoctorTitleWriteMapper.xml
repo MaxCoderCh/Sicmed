@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.master.DoctorTitleWriteMapper">
+  <resultMap id="BaseResultMap" type="com.prostate.stata.entity.DoctorTitle">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="doctor_title_number" jdbcType="VARCHAR" property="doctorTitleNumber" />
+    <result column="doctor_title_name" jdbcType="VARCHAR" property="doctorTitleName" />
+    <result column="order_weight" jdbcType="VARCHAR" property="orderWeight" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, doctor_title_number, doctor_title_name, order_weight, create_user, create_time, 
+    update_user, update_time, delete_user, delete_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_doctor_title
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from base_doctor_title
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.prostate.stata.entity.DoctorTitle">
+    insert into base_doctor_title (id, doctor_title_number, doctor_title_name, 
+      order_weight, create_user, create_time, 
+      update_user, update_time, delete_user, 
+      delete_time, del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{doctorTitleNumber,jdbcType=VARCHAR}, #{doctorTitleName,jdbcType=VARCHAR}, 
+      #{orderWeight,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteUser,jdbcType=VARCHAR}, 
+      #{deleteTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.prostate.stata.entity.DoctorTitle">
+    insert into base_doctor_title
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="doctorTitleNumber != null">
+        doctor_title_number,
+      </if>
+      <if test="doctorTitleName != null">
+        doctor_title_name,
+      </if>
+      <if test="orderWeight != null">
+        order_weight,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteUser != null">
+        delete_user,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorTitleNumber != null">
+        #{doctorTitleNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorTitleName != null">
+        #{doctorTitleName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderWeight != null">
+        #{orderWeight,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteUser != null">
+        #{deleteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.stata.entity.DoctorTitle">
+    update base_doctor_title
+    <set>
+      <if test="doctorTitleNumber != null">
+        doctor_title_number = #{doctorTitleNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorTitleName != null">
+        doctor_title_name = #{doctorTitleName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderWeight != null">
+        order_weight = #{orderWeight,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteUser != null">
+        delete_user = #{deleteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.prostate.stata.entity.DoctorTitle">
+    update base_doctor_title
+    set doctor_title_number = #{doctorTitleNumber,jdbcType=VARCHAR},
+      doctor_title_name = #{doctorTitleName,jdbcType=VARCHAR},
+      order_weight = #{orderWeight,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_user = #{deleteUser,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

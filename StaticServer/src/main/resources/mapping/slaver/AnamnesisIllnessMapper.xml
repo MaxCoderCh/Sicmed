@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.slaver.AnamnesisIllnessReadMapper">
+  <resultMap id="BaseResultMap" type="com.prostate.stata.entity.AnamnesisIllness">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="anamnesis_illness_name" jdbcType="VARCHAR" property="anamnesisIllnessName" />
+    <result column="spell_name" jdbcType="VARCHAR" property="spellName" />
+    <result column="anamnesis_illness_number" jdbcType="VARCHAR" property="anamnesisIllnessNumber" />
+    <result column="order_weight" jdbcType="VARCHAR" property="orderWeight" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+  </resultMap>
+  <!--根据 ID 查询 中文名称 -->
+  <sql id="CH_Column_List">
+    anamnesis_illness_name
+  </sql>
+  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="CH_Column_List" />
+    from base_anamnesis_illness
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+
+  <sql id="Base_Column_List">
+    id, anamnesis_illness_name, spell_name, anamnesis_illness_number, order_weight, create_user, 
+    create_time, update_user, update_time, delete_user, delete_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_anamnesis_illness
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <!--模糊查询 正在服用的药物 -->
+  <resultMap id="AnamnesisIllnessListResultMap" type="com.prostate.stata.entity.AnamnesisIllness">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="anamnesis_illness_name" jdbcType="VARCHAR" property="anamnesisIllnessName" />
+  </resultMap>
+  <sql id="AnamnesisIllnessList_Column_List">
+    id, anamnesis_illness_name
+  </sql>
+  <select id="selectByParams" parameterType="com.prostate.stata.entity.AnamnesisIllness" resultMap="AnamnesisIllnessListResultMap">
+    select
+    <include refid="AnamnesisIllnessList_Column_List" />
+    from base_anamnesis_illness
+    <where>
+      del_flag = 0
+      <if test="spellName!=null and spellName!=''">
+        AND spell_name LIKE CONCAT('%',CONCAT(#{spellName,jdbcType=VARCHAR}),'%')
+      </if>
+    </where>
+    ORDER BY order_weight DESC
+    limit 0,10
+  </select>
+
+
+
+  <insert id="insertSelective" parameterType="com.prostate.stata.entity.AnamnesisIllness">
+    <selectKey keyProperty="id" resultType="string" order="BEFORE">
+      select replace(uuid(), '-', '') as id from dual
+    </selectKey>
+    insert into base_anamnesis_illness
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="anamnesisIllnessName != null">
+        anamnesis_illness_name,
+      </if>
+      <if test="spellName != null">
+        spell_name,
+      </if>
+      <if test="anamnesisIllnessNumber != null">
+        anamnesis_illness_number,
+      </if>
+      <if test="orderWeight != null">
+        order_weight,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteUser != null">
+        delete_user,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="anamnesisIllnessName != null">
+        #{anamnesisIllnessName,jdbcType=VARCHAR},
+      </if>
+      <if test="spellName != null">
+        #{spellName,jdbcType=VARCHAR},
+      </if>
+      <if test="anamnesisIllnessNumber != null">
+        #{anamnesisIllnessNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderWeight != null">
+        #{orderWeight,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteUser != null">
+        #{deleteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

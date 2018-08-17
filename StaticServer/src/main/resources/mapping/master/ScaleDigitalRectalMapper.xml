@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.ScaleDigitalRectalMapper">
+  <resultMap id="BaseResultMap" type="com.prostate.stata.entity.ScaleDigitalRectal">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="scale_title" jdbcType="VARCHAR" property="scaleTitle" />
+    <result column="scale_score" jdbcType="VARCHAR" property="scaleScore" />
+    <result column="scale_type" jdbcType="CHAR" property="scaleType" />
+    <result column="scale_weight" jdbcType="INTEGER" property="scaleWeight" />
+    <result column="order_weight" jdbcType="INTEGER" property="orderWeight" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, parent_id, scale_title, scale_score, scale_type, scale_weight, order_weight, 
+    create_user, create_time, delete_user, delete_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from scale_digital_rectal
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from scale_digital_rectal
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.prostate.stata.entity.ScaleDigitalRectal">
+    insert into scale_digital_rectal (id, parent_id, scale_title, 
+      scale_score, scale_type, scale_weight, 
+      order_weight, create_user, create_time, 
+      delete_user, delete_time, del_flag
+      )
+    values (#{id,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{scaleTitle,jdbcType=VARCHAR}, 
+      #{scaleScore,jdbcType=VARCHAR}, #{scaleType,jdbcType=CHAR}, #{scaleWeight,jdbcType=INTEGER}, 
+      #{orderWeight,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{deleteUser,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.prostate.stata.entity.ScaleDigitalRectal">
+    insert into scale_digital_rectal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="scaleTitle != null">
+        scale_title,
+      </if>
+      <if test="scaleScore != null">
+        scale_score,
+      </if>
+      <if test="scaleType != null">
+        scale_type,
+      </if>
+      <if test="scaleWeight != null">
+        scale_weight,
+      </if>
+      <if test="orderWeight != null">
+        order_weight,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="deleteUser != null">
+        delete_user,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="scaleTitle != null">
+        #{scaleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="scaleScore != null">
+        #{scaleScore,jdbcType=VARCHAR},
+      </if>
+      <if test="scaleType != null">
+        #{scaleType,jdbcType=CHAR},
+      </if>
+      <if test="scaleWeight != null">
+        #{scaleWeight,jdbcType=INTEGER},
+      </if>
+      <if test="orderWeight != null">
+        #{orderWeight,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteUser != null">
+        #{deleteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.stata.entity.ScaleDigitalRectal">
+    update scale_digital_rectal
+    <set>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="scaleTitle != null">
+        scale_title = #{scaleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="scaleScore != null">
+        scale_score = #{scaleScore,jdbcType=VARCHAR},
+      </if>
+      <if test="scaleType != null">
+        scale_type = #{scaleType,jdbcType=CHAR},
+      </if>
+      <if test="scaleWeight != null">
+        scale_weight = #{scaleWeight,jdbcType=INTEGER},
+      </if>
+      <if test="orderWeight != null">
+        order_weight = #{orderWeight,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteUser != null">
+        delete_user = #{deleteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.prostate.stata.entity.ScaleDigitalRectal">
+    update scale_digital_rectal
+    set parent_id = #{parentId,jdbcType=VARCHAR},
+      scale_title = #{scaleTitle,jdbcType=VARCHAR},
+      scale_score = #{scaleScore,jdbcType=VARCHAR},
+      scale_type = #{scaleType,jdbcType=CHAR},
+      scale_weight = #{scaleWeight,jdbcType=INTEGER},
+      order_weight = #{orderWeight,jdbcType=INTEGER},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      delete_user = #{deleteUser,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--查询 量表 项-->
+  <resultMap id="ScaleDigitalRectalListResultMap" type="com.prostate.stata.beans.ScaleDigitalRectalBean">
+    <id column="parentScaleDigitalRectalId" jdbcType="VARCHAR" property="id" />
+    <result column="parentScaleDigitalRectalScaleTitle" jdbcType="VARCHAR" property="scaleTitle" />
+    <result column="parentScaleDigitalRectalScaleScore" jdbcType="VARCHAR" property="scaleScore" />
+    <result column="parentScaleDigitalRectalScaleType" jdbcType="CHAR" property="scaleType" />
+    <collection property="childList" ofType="com.prostate.stata.entity.ScaleDigitalRectal" javaType="ArrayList">
+      <id column="childScaleDigitalRectalId" jdbcType="VARCHAR" property="id"/>
+      <result column="childScaleDigitalRectalScaleTitle" jdbcType="VARCHAR" property="scaleTitle"/>
+      <result column="childScaleDigitalRectalScaleScore" jdbcType="VARCHAR" property="scaleScore"/>
+      <result column="childScaleDigitalRectalScaleType" jdbcType="VARCHAR" property="scaleType"/>
+    </collection>
+  </resultMap>
+  <sql id="ScaleDigitalRectalList_Column_List">
+    parentScaleDigitalRectal.id parentScaleDigitalRectalId, parentScaleDigitalRectal.scale_title parentScaleDigitalRectalScaleTitle,
+    parentScaleDigitalRectal.scale_score parentScaleDigitalRectalScaleScore,parentScaleDigitalRectal.scale_type parentScaleDigitalRectalScaleType,
+    childScaleDigitalRectal.id childScaleDigitalRectalId, childScaleDigitalRectal.scale_title childScaleDigitalRectalScaleTitle,
+    childScaleDigitalRectal.scale_score childScaleDigitalRectalScaleScore,childScaleDigitalRectal.scale_type childScaleDigitalRectalScaleType
+
+  </sql>
+  <sql id="ScaleDigitalRectalList_Left_Join">
+    LEFT JOIN scale_digital_rectal childScaleDigitalRectal ON childScaleDigitalRectal.parent_id = parentScaleDigitalRectal.id
+  </sql>
+  <select id="selectByParamss" parameterType="com.prostate.stata.entity.ScaleDigitalRectal" resultMap="ScaleDigitalRectalListResultMap">
+    select
+    <include refid="ScaleDigitalRectalList_Column_List"/>
+    from scale_digital_rectal parentScaleDigitalRectal
+    <include refid="ScaleDigitalRectalList_Left_Join"/>
+    <where>
+      parentScaleDigitalRectal.del_flag = 0
+      AND parentScaleDigitalRectal.parent_id is null
+      AND childScaleDigitalRectal.parent_id is not null
+    </where>
+    GROUP BY childScaleDigitalRectal.id
+    ORDER BY parentScaleDigitalRectal.scale_weight ASC,childScaleDigitalRectal.scale_weight ASC
+  </select>
+</mapper>

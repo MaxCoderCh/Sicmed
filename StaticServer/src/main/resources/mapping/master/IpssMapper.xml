@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.IpssMapper">
+    <resultMap id="BaseResultMap" type="com.prostate.stata.entity.Ipss">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="ipss_title" jdbcType="VARCHAR" property="ipssTitle"/>
+        <result column="ipss_score" jdbcType="VARCHAR" property="ipssScore"/>
+        <result column="ipss_type" jdbcType="VARCHAR" property="ipssType"/>
+        <result column="ipss_weight" jdbcType="VARCHAR" property="ipssWeight"/>
+        <result column="order_weight" jdbcType="VARCHAR" property="orderWeight"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="delete_user" jdbcType="VARCHAR" property="deleteUser"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, parent_id, ipss_title, ipss_score,ipss_type, ipss_weight, order_weight, create_user, create_time,
+        delete_user, delete_time, del_flag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from base_ipss
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <!--查询 IPSS 评估项-->
+    <resultMap id="IpssListResultMap" type="com.prostate.stata.beans.IpssBean">
+        <id column="parentIpssId" jdbcType="VARCHAR" property="id"/>
+        <result column="parentIpssTitle" jdbcType="VARCHAR" property="ipssTitle"/>
+        <result column="parentIpssScore" jdbcType="VARCHAR" property="ipssScore"/>
+        <result column="parentIpssType" jdbcType="VARCHAR" property="ipssType"/>
+        <collection property="childList" ofType="com.prostate.stata.beans.IpssBean" javaType="ArrayList">
+            <id column="childIpssId" jdbcType="VARCHAR" property="id"/>
+            <result column="childIpssTitle" jdbcType="VARCHAR" property="ipssTitle"/>
+            <result column="childIpssScore" jdbcType="VARCHAR" property="ipssScore"/>
+            <result column="childIpssType" jdbcType="VARCHAR" property="ipssType"/>
+            <collection property="childList" ofType="com.prostate.stata.entity.Ipss" javaType="ArrayList">
+                <id column="grandsonIpssId" jdbcType="VARCHAR" property="id"/>
+                <result column="grandsonIpssTitle" jdbcType="VARCHAR" property="ipssTitle"/>
+                <result column="grandsonIpssScore" jdbcType="VARCHAR" property="ipssScore"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <sql id="IpssList_Column_List">
+        parentIpss.id parentIpssId, parentIpss.ipss_title parentIpssTitle, parentIpss.ipss_score parentIpssScore,
+        parentIpss.ipss_type parentIpssType,
+        childIpss.id childIpssId, childIpss.ipss_title childIpssTitle, childIpss.ipss_score childIpssScore,
+        childIpss.ipss_type childIpssType,
+        grandsonIpss.id grandsonIpssId, grandsonIpss.ipss_title grandsonIpssTitle, grandsonIpss.ipss_score grandsonIpssScore
+    </sql>
+    <sql id="IpssList_Left_Join">
+        LEFT JOIN base_ipss childIpss ON childIpss.parent_id = parentIpss.id
+        LEFT JOIN base_ipss grandsonIpss ON grandsonIpss.parent_id = childIpss.id
+    </sql>
+    <select id="selectByParamss" parameterType="com.prostate.stata.entity.Ipss" resultMap="IpssListResultMap">
+        select
+        <include refid="IpssList_Column_List"/>
+        from base_ipss parentIpss
+        <include refid="IpssList_Left_Join"/>
+        <where>
+            parentIpss.del_flag = 0
+            AND parentIpss.parent_id is null
+            AND childIpss.parent_id is not null
+            AND grandsonIpss.parent_id is not null
+        </where>
+        GROUP BY grandsonIpss.id
+        ORDER BY parentIpss.ipss_weight ASC,childIpss.ipss_weight ASC,grandsonIpss.ipss_weight ASC
+    </select>
+</mapper>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.assessmen.mapper.pomr.write.HospitalRecordWriteMapper">
+
+
+  <delete id="deleteByImgPath" parameterType="java.lang.String">
+    delete from pomr_hospital_record where record_path = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from pomr_hospital_record where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.prostate.assessmen.entity.HospitalRecord">
+    <selectKey keyProperty="id" resultType="java.lang.String"
+               order="BEFORE">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into pomr_hospital_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="recordPath != null">
+        record_path,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="createDoctor != null">
+        create_doctor,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateDoctor != null">
+        update_doctor,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteDoctor != null">
+        delete_doctor,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="recordPath != null">
+        #{recordPath,jdbcType=VARCHAR},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDoctor != null">
+        #{createDoctor,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDoctor != null">
+        #{updateDoctor,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteDoctor != null">
+        #{deleteDoctor,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

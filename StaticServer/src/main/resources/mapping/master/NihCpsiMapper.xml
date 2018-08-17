@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.NihCpsiMapper">
+    <resultMap id="BaseResultMap" type="com.prostate.stata.entity.NihCpsi">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="nih_cpsi_title" jdbcType="VARCHAR" property="nihCpsiTitle"/>
+        <result column="nih_cpsi_type" jdbcType="VARCHAR" property="nihCpsiType"/>
+        <result column="nih_cpsi_score" jdbcType="CHAR" property="nihCpsiScore"/>
+        <result column="nih_cpsi_weight" jdbcType="VARCHAR" property="nihCpsiWeight"/>
+        <result column="order_weight" jdbcType="VARCHAR" property="orderWeight"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="delete_user" jdbcType="VARCHAR" property="deleteUser"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, parent_id, nih_cpsi_title, nih_cpsi_score,nih_cpsi_score, nih_cpsi_weight, order_weight, create_user,
+        create_time, delete_user, delete_time, del_flag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from base_nih_cpsi
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <!--查询 NIH-CPSI 评估项-->
+    <resultMap id="NihCpsiListResultMap" type="com.prostate.stata.beans.NihCpsiBean">
+        <id column="parentNihCpsiId" jdbcType="VARCHAR" property="id"/>
+        <result column="parentNihCpsiTitle" jdbcType="VARCHAR" property="nihCpsiTitle"/>
+        <result column="parentNihCpsiScore" jdbcType="VARCHAR" property="nihCpsiScore"/>
+        <result column="parentNihCpsiType" jdbcType="VARCHAR" property="nihCpsiType"/>
+        <collection property="childList" ofType="com.prostate.stata.beans.NihCpsiBean" javaType="ArrayList">
+            <id column="childNihCpsiId" jdbcType="VARCHAR" property="id"/>
+            <result column="childNihCpsiTitle" jdbcType="VARCHAR" property="nihCpsiTitle"/>
+            <result column="childNihCpsiScore" jdbcType="VARCHAR" property="nihCpsiScore"/>
+            <result column="childNihCpsiType" jdbcType="VARCHAR" property="nihCpsiType"/>
+            <collection property="childList" ofType="com.prostate.stata.entity.NihCpsi" javaType="ArrayList">
+                <id column="grandsonNihCpsiNihCpsiId" jdbcType="VARCHAR" property="id"/>
+                <result column="grandsonNihCpsiNihCpsiTitle" jdbcType="VARCHAR" property="nihCpsiTitle"/>
+                <result column="grandsonNihCpsiNihCpsiScore" jdbcType="VARCHAR" property="nihCpsiScore"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <sql id="NihCpsiList_Column_List">
+        parentNihCpsi.id parentNihCpsiId, parentNihCpsi.nih_cpsi_title parentNihCpsiTitle, parentNihCpsi.nih_cpsi_score parentNihCpsiScore,
+        parentNihCpsi.nih_cpsi_type parentNihCpsiType,
+        childNihCpsi.id childNihCpsiId, childNihCpsi.nih_cpsi_title childNihCpsiTitle,childNihCpsi.nih_cpsi_score childNihCpsiScore,
+        childNihCpsi.nih_cpsi_type childNihCpsiType,
+        grandsonNihCpsi.id grandsonNihCpsiNihCpsiId, grandsonNihCpsi.nih_cpsi_title grandsonNihCpsiNihCpsiTitle,grandsonNihCpsi.nih_cpsi_score grandsonNihCpsiNihCpsiScore
+    </sql>
+    <sql id="NihCpsiList_Left_Join">
+        LEFT JOIN base_nih_cpsi childNihCpsi ON childNihCpsi.parent_id = parentNihCpsi.id
+        LEFT JOIN base_nih_cpsi grandsonNihCpsi ON grandsonNihCpsi.parent_id = childNihCpsi.id
+    </sql>
+    <select id="selectByParamss" parameterType="com.prostate.stata.entity.NihCpsi" resultMap="NihCpsiListResultMap">
+        select
+        <include refid="NihCpsiList_Column_List"/>
+        from base_nih_cpsi parentNihCpsi
+        <include refid="NihCpsiList_Left_Join"/>
+        <where>
+            parentNihCpsi.del_flag = 0
+            AND parentNihCpsi.parent_id is null
+            AND childNihCpsi.parent_id is not null
+            AND grandsonNihCpsi.parent_id is not null
+        </where>
+        GROUP BY grandsonNihCpsi.id
+        ORDER BY parentNihCpsi.nih_cpsi_weight ASC,childNihCpsi.nih_cpsi_weight ASC,grandsonNihCpsi.nih_cpsi_weight ASC
+    </select>
+</mapper>

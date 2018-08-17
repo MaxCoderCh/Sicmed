@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: stata-server
+  cloud:
+    config:
+      uri: http://192.168.0.222:8880
+      profile: dev
+      label: master
+

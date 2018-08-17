@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.slaver.CityReadMapper">
+    <resultMap id="BaseResultMap" type="com.prostate.stata.entity.City">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="parent_city_id" jdbcType="VARCHAR" property="parentCityId"/>
+        <result column="city_name" jdbcType="VARCHAR" property="cityName"/>
+        <result column="city_type" jdbcType="CHAR" property="cityType"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="city_weight" jdbcType="INTEGER" property="cityWeight"/>
+        <result column="order_weight" jdbcType="INTEGER" property="orderWeight"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="delete_user" jdbcType="VARCHAR" property="deleteUser"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+        <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
+    </resultMap>
+
+    <!--根据 区县 级 城市ID查询 多级城市名称 省-市-县 -->
+    <resultMap id="CityDetailResultMap" type="com.prostate.stata.beans.CityDetailBean">
+        <result column="cityName" jdbcType="VARCHAR" property="cityName"/>
+        <result column="cityId" jdbcType="VARCHAR" property="cityId"/>
+        <result column="parentCityName" jdbcType="VARCHAR" property="parentCityName"/>
+        <result column="parentCityId" jdbcType="VARCHAR" property="parentCityId"/>
+        <result column="grandfatherCityName" jdbcType="VARCHAR" property="grandfatherCityName"/>
+        <result column="grandfatherCityId" jdbcType="VARCHAR" property="grandfatherCityId"/>
+    </resultMap>
+    <sql id="CityDetail_Column_List">
+        city.city_name cityName, city.id cityId,
+        parentCity.city_name parentCityName, parentCity.id parentCityId,
+        grandfatherCity.city_name grandfatherCityName, grandfatherCity.id grandfatherCityId
+    </sql>
+    <sql id="CityDetail_LEFT_JOIN">
+        LEFT JOIN base_city parentCity ON parentCity.id = city.parent_city_id
+        LEFT JOIN base_city grandfatherCity ON grandfatherCity.id = parentCity.parent_city_id
+    </sql>
+    <select id="getCityDetail" parameterType="java.lang.String" resultMap="CityDetailResultMap">
+        select
+        <include refid="CityDetail_Column_List"/>
+        from base_city city
+        <include refid="CityDetail_LEFT_JOIN"/>
+        where city.id = #{id,jdbcType=VARCHAR}
+    </select>
+
+
+    <sql id="Base_Column_List">
+        id, parent_city_id, city_name, city_type, create_user, create_time, city_weight,
+        update_user, update_time, delete_user, delete_time, del_flag
+    </sql>
+    <select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from base_city city
+        where city.id = #{id,jdbcType=VARCHAR}
+    </select>
+
+
+    <resultMap id="CountyResultMap" type="com.prostate.stata.beans.CityBean">
+        <id column="parentId" property="id" jdbcType="VARCHAR"/>
+        <result column="parentCityName" property="cityName" jdbcType="VARCHAR"/>
+        <collection property="cityList" ofType="com.prostate.stata.beans.CityBean" javaType="ArrayList">
+            <id column="childIdP" property="id" jdbcType="VARCHAR"/>
+            <result column="childCityNameP" property="cityName" jdbcType="VARCHAR"/>
+            <collection property="cityList" ofType="com.prostate.stata.beans.CityBean" javaType="ArrayList">
+                <id column="childIdC" property="id" jdbcType="VARCHAR"/>
+                <result column="childCityNameC" property="cityName" jdbcType="VARCHAR"/>
+                <collection property="cityList" ofType="com.prostate.stata.beans.CityBean" javaType="ArrayList">
+                    <id column="childIdX" property="id" jdbcType="VARCHAR"/>
+                    <result column="childCityNameX" property="cityName" jdbcType="VARCHAR"/>
+                </collection>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <sql id="County_Column_List">
+        parentCity.id parentId, parentCity.city_name parentCityName,
+        childCityP.id childIdP, childCityP.city_name childCityNameP,
+        childCityC.id childIdC, childCityC.city_name childCityNameC,
+        childCityX.id childIdX, childCityX.city_name childCityNameX
+    </sql>
+    <sql id="County_LEFT_JOIN">
+        LEFT JOIN base_city childCityP ON childCityP.parent_city_id = parentCity.id
+        LEFT JOIN base_city childCityC ON childCityC.parent_city_id = childCityP.id
+        LEFT JOIN base_city childCityX ON childCityX.parent_city_id = childCityC.id
+    </sql>
+    <select id="getCounty" resultMap="CountyResultMap" parameterType="com.prostate.stata.beans.CityBean">
+        select
+        <include refid="County_Column_List"/>
+        from base_city parentCity
+        <include refid="County_LEFT_JOIN"/>
+        <if test="id == null or id =='' ">
+            where parentCity.city_type= 0
+        </if>
+        <if test="id != null and id !='' ">
+            where parentCity.id= #{id,jdbcType=VARCHAR}
+        </if>
+        ORDER BY childCityP.order_weight ASC,childCityC.order_weight ASC,childCityX.order_weight ASC
+    </select>
+</mapper>

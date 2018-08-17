@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.record.mapper.slaver.UserPatientReadMapper">
+  <resultMap id="BaseResultMap" type="com.prostate.record.entity.UserPatient">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
+    <result column="patient_source" jdbcType="VARCHAR" property="patientSource" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, patient_id, patient_source, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_patient
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByParams" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_patient
+    <where>
+      <if test="userId != null and userId != ''">
+        user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="patientId != null and patientId != ''">
+        AND patient_id = #{patientId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <resultMap id="WeChatPatientBeanMap" type="com.prostate.record.beans.WechatPatientBean">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="patientName" jdbcType="VARCHAR" property="patientName" />
+    <result column="patientSex" jdbcType="VARCHAR" property="patientSex" />
+    <result column="patientAge" jdbcType="VARCHAR" property="patientAge" />
+    <result column="patientSource" jdbcType="VARCHAR" property="patientSource" />
+  </resultMap>
+  <sql id="WeChatPatientBeanMap_Column_List">
+    patient.id id, patient.patient_name patientName, patient.patient_age patientAge, patient.patient_sex patientSex, userPatient.patient_source patientSource
+  </sql>
+  <select id="getPatientIdList" parameterType="com.prostate.record.entity.UserPatient" resultMap="BaseResultMap">
+    select
+    <include refid="WeChatPatientBeanMap_Column_List" />
+    from user_patient userPatient
+    LEFT JOIN pomr_patient patient ON patient.id = userPatient.patient_id
+    <where>
+      userPatient.user_id = #{userId,jdbcType=VARCHAR}
+    </where>
+    ORDER BY userPatient.create_time DESC
+    limit #{beginNo}, #{pageSize}
+  </select>
+
+</mapper>
