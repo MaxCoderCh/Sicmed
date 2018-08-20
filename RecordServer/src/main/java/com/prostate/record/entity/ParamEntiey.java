@@ -1,9 +1,13 @@
 package com.prostate.record.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Arrays;
 
+@Setter
+@Getter
 public class ParamEntiey {
 
     @Length(min = 32,max = 32,message = "患者ID格式不正确")
@@ -19,53 +23,6 @@ public class ParamEntiey {
 
     public String[] otherIds;
 
-    public String getPatientId() {
-        return patientId;
-    }
-
-    public void setPatientId(String patientId) {
-        this.patientId = patientId;
-    }
-
-    public String[] getAnamnesisAllergyDrugIds() {
-        return anamnesisAllergyDrugIds;
-    }
-
-    public void setAnamnesisAllergyDrugIds(String[] anamnesisAllergyDrugIds) {
-        this.anamnesisAllergyDrugIds = anamnesisAllergyDrugIds;
-    }
-
-    public String[] getAnamnesisEatingDrugIds() {
-        return anamnesisEatingDrugIds;
-    }
-
-    public void setAnamnesisEatingDrugIds(String[] anamnesisEatingDrugIds) {
-        this.anamnesisEatingDrugIds = anamnesisEatingDrugIds;
-    }
-
-    public String[] getAnamnesisIllnessIds() {
-        return anamnesisIllnessIds;
-    }
-
-    public void setAnamnesisIllnessIds(String[] anamnesisIllnessIds) {
-        this.anamnesisIllnessIds = anamnesisIllnessIds;
-    }
-
-    public String[] getOtherIds() {
-        return otherIds;
-    }
-
-    public void setOtherIds(String[] otherIds) {
-        this.otherIds = otherIds;
-    }
-
-    public String[] getAnamnesisSurgicalHistoryIds() {
-        return anamnesisSurgicalHistoryIds;
-    }
-
-    public void setAnamnesisSurgicalHistoryIds(String[] anamnesisSurgicalHistoryIds) {
-        this.anamnesisSurgicalHistoryIds = anamnesisSurgicalHistoryIds;
-    }
 
     @Override
     public String toString() {
