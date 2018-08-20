@@ -132,17 +132,6 @@
         limit #{beginNo},#{pageSize}
     </select>
 
-    <select id="selectPatientDetailById" parameterType="java.lang.String" resultMap="com.prostate.record.beans.WechatPatientBean">
-        select
-        <include refid="PatientList_Column_List"/>
-        from pomr_patient patient
-        <include refid="PatientList_Left_Join_List"/>
-        <where>
-            patient.del_flag = 0
-            AND patient.id = #{id,jdbcType=VARCHAR}
-        </where>
-    </select>
-
     <select id="selectCountByParams" parameterType="com.prostate.record.beans.PatientBean" resultType="java.lang.String">
         select count(patient.id) AS count
         from pomr_patient patient
