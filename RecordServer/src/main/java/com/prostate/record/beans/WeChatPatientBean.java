@@ -6,7 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class WechatPatientBean {
+public class WeChatPatientBean {
+
+    private String id;
 
     private String patientName;
 
