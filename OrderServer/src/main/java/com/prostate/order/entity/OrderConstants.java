@@ -3,7 +3,7 @@ package com.prostate.order.entity;
 public class OrderConstants {
 
     //订单状态
-    public final static String TO_BE__PAYMENT = "TO_BE__PAYMENT"; //待支付
+    public final static String TO_BE_PAYMENT = "TO_BE_PAYMENT"; //待支付
     public final static String TO_BE_ACCEPTED = "TO_BE_ACCEPTED"; //带接受
     public final static String TO_BE_ADD = "TO_BE_ADD"; //需要补充资料
     public final static String TO_BE_ANSWERED = "TO_BE_ANSWERED"; //待回复
