@@ -2,32 +2,33 @@ package com.prostate.order.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
-@Getter
 @Setter
-@ToString
-public class OrderInquiry extends BaseEntity {
-    @NotEmpty(groups = {GroupId.class})
+@Getter
+public class OrderInquiry {
     private String id;
 
-    @NotEmpty(groups = {GroupOutId.class})
-    private String patientId;
-    @NotEmpty(groups = {GroupOutId.class})
-    private String doctorId;
-    @NotEmpty(groups = {GroupOutId.class})
-    private String problemDescription;
-    private String fileUrl;
-    @NotEmpty(groups = {GroupOutId.class})
+    private String buyer;
+
+    private String seller;
+
+    private String patient;
+
+    private String doctor;
+
+    private String goods;
+
     private String orderPrice;
-    private String doctorResponse;
+
+    private String orderType;
 
     private String orderStatus;
 
-    private String orderType;
+    private String patientArchive;
+
+    private String orderDescription;
 
     private Date createTime;
 
@@ -43,5 +44,5 @@ public class OrderInquiry extends BaseEntity {
 
     private String delFlag;
 
-
+   
 }
