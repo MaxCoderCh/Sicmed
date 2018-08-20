@@ -271,12 +271,12 @@ public class DoctorDetailController extends BaseController {
         String hospitalName = staticServer.getHospitalById(doctorDetailBean.getHospitalId()).get("result").toString();
         String branchName = staticServer.getBranchById(doctorDetailBean.getBranchId()).get("result").toString();
         String titleName = staticServer.getTitleById(doctorDetailBean.getTitleId()).get("result").toString();
-
+        Map<String, String> starJson = fansStarService.starJson(getToken());
         doctorDetailBean.setHospitalName(hospitalName);
         doctorDetailBean.setBranchName(branchName);
         doctorDetailBean.setTitleName(titleName);
 
-        doctorDetailBean.setAreFans(true);
+        doctorDetailBean.setAreFans(starJson.get(doctorDetailBean.getId()) != null);
 
         doctorDetailBean.setFansCount(0);
         doctorDetailBean.setHitsCount(0);
