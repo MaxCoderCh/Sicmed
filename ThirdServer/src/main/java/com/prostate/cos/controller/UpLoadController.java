@@ -12,9 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -36,6 +34,7 @@ public class UpLoadController extends BaseController {
         bucketMap.put("doctor-sign", "doctor-sign-1256660245");
         bucketMap.put("user-head", "user-head-1256660245");
         bucketMap.put("person-card", "person-card-1256660245");
+        bucketMap.put("patient-record", "patient-record-1256660245");
     }
 
     @PostMapping(value = "upload")
@@ -57,17 +56,47 @@ public class UpLoadController extends BaseController {
 
             cosService.uoload(bucketName, f, key);
 
-            StringBuffer imgPath = new StringBuffer();
-            imgPath.append("https://");
-            imgPath.append(bucketName);
-            imgPath.append(".cosbj.myqcloud.com/");
-            imgPath.append(key);
-
-            return upLoadSuccessResponse(imgPath.toString());
+            return upLoadSuccessResponse(builderImgPath(bucketName, key));
         }
         return emptyParamResponse();
     }
 
+    @PostMapping(value = "uploads")
+    public Map uploads(String recordType, @RequestParam("file") MultipartFile... file) {
+        List<String> imgPathList = new ArrayList<>();
+
+        for (MultipartFile multipartFile : file) {
+            String key = UUID.randomUUID().toString().replace("-", "") + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
+            String bucketName = bucketMap.get(recordType);
+            log.info("bucketName=" + bucketName);
+
+            if (!multipartFile.isEmpty()) {
+
+                File f = null;
+                try {
+                    f = File.createTempFile("tmp", null);
+                    multipartFile.transferTo(f);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                f.deleteOnExit();
+
+                cosService.uoload(bucketName, f, key);
+
+                imgPathList.add(builderImgPath(bucketName, key));
+            }
+        }
+        return upLoadSuccessResponse(imgPathList);
+    }
+
+    private String builderImgPath(String bucketName, String key) {
+        StringBuffer imgPath = new StringBuffer();
+        imgPath.append("https://");
+        imgPath.append(bucketName);
+        imgPath.append(".cosbj.myqcloud.com/");
+        imgPath.append(key);
+        return imgPath.toString();
+    }
     /**
      * 删除 上传的图片
      *
