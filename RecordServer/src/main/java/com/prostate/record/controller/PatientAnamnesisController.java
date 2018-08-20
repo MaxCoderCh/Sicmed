@@ -2,16 +2,14 @@ package com.prostate.record.controller;
 
 import com.prostate.record.beans.PatientAnamnesisBean;
 import com.prostate.record.cache.redis.RedisSerive;
-import com.prostate.record.entity.Anamnesis;
-import com.prostate.record.entity.ParamEntiey;
-import com.prostate.record.entity.Patient;
-import com.prostate.record.entity.WechatUser;
+import com.prostate.record.entity.*;
 import com.prostate.record.service.AnamnesisService;
 import com.prostate.record.service.PatientAnamnesisService;
 import com.prostate.record.service.PatientService;
 import com.prostate.record.service.UserPatientService;
 import com.prostate.record.util.IdCardUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -271,10 +269,8 @@ public class PatientAnamnesisController extends BaseController {
     @PostMapping(value = "selete")
     public Map seletePatient(String token) {
 
-        WechatUser wechatUser = redisSerive.getWechatUser(token);
-
         //查询
-        PatientAnamnesisBean patientAnamnesisBean = patientAnamnesisService.getHealthRrecord(wechatUser.getId());
+        PatientAnamnesisBean patientAnamnesisBean = patientAnamnesisService.getHealthRrecord(token);
 
         //查询结果校验
         if (patientAnamnesisBean != null) {
@@ -283,7 +279,27 @@ public class PatientAnamnesisController extends BaseController {
         return queryEmptyResponse();
     }
 
+    /**
+     * 微信 用户查询 病历信息
+     *
+     * @return
+     */
+    @GetMapping(value = "getPatientById")
+    public Map getPatientById(String patientId) {
 
+        //查询
+        PatientAnamnesisBean patientAnamnesisBean = patientAnamnesisService.getHealthRrecord(patientId);
+        UserPatient userPatient = new UserPatient();
+        userPatient.setPatientId(patientId);
+        userPatient.setUserId(getToken());
+        userPatient = userPatientService.getByPatientIdAndToken(userPatient);
+        //查询结果校验
+        if (patientAnamnesisBean != null) {
+            patientAnamnesisBean.setPatientSource(userPatient.getPatientSource());
+            return querySuccessResponse(patientAnamnesisBean);
+        }
+        return queryEmptyResponse();
+    }
     /**
      * 同时  创建 患者 和 患者病历
      *

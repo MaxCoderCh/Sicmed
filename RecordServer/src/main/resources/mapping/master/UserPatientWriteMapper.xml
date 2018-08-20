@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.prostate.record.mapper.master.UserPatientWriteMapper">
- 
+
+
+  <delete id="removeByParams" parameterType="com.prostate.record.entity.UserPatient">
+    delete from user_patient
+    <where>
+      user_id = #{userId,jdbcType=VARCHAR}
+      AND patient_id = #{patientId,jdbcType=VARCHAR}
+    </where>
+  </delete>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from user_patient
     where id = #{id,jdbcType=VARCHAR}
@@ -68,9 +77,17 @@
   <update id="updateByPrimaryKey" parameterType="com.prostate.record.entity.UserPatient">
     update user_patient
     set user_id = #{userId,jdbcType=VARCHAR},
-      patient_id = #{patientId,jdbcType=VARCHAR},
-      patient_source = #{patientSource,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+    patient_id = #{patientId,jdbcType=VARCHAR},
+    patient_source = #{patientSource,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByParams" parameterType="com.prostate.record.entity.UserPatient">
+    update user_patient
+    set
+    patient_source = #{patientSource,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=VARCHAR}
+    AND patient_id = #{patientId,jdbcType=VARCHAR}
   </update>
 </mapper>

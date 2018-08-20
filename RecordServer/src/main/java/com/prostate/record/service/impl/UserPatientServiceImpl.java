@@ -1,6 +1,6 @@
 package com.prostate.record.service.impl;
 
-import com.prostate.record.beans.WechatPatientBean;
+import com.prostate.record.beans.WeChatPatientBean;
 import com.prostate.record.entity.UserPatient;
 import com.prostate.record.mapper.slaver.UserPatientReadMapper;
 import com.prostate.record.mapper.master.UserPatientWriteMapper;
@@ -61,7 +61,23 @@ public class UserPatientServiceImpl implements UserPatientService {
     }
 
     @Override
-    public List<WechatPatientBean> getPatientIdList(UserPatient userPatient) {
-        return userPatientReadMapper.getPatientIdList(userPatient);
+    public List<WeChatPatientBean> getPatientList(UserPatient userPatient) {
+        return userPatientReadMapper.getPatientList(userPatient);
     }
+
+    @Override
+    public int removeByParams(UserPatient userPatient) {
+        return userPatientWriteMapper.removeByParams(userPatient);
+    }
+
+    @Override
+    public int updateByParams(UserPatient userPatient) {
+        return userPatientWriteMapper.updateByParams(userPatient);
+    }
+
+    @Override
+    public UserPatient getByPatientIdAndToken(UserPatient userPatient) {
+        return userPatientReadMapper.getByPatientIdAndToken(userPatient);
+    }
+
 }

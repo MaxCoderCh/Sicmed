@@ -20,7 +20,4 @@ public interface PatientReadMapper extends BaseReadMapper<Patient> {
 
     PatientAnamnesisBean selectPatientInfoById(String id);
 
-    List<PatientBean> getList(PatientBean patientBean);
-
-
 }

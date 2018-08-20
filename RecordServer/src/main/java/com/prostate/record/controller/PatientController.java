@@ -47,6 +47,7 @@ public class PatientController extends BaseController {
 
         //添加医生个人信息
         Patient patient = new Patient();
+        log.info(idCardMap.get("result").toString());
         Map<String, Object> idCardInfo = (Map<String, Object>) idCardMap.get("result");
 
         patient.setPatientCard(idCardInfo.get("id").toString());
@@ -193,30 +194,6 @@ public class PatientController extends BaseController {
 
     }
 
-
-    /**
-     * 查询 就诊人 列表
-     *
-     * @return
-     */
-    @PostMapping(value = "getList")
-    public Map getList() {
-
-        //创建查询条件
-        PatientBean patientBean = new PatientBean();
-        patientBean.setCreateDoctor(getToken());
-
-        //查询数据
-        String count = patientService.selectCountByParams(patientBean);
-
-        List<PatientBean> patientBeanList = patientService.getList(patientBean);
-
-        if (patientBeanList == null && patientBeanList.isEmpty()) {
-            return queryEmptyResponse();
-        }
-        return querySuccessResponse(patientBeanList, count);
-
-    }
 }
 
 

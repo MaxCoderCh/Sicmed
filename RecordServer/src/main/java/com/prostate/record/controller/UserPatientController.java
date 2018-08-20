@@ -1,6 +1,6 @@
 package com.prostate.record.controller;
 
-import com.prostate.record.beans.WechatPatientBean;
+import com.prostate.record.beans.WeChatPatientBean;
 import com.prostate.record.entity.UserPatient;
 import com.prostate.record.service.PatientService;
 import com.prostate.record.service.UserPatientService;
@@ -58,11 +58,49 @@ public class UserPatientController extends BaseController {
         UserPatient userPatient = new UserPatient();
         userPatient.setUserId(getToken());
 
-        List<WechatPatientBean> weChatPatientBeanList = userPatientService.getPatientIdList(userPatient);
+        List<WeChatPatientBean> weChatPatientBeanList = userPatientService.getPatientList(userPatient);
 
         if (weChatPatientBeanList == null || weChatPatientBeanList.isEmpty()){
             return queryEmptyResponse();
         }
         return querySuccessResponse(weChatPatientBeanList);
     }
-}
+
+    /**
+     * 移除就诊人
+     * @param patientId
+     * @return
+     */
+    @PostMapping(value = "remove")
+    public Map remove(String patientId){
+
+        UserPatient userPatient = new UserPatient();
+        userPatient.setUserId(getToken());
+        userPatient.setPatientId(patientId);
+        int i = userPatientService.removeByParams(userPatient);
+
+        if (i > 0){
+            return deleteSuccseeResponse();
+        }
+        return deleteFailedResponse();
+    }
+
+    /**
+     * 修改就诊人关系
+     * @param patientId
+     * @return
+     */
+    @PostMapping(value = "update")
+    public Map update(String patientId,String patientSource){
+
+        UserPatient userPatient = new UserPatient();
+        userPatient.setUserId(getToken());
+        userPatient.setPatientId(patientId);
+        userPatient.setPatientSource(patientSource);
+        int i = userPatientService.updateByParams(userPatient);
+
+        if (i > 0){
+            return deleteSuccseeResponse();
+        }
+        return deleteFailedResponse();
+    }}

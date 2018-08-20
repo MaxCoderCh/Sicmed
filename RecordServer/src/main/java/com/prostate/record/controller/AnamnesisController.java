@@ -7,6 +7,7 @@ import com.prostate.record.entity.ParamEntiey;
 import com.prostate.record.feignService.StaticServer;
 import com.prostate.record.service.AnamnesisService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -110,7 +111,7 @@ public class AnamnesisController extends BaseController {
 
     /****************************微信端接口 ***************************/
     @PostMapping(value = "delete")
-    public Map deleteAnamnesis(String token, String id,String patientId) {
+    public Map deleteAnamnesis(String id,String patientId) {
         if (id == null || "".equals(id)) {
             return emptyParamResponse();
         }
@@ -119,6 +120,86 @@ public class AnamnesisController extends BaseController {
             return deleteSuccseeResponse();
         }
         return deleteFailedResponse();
+    }
+
+    /**
+     * 修改 就诊人  病历 信息
+     * @param paramEntiey
+     * @return
+     */
+    @PostMapping(value = "update")
+    public Map update(ParamEntiey paramEntiey) {
+
+        if (StringUtils.isBlank(paramEntiey.getPatientId())) {
+            return emptyParamResponse();
+        }
+
+        String[] anamnesisAllergyDrugIds = paramEntiey.getAnamnesisAllergyDrugIds();
+        String[] anamnesisEatingDrugIds = paramEntiey.getAnamnesisEatingDrugIds();
+        String[] anamnesisIllnessIds = paramEntiey.getAnamnesisIllnessIds();
+        String[] anamnesisSurgicalHistoryIds = paramEntiey.getAnamnesisSurgicalHistoryIds();
+
+        /**
+         * 修改病史信息
+         */
+        boolean alreadyExist;
+        Anamnesis anamnesis;
+        if (anamnesisAllergyDrugIds != null && anamnesisAllergyDrugIds.length > 0) {
+            for (String anamnesisAllergyDrugId : anamnesisAllergyDrugIds) {
+                anamnesis = new Anamnesis();
+                anamnesis.setPatientId(paramEntiey.getPatientId());
+                anamnesis.setOrderId(anamnesisAllergyDrugId);
+                anamnesis.setAnamnesisTypeId("0007fe67fa7c4c4195018ebe7926a7c7");
+                alreadyExist = anamnesisService.checkRepeated(anamnesis);
+                if (alreadyExist) {
+                    continue;
+                }
+                anamnesisService.insertSelective(anamnesis);
+            }
+        }
+        if (anamnesisEatingDrugIds != null && anamnesisEatingDrugIds.length > 0) {
+            for (String anamnesisEatingDrugId : anamnesisEatingDrugIds) {
+                anamnesis = new Anamnesis();
+                anamnesis.setPatientId(paramEntiey.getPatientId());
+                anamnesis.setOrderId(anamnesisEatingDrugId);
+                anamnesis.setAnamnesisTypeId("00163e4597b14fe787c86e22b7946790");
+                alreadyExist = anamnesisService.checkRepeated(anamnesis);
+                if (alreadyExist) {
+                    continue;
+                }
+                anamnesisService.insertSelective(anamnesis);
+
+            }
+        }
+        if (anamnesisIllnessIds != null && anamnesisIllnessIds.length > 0) {
+            for (String anamnesisIllnessId : anamnesisIllnessIds) {
+                anamnesis = new Anamnesis();
+                anamnesis.setPatientId(paramEntiey.getPatientId());
+                anamnesis.setOrderId(anamnesisIllnessId);
+                anamnesis.setAnamnesisTypeId("00106a226f04411b885e3f328acba4d7");
+                alreadyExist = anamnesisService.checkRepeated(anamnesis);
+                if (alreadyExist) {
+                    continue;
+                }
+                anamnesisService.insertSelective(anamnesis);
+
+            }
+        }
+        if (anamnesisSurgicalHistoryIds != null && anamnesisSurgicalHistoryIds.length > 0) {
+            for (String anamnesisSurgicalHistoryId : anamnesisSurgicalHistoryIds) {
+                anamnesis = new Anamnesis();
+                anamnesis.setPatientId(paramEntiey.getPatientId());
+                anamnesis.setOrderId(anamnesisSurgicalHistoryId);
+                anamnesis.setAnamnesisTypeId("0007fe67fa7c4c4195018ede7926a7c7");
+                alreadyExist = anamnesisService.checkRepeated(anamnesis);
+                if (alreadyExist) {
+                    continue;
+                }
+                anamnesisService.insertSelective(anamnesis);
+            }
+        }
+        return insertSuccseeResponse(paramEntiey.getPatientId());
+
     }
 
 }

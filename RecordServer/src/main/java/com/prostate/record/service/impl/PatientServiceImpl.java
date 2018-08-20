@@ -79,10 +79,4 @@ public class PatientServiceImpl implements PatientService {
         return patientWriteMapper.insertSelectiveById(patient);
     }
 
-    @Override
-    public List<PatientBean> getList(PatientBean patientBean) {
-        return patientReadMapper.getList(patientBean);
-    }
-
-
 }

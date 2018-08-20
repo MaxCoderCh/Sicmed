@@ -11,6 +11,7 @@
   <sql id="Base_Column_List">
     id, user_id, patient_id, patient_source, create_time
   </sql>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -30,8 +31,16 @@
       </if>
     </where>
   </select>
-
-  <resultMap id="WeChatPatientBeanMap" type="com.prostate.record.beans.WechatPatientBean">
+  <select id="getByPatientIdAndToken" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_patient
+    <where>
+        user_id = #{userId,jdbcType=VARCHAR}
+        AND patient_id = #{patientId,jdbcType=VARCHAR}
+    </where>
+  </select>
+  <resultMap id="PatientListMap" type="com.prostate.record.beans.WeChatPatientBean">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="patientName" jdbcType="VARCHAR" property="patientName" />
     <result column="patientSex" jdbcType="VARCHAR" property="patientSex" />
@@ -39,9 +48,9 @@
     <result column="patientSource" jdbcType="VARCHAR" property="patientSource" />
   </resultMap>
   <sql id="WeChatPatientBeanMap_Column_List">
-    patient.id id, patient.patient_name patientName, patient.patient_age patientAge, patient.patient_sex patientSex, userPatient.patient_source patientSource
+    patient.id AS id, patient.patient_name AS patientName, patient.patient_age AS patientAge, patient.patient_sex AS patientSex, userPatient.patient_source AS patientSource
   </sql>
-  <select id="getPatientIdList" parameterType="com.prostate.record.entity.UserPatient" resultMap="BaseResultMap">
+  <select id="getPatientList" parameterType="com.prostate.record.entity.UserPatient" resultMap="PatientListMap">
     select
     <include refid="WeChatPatientBeanMap_Column_List" />
     from user_patient userPatient

@@ -28,6 +28,5 @@ public interface PatientService extends BaseService<Patient> {
 
     int insertSelectiveById(Patient patient);
 
-    List<PatientBean> getList(PatientBean patientBean);
 
 }
