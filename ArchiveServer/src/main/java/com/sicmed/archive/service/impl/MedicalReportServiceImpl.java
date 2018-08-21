@@ -42,4 +42,9 @@ public class MedicalReportServiceImpl implements MedicalReportService {
     public int deleteById(String id) {
         return medicalReportWriteMapper.deleteById(id);
     }
+
+    @Override
+    public List<String> selectUrlByParams(MedicalReport medicalReport) {
+        return medicalReportReadMapper.selectUrlByParams(medicalReport);
+    }
 }

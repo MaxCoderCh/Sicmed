@@ -4,11 +4,14 @@ import com.sicmed.archive.entity.MedicalReport;
 import com.sicmed.archive.entity.MedicalReportConstants;
 import com.sicmed.archive.service.MedicalReportService;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,5 +42,24 @@ public class MedicalReportController extends BaseController {
             return insertSuccseeResponse(reportGroup);
         }
         return emptyParamResponse();
+    }
+
+    /**
+     * 根据分组编号 查询 档案
+     * @param groupNumber
+     * @return
+     */
+    @GetMapping(value = "getByGroupNumber")
+    public Map getByGroupNumber(String groupNumber) {
+        if (StringUtils.isBlank(groupNumber)) {
+            return emptyParamResponse();
+        }
+        MedicalReport medicalReport = new MedicalReport();
+        medicalReport.setReportGroup(groupNumber);
+        List<String> reportUrlList = medicalReportService.selectUrlByParams(medicalReport);
+        if (reportUrlList == null || reportUrlList.isEmpty()) {
+            return queryEmptyResponse();
+        }
+        return querySuccessResponse(reportUrlList);
     }
 }
