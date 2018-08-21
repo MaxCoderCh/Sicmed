@@ -103,4 +103,33 @@ public class UserPatientController extends BaseController {
             return deleteSuccseeResponse();
         }
         return deleteFailedResponse();
-    }}
+    }
+
+
+
+    /**
+     * 查询 患者列表
+     */
+
+    @GetMapping(value = "getPatientListById")
+    public Map getPatientListById(String userId){
+
+        UserPatient userPatient = new UserPatient();
+        userPatient.setUserId(userId);
+
+        List<WeChatPatientBean> weChatPatientBeanList = userPatientService.getPatientList(userPatient);
+
+        if (weChatPatientBeanList == null || weChatPatientBeanList.isEmpty()){
+            return queryEmptyResponse();
+        }
+        return querySuccessResponse(weChatPatientBeanList);
+    }
+
+
+
+
+
+}
+
+
+
