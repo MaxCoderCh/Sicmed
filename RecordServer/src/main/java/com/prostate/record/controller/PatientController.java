@@ -10,6 +10,7 @@ import com.prostate.record.validator.phoneValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -191,6 +192,24 @@ public class PatientController extends BaseController {
             return updateSuccseeResponse();
         }
         return updateFailedResponse();
+
+    }
+
+    /**
+     * 修改患者信息
+     *
+     * @return
+     */
+    @GetMapping(value = "getBaseInfoById")
+    public Map getBaseInfoById(String patientId) {
+        if (StringUtils.isBlank(patientId)) {
+            return emptyParamResponse();
+        }
+        Patient patient = patientService.selectById(patientId);
+        if (patient != null) {
+            return querySuccessResponse(patient);
+        }
+        return queryEmptyResponse();
 
     }
 
