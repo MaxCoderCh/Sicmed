@@ -1,8 +1,11 @@
 package com.prostate.pay.controller;
 
 import com.prostate.common.base.BaseController;
+import com.prostate.feignService.OrderServer;
 import com.prostate.pay.entity.UnifiedOrderEntity;
 import com.prostate.pay.service.WeChatPayService;
+import com.prostate.pay.wxpay.sdk.WXPayUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,9 @@ public class WeChatPayController extends BaseController {
     @Autowired
     private WeChatPayService weChatPayService;
 
+
+    @Autowired
+    private OrderServer orderServer;
     /**
      * 公众号支付
      *
@@ -48,5 +54,36 @@ public class WeChatPayController extends BaseController {
         data.put("product_id", unifiedOrderEntity.getProductId());
 
         return weChatPayService.unifiedOrder(data);
+    }
+
+
+    @PostMapping(value = "orderPay")
+    public Map orderPay(String orderId) {
+
+        Map<String, Object> reMap = orderServer.getOrder(orderId);
+        Map<String, Object> orderMap = (Map<String, Object>) reMap.get("result");
+
+        Map<String, String> data = new HashMap();
+        data.put("body", "栗子医学-问诊费用支付");
+        data.put("out_trade_no", orderId);
+        data.put("fee_type", "CNY");
+        data.put("total_fee", orderMap.get("orderPrice").toString());
+        data.put("notify_url", "http://www.example.com/wxpay/notify");
+        data.put("trade_type", "NATIVE");
+        data.put("product_id", "orderId");
+
+        Map<String, String> map = weChatPayService.unifiedOrder(data);
+        if (map.get("result_code").equals("SUCCESS")) {
+            map.remove("code_url");
+            map.remove("trade_type");
+            map.remove("return_msg");
+            map.remove("result_code");
+            map.remove("mch_id");
+            map.remove("return_code");
+            map.put("timeStamp", String.valueOf(WXPayUtil.getCurrentTimestamp()));
+            return insertSuccseeResponse(map);
+        }
+
+        return insertFailedResponse();
     }
 }

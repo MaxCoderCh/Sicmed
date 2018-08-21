@@ -38,20 +38,16 @@ public class WXPayReport {
         private long elapsedTimeMillis; // 耗时，单位 毫秒
 
         // 针对主域名
-        private String firstDomain;  // 第1次请求的域名
-        private boolean primaryDomain; //是否主域名
         private int firstConnectTimeoutMillis;  // 第1次请求设置的连接超时时间，单位 毫秒
         private int firstReadTimeoutMillis;  // 第1次请求设置的读写超时时间，单位 毫秒
         private int firstHasDnsError;  // 第1次请求是否出现dns问题
         private int firstHasConnectTimeout; // 第1次请求是否出现连接超时
         private int firstHasReadTimeout; // 第1次请求是否出现连接超时
 
-        public ReportInfo(String uuid, long timestamp, long elapsedTimeMillis, String firstDomain, boolean primaryDomain, int firstConnectTimeoutMillis, int firstReadTimeoutMillis, boolean firstHasDnsError, boolean firstHasConnectTimeout, boolean firstHasReadTimeout) {
+        public ReportInfo(String uuid, long timestamp, long elapsedTimeMillis, int firstConnectTimeoutMillis, int firstReadTimeoutMillis, boolean firstHasDnsError, boolean firstHasConnectTimeout, boolean firstHasReadTimeout) {
             this.uuid = uuid;
             this.timestamp = timestamp;
             this.elapsedTimeMillis = elapsedTimeMillis;
-            this.firstDomain = firstDomain;
-            this.primaryDomain = primaryDomain;
             this.firstConnectTimeoutMillis = firstConnectTimeoutMillis;
             this.firstReadTimeoutMillis = firstReadTimeoutMillis;
             this.firstHasDnsError = firstHasDnsError?1:0;
@@ -67,8 +63,6 @@ public class WXPayReport {
                     ", uuid='" + uuid + '\'' +
                     ", timestamp=" + timestamp +
                     ", elapsedTimeMillis=" + elapsedTimeMillis +
-                    ", firstDomain='" + firstDomain + '\'' +
-                    ", primaryDomain=" + primaryDomain +
                     ", firstConnectTimeoutMillis=" + firstConnectTimeoutMillis +
                     ", firstReadTimeoutMillis=" + firstReadTimeoutMillis +
                     ", firstHasDnsError=" + firstHasDnsError +
@@ -85,8 +79,7 @@ public class WXPayReport {
         public String toLineString(String key) {
             String separator = ",";
             Object[] objects = new Object[] {
-                version, sdk, uuid, timestamp, elapsedTimeMillis,
-                    firstDomain, primaryDomain, firstConnectTimeoutMillis, firstReadTimeoutMillis,
+                version, sdk, uuid, timestamp, elapsedTimeMillis, firstConnectTimeoutMillis, firstReadTimeoutMillis,
                     firstHasDnsError, firstHasConnectTimeout, firstHasReadTimeout
             };
             StringBuffer sb = new StringBuffer();
@@ -190,12 +183,10 @@ public class WXPayReport {
         return INSTANCE;
     }
 
-    public void report(String uuid, long elapsedTimeMillis,
-                       String firstDomain, boolean primaryDomain, int firstConnectTimeoutMillis, int firstReadTimeoutMillis,
+    public void report(String uuid, long elapsedTimeMillis, int firstConnectTimeoutMillis, int firstReadTimeoutMillis,
                        boolean firstHasDnsError, boolean firstHasConnectTimeout, boolean firstHasReadTimeout) {
         long currentTimestamp = WXPayUtil.getCurrentTimestamp();
-        ReportInfo reportInfo = new ReportInfo(uuid, currentTimestamp, elapsedTimeMillis,
-                firstDomain, primaryDomain, firstConnectTimeoutMillis, firstReadTimeoutMillis,
+        ReportInfo reportInfo = new ReportInfo(uuid, currentTimestamp, elapsedTimeMillis, firstConnectTimeoutMillis, firstReadTimeoutMillis,
                 firstHasDnsError, firstHasConnectTimeout, firstHasReadTimeout);
         String data = reportInfo.toLineString(config.getKey());
         WXPayUtil.getLogger().info("report {}", data);

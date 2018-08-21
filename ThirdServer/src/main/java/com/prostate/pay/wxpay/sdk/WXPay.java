@@ -61,10 +61,6 @@ public class WXPay {
         if (this.config.getCertStream() == null) {
             throw new Exception("cert stream in config is empty");
         }
-        if (this.config.getWXPayDomain() == null) {
-            throw new Exception("config.getWXPayDomain() is null");
-        }
-
         if (this.config.getHttpConnectTimeoutMs() < 10) {
             throw new Exception("http connect timeout is too small");
         }

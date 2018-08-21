@@ -55,11 +55,6 @@ public abstract class WXPayConfig {
         return 8*1000;
     }
 
-    /**
-     * 获取WXPayDomain, 用于多域名容灾自动切换
-     * @return
-     */
-    abstract IWXPayDomain getWXPayDomain();
 
     /**
      * 是否自动上报。

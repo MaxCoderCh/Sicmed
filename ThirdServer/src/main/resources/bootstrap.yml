@@ -15,7 +15,7 @@ weChat:
     appid: wx879a26e37acadb20
     mchid: 1504779411
     key: 988d1634858b11e8a09b68cc6e5c9c74
-    certPath: E:\ProstateRehabilitationAlliance\ThirdServer\src\main\resources\cert\200b180e881611e8a09b68cc6e5c9c74.p12
+    certPath: E:\Sicmed\ThirdServer\src\main\resources\cert\200b180e881611e8a09b68cc6e5c9c74.p12
 logging:
   level:
     root: warn

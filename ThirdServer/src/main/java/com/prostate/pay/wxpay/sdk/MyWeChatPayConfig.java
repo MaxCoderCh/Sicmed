@@ -57,8 +57,4 @@ public class MyWeChatPayConfig extends WXPayConfig {
         return 10000;
     }
 
-    @Override
-    IWXPayDomain getWXPayDomain() {
-        return null;
-    }
 }
