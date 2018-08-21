@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Setter
 @Getter
-public class OrderInquiry implements Serializable{
+public class OrderInquiry extends BaseEntity implements Serializable{
 
     private String id;
 

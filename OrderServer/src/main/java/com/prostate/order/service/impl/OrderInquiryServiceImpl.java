@@ -1,5 +1,6 @@
 package com.prostate.order.service.impl;
 
+import com.prostate.order.beans.OrderInquiryBean;
 import com.prostate.order.entity.OrderInquiry;
 import com.prostate.order.mapper.master.OrderInquiryWriteMapper;
 import com.prostate.order.mapper.slaver.OrderInquiryReadMapper;
@@ -40,6 +41,11 @@ public class OrderInquiryServiceImpl implements OrderInquiryService {
 
     @Override
     public int deleteById(String id) {
-        return 0;
+        return orderInquiryWriteMapper.deleteById(id);
+    }
+
+    @Override
+    public List<OrderInquiry> queryByParams(OrderInquiry orderInquiry) {
+        return orderInquiryReadMapper.queryByParams(orderInquiry);
     }
 }
