@@ -5,8 +5,8 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/ProstateRehabilitationAlliance/Config.git
-          search-paths: respo
+          uri: https://github.com/MaxCoderCh/Sicmed.git
+          search-paths: Config/respo
           default-label: master
 #    discovery:
 #      enabled: true
