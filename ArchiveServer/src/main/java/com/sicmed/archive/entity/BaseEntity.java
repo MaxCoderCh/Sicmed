@@ -1,4 +1,4 @@
-package com.prostate.order.entity;
+package com.sicmed.archive.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;

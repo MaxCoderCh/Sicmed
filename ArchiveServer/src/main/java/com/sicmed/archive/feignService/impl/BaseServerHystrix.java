@@ -1,4 +1,4 @@
-package com.prostate.order.feignService.impl;
+package com.sicmed.archive.feignService.impl;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

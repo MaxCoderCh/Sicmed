@@ -1,4 +1,4 @@
-package com.prostate.order.entity;
+package com.sicmed.archive.entity;
 
 public class MedicalReportConstants {
 

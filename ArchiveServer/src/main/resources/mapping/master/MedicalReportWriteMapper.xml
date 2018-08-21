@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.order.mapper.master.MedicalReportWriteMapper">
-  <resultMap id="BaseResultMap" type="com.prostate.order.entity.MedicalReport">
+<mapper namespace="com.sicmed.archive.mapper.master.MedicalReportWriteMapper">
+  <resultMap id="BaseResultMap" type="com.sicmed.archive.entity.MedicalReport">
     <result column="id" jdbcType="VARCHAR" property="id" />
     <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
     <result column="report_url" jdbcType="VARCHAR" property="reportUrl" />
@@ -11,7 +11,7 @@
     <result column="assay_time" jdbcType="TIMESTAMP" property="assayTime" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
-  <insert id="insert" parameterType="com.prostate.order.entity.MedicalReport">
+  <insert id="insert" parameterType="com.sicmed.archive.entity.MedicalReport">
     insert into medical_report (id, patient_id, report_url, 
       report_type, report_group, submit_time, 
       assay_time, create_time)
@@ -19,7 +19,10 @@
       #{reportType,jdbcType=VARCHAR}, #{reportGroup,jdbcType=VARCHAR}, #{submitTime,jdbcType=TIMESTAMP}, 
       #{assayTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.prostate.order.entity.MedicalReport">
+  <insert id="insertSelective" parameterType="com.sicmed.archive.entity.MedicalReport">
+    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
     insert into medical_report
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

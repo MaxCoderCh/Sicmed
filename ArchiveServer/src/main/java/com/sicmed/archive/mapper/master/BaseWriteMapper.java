@@ -1,4 +1,4 @@
-package com.prostate.order.mapper.master;
+package com.sicmed.archive.mapper.master;
 
 
 public interface BaseWriteMapper<E> {

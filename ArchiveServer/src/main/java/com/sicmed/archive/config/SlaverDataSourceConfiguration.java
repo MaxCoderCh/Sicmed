@@ -1,4 +1,4 @@
-package com.prostate.order.config;
+package com.sicmed.archive.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -18,7 +18,7 @@ import javax.sql.DataSource;
  * 读操作数据源
  */
 @Configuration
-@MapperScan(basePackages = "com.prostate.order.mapper.slaver", sqlSessionTemplateRef = "slaverSqlSessionTemplate")
+@MapperScan(basePackages = "com.sicmed.archive.mapper.slaver", sqlSessionTemplateRef = "slaverSqlSessionTemplate")
 public class SlaverDataSourceConfiguration {
 
     @Value("${spring.datasource.slaver.driver-class-name}")

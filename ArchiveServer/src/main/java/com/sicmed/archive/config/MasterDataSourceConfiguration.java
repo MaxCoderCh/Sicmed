@@ -1,4 +1,4 @@
-package com.prostate.order.config;
+package com.sicmed.archive.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 /**
  */
 @Configuration
-@MapperScan(basePackages = "com.prostate.order.mapper.master", sqlSessionTemplateRef  = "masterSqlSessionTemplate")
+@MapperScan(basePackages = "com.sicmed.archive.mapper.master", sqlSessionTemplateRef = "masterSqlSessionTemplate")
 public class MasterDataSourceConfiguration {
 
     @Value("${spring.datasource.master.driver-class-name}")

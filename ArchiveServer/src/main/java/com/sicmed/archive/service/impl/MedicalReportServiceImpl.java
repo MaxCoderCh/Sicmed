@@ -1,9 +1,9 @@
-package com.prostate.order.service.impl;
+package com.sicmed.archive.service.impl;
 
-import com.prostate.order.entity.MedicalReport;
-import com.prostate.order.mapper.master.MedicalReportWriteMapper;
-import com.prostate.order.mapper.slaver.MedicalReportReadMapper;
-import com.prostate.order.service.MedicalReportService;
+import com.sicmed.archive.entity.MedicalReport;
+import com.sicmed.archive.mapper.master.MedicalReportWriteMapper;
+import com.sicmed.archive.mapper.slaver.MedicalReportReadMapper;
+import com.sicmed.archive.service.MedicalReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

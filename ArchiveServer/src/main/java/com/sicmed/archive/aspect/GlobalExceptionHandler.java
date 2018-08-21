@@ -1,7 +1,7 @@
 /**
  * 全局异常捕获
  */
-package com.prostate.order.aspect;
+package com.sicmed.archive.aspect;
 
 
 import lombok.extern.slf4j.Slf4j;

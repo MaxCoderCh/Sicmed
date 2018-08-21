@@ -1,4 +1,4 @@
-package com.prostate.order.mapper.slaver;
+package com.sicmed.archive.mapper.slaver;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.prostate.order.aspect;
+package com.sicmed.archive.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class WebLogAspect {
 
 
-    @Pointcut("execution(public * com.prostate.order.controller..*.*(..))")
+    @Pointcut("execution(public * com.sicmed.archive.controller..*.*(..))")
     public void webLog(){}
 
     @Before("webLog()")
