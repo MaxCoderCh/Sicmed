@@ -62,10 +62,10 @@ public class UpLoadController extends BaseController {
     }
 
     @PostMapping(value = "uploads")
-    public Map uploads(String recordType, @RequestParam("file") MultipartFile... file) {
+    public Map uploads(String recordType, @RequestParam("files") MultipartFile[] files) {
         List<String> imgPathList = new ArrayList<>();
 
-        for (MultipartFile multipartFile : file) {
+        for (MultipartFile multipartFile : files) {
             String key = UUID.randomUUID().toString().replace("-", "") + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
             String bucketName = bucketMap.get(recordType);
             log.info("bucketName=" + bucketName);
