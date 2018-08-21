@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.assessmen.mapper.pra.write.InquiryRecordWriteMapper">
+  <resultMap id="BaseResultMap" type="com.prostate.assessmen.entity.InquiryRecord">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="patient" jdbcType="VARCHAR" property="patient" />
+    <result column="patient_archive" jdbcType="VARCHAR" property="patientArchive" />
+    <result column="inquiry_description" jdbcType="VARCHAR" property="inquiryDescription" />
+    <result column="inquiry_answer" jdbcType="VARCHAR" property="inquiryAnswer" />
+    <result column="record_status" jdbcType="VARCHAR" property="recordStatus" />
+    <result column="record_type" jdbcType="VARCHAR" property="recordType" />
+    <result column="caution" jdbcType="VARCHAR" property="caution" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, patient, patient_archive, inquiry_description, inquiry_answer, record_status, 
+    record_type, caution, create_user, create_time, update_user, update_time, delete_user, 
+    delete_time, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from inquiry_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from inquiry_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.prostate.assessmen.entity.InquiryRecord">
+    insert into inquiry_record (id, patient, patient_archive, 
+      inquiry_description, inquiry_answer, record_status, 
+      record_type, caution, create_user, 
+      create_time, update_user, update_time, 
+      delete_user, delete_time, del_flag
+      )
+    values (#{id,jdbcType=VARCHAR}, #{patient,jdbcType=VARCHAR}, #{patientArchive,jdbcType=VARCHAR}, 
+      #{inquiryDescription,jdbcType=VARCHAR}, #{inquiryAnswer,jdbcType=VARCHAR}, #{recordStatus,jdbcType=VARCHAR}, 
+      #{recordType,jdbcType=VARCHAR}, #{caution,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteUser,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.prostate.assessmen.entity.InquiryRecord">
+    <selectKey keyProperty="id" resultType="java.lang.String"
+               order="BEFORE">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into inquiry_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="patient != null">
+        patient,
+      </if>
+      <if test="patientArchive != null">
+        patient_archive,
+      </if>
+      <if test="inquiryDescription != null">
+        inquiry_description,
+      </if>
+      <if test="inquiryAnswer != null">
+        inquiry_answer,
+      </if>
+      <if test="recordStatus != null">
+        record_status,
+      </if>
+      <if test="recordType != null">
+        record_type,
+      </if>
+      <if test="caution != null">
+        caution,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteUser != null">
+        delete_user,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="patient != null">
+        #{patient,jdbcType=VARCHAR},
+      </if>
+      <if test="patientArchive != null">
+        #{patientArchive,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryDescription != null">
+        #{inquiryDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryAnswer != null">
+        #{inquiryAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="recordStatus != null">
+        #{recordStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="recordType != null">
+        #{recordType,jdbcType=VARCHAR},
+      </if>
+      <if test="caution != null">
+        #{caution,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteUser != null">
+        #{deleteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.assessmen.entity.InquiryRecord">
+    update inquiry_record
+    <set>
+      <if test="patient != null">
+        patient = #{patient,jdbcType=VARCHAR},
+      </if>
+      <if test="patientArchive != null">
+        patient_archive = #{patientArchive,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryDescription != null">
+        inquiry_description = #{inquiryDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="inquiryAnswer != null">
+        inquiry_answer = #{inquiryAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="recordStatus != null">
+        record_status = #{recordStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="recordType != null">
+        record_type = #{recordType,jdbcType=VARCHAR},
+      </if>
+      <if test="caution != null">
+        caution = #{caution,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteUser != null">
+        delete_user = #{deleteUser,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.prostate.assessmen.entity.InquiryRecord">
+    update inquiry_record
+    set patient = #{patient,jdbcType=VARCHAR},
+      patient_archive = #{patientArchive,jdbcType=VARCHAR},
+      inquiry_description = #{inquiryDescription,jdbcType=VARCHAR},
+      inquiry_answer = #{inquiryAnswer,jdbcType=VARCHAR},
+      record_status = #{recordStatus,jdbcType=VARCHAR},
+      record_type = #{recordType,jdbcType=VARCHAR},
+      caution = #{caution,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_user = #{deleteUser,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

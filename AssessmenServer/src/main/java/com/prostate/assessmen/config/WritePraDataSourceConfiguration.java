@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 /**
  */
 @Configuration
-@MapperScan(basePackages = "com.prostate.assessmen.mapper.pra.master", sqlSessionTemplateRef  = "writePraSqlSessionTemplate")
+@MapperScan(basePackages = "com.prostate.assessmen.mapper.pra.write", sqlSessionTemplateRef  = "writePraSqlSessionTemplate")
 public class WritePraDataSourceConfiguration {
 
     @Value("${spring.datasource.writePra.driver-class-name}")
@@ -48,7 +48,7 @@ public class WritePraDataSourceConfiguration {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("writePraDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/pra/master/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/pra/write/*.xml"));
         return bean.getObject();
     }
 

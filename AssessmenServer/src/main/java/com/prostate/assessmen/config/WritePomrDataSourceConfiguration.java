@@ -19,7 +19,7 @@ import javax.sql.DataSource;
  * 写操作 数据源
  */
 @Configuration
-@MapperScan(basePackages = "com.prostate.assessmen.mapper.pomr.master", sqlSessionTemplateRef  = "writePomrSqlSessionTemplate")
+@MapperScan(basePackages = "com.prostate.assessmen.mapper.pomr.write", sqlSessionTemplateRef  = "writePomrSqlSessionTemplate")
 public class WritePomrDataSourceConfiguration {
 
     @Value("${spring.datasource.writePomr.driver-class-name}")
@@ -50,7 +50,7 @@ public class WritePomrDataSourceConfiguration {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("writePomrDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/pomr/master/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/pomr/write/*.xml"));
         return bean.getObject();
     }
 

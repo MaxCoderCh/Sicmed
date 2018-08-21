@@ -19,7 +19,7 @@ import javax.sql.DataSource;
  * 读操作数据源
  */
 @Configuration
-@MapperScan(basePackages = "com.prostate.assessmen.mapper.pomr.slaver", sqlSessionTemplateRef  = "readPomrSqlSessionTemplate")
+@MapperScan(basePackages = "com.prostate.assessmen.mapper.pomr.read", sqlSessionTemplateRef  = "readPomrSqlSessionTemplate")
 public class ReadPomrDataSourceConfiguration {
 
     @Value("${spring.datasource.readPomr.driver-class-name}")
@@ -49,7 +49,7 @@ public class ReadPomrDataSourceConfiguration {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("readPomrDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/pomr/slaver/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/pomr/read/*.xml"));
         return bean.getObject();
     }
 
