@@ -31,7 +31,7 @@ public class OrderInquiryController extends BaseController {
      * 1.创建订单
      */
     @PostMapping(value = "createOrder")
-    public Map createOrder(String doctorId, String patientId, String goodsId,String orderDescription,String patientArchive) {
+    public Map createOrder(String doctorId, String patientId, String goodsId, String orderDescription, String patientArchive, String orderPrice) {
 
         OrderInquiry orderInquiry = new OrderInquiry();
 
@@ -41,11 +41,12 @@ public class OrderInquiryController extends BaseController {
         orderInquiry.setSeller(doctorId);
         orderInquiry.setGoods(goodsId);
         orderInquiry.setCreateUser(getToken());
-        orderInquiry.setOrderType(OrderConstants.INQUIRY_TYPE);
+        orderInquiry.setOrderType(OrderConstants.PICTURE_INQUIRY_TYPE);
         orderInquiry.setOrderStatus(OrderConstants.TO_BE_PAYMENT);
-        orderInquiry.setOrderDescription("ORDER_DESCRIPTION");
-        orderInquiry.setPatientArchive("PATIENT_ARCHIVE");
+        orderInquiry.setOrderDescription(orderDescription);
+        orderInquiry.setPatientArchive(patientArchive);
         orderInquiry.setOrderNumber("ORDER_NUMBER");
+        orderInquiry.setOrderPrice(orderPrice);
 
         //调用insert 服务 向数据库插入数据
         int result = orderInquiryService.insertSelective(orderInquiry);
@@ -56,5 +57,16 @@ public class OrderInquiryController extends BaseController {
         return insertFailedResponse();
     }
 
+    /**
+     * 2.查询订单
+     */
+    @PostMapping(value = "getOrder")
+    public Map getOrder(String orderId) {
 
+        OrderInquiry orderInquiry = orderInquiryService.selectById(orderId);
+        if (orderInquiry == null) {
+            return queryEmptyResponse();
+        }
+        return querySuccessResponse(orderInquiry);
+    }
 }

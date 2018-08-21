@@ -29,7 +29,7 @@ public class OrderInquiryServiceImpl implements OrderInquiryService {
 
     @Override
     public OrderInquiry selectById(String id) {
-        return null;
+        return orderInquiryReadMapper.selectById(id);
     }
 
 

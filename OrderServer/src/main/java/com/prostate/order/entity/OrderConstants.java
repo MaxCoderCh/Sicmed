@@ -10,7 +10,9 @@ public class OrderConstants {
     public final static String IS_DONE = "IS_DONE";   //已完成
     public final static String IS_REFUSE = "IS_REFUSE";//已拒绝
     ///订单类型
-    public final static String INQUIRY_TYPE = "INQUIRY_TYPE";   //问诊订单
+    public final static String PICTURE_INQUIRY_TYPE = "PICTURE_INQUIRY_TYPE";   //问诊订单
+    public final static String PHONE_INQUIRY_TYPE = "PHONE_INQUIRY_TYPE";   //问诊订单
+    public final static String VIDEO_INQUIRY_TYPE = "VIDEO_INQUIRY_TYPE";   //问诊订单
     public final static String TURN_TYPE = "TURN_TYPE";   //转诊订单
 
 
