@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.assessmen.mapper.pra.write.ProstaticMedicalExaminationWriteMapper">
+<mapper namespace="com.sicmed.assessmen.mapper.pra.write.ProstaticMedicalExaminationWriteMapper">
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete from pra_prostatic_medical_examination
         where id = #{id,jdbcType=VARCHAR}
     </delete>
-    <insert id="insertSelective" parameterType="com.prostate.assessmen.entity.ProstaticMedicalExamination">
+    <insert id="insertSelective" parameterType="com.sicmed.assessmen.entity.ProstaticMedicalExamination">
         <selectKey keyProperty="id" resultType="java.lang.String"
                    order="BEFORE">
             select replace(uuid(),'-','') from dual
@@ -202,7 +202,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateSelective" parameterType="com.prostate.assessmen.entity.ProstaticMedicalExamination">
+    <update id="updateSelective" parameterType="com.sicmed.assessmen.entity.ProstaticMedicalExamination">
         update pra_prostatic_medical_examination
         <set>
             <if test="patientId != null">
@@ -298,7 +298,7 @@
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.prostate.assessmen.entity.ProstaticMedicalExamination">
+    <update id="updateByPrimaryKey" parameterType="com.sicmed.assessmen.entity.ProstaticMedicalExamination">
         update pra_prostatic_medical_examination
         set patient_id = #{patientId,jdbcType=VARCHAR},
         blood_routine_answer = #{bloodRoutineAnswer,jdbcType=VARCHAR},

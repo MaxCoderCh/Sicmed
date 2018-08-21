@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.assessmen.mapper.pra.read.ScaleScoreReadMapper">
-  <resultMap id="BaseResultMap" type="com.prostate.assessmen.entity.PatientScaleScore">
+<mapper namespace="com.sicmed.assessmen.mapper.pra.read.ScaleScoreReadMapper">
+  <resultMap id="BaseResultMap" type="com.sicmed.assessmen.entity.PatientScaleScore">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
     <result column="inflammation_score" jdbcType="VARCHAR" property="inflammationScore" />

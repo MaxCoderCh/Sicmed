@@ -173,7 +173,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.prostate.assessmen.AssessmenApplication</mainClass>
+							<mainClass>com.sicmed.assessmen.AssessmenApplication</mainClass>
 							<classpathPrefix>lib/</classpathPrefix>
 						</manifest>
 					</archive>

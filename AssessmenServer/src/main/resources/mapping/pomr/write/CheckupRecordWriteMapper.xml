@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.assessmen.mapper.pomr.write.CheckupRecordWriteMapper">
+<mapper namespace="com.sicmed.assessmen.mapper.pomr.write.CheckupRecordWriteMapper">
   <delete id="deleteByImgPath" parameterType="java.lang.String">
     delete from pomr_checkup_record where record_path = #{id,jdbcType=VARCHAR}
   </delete>
@@ -9,7 +9,7 @@
     delete from pomr_checkup_record where id = #{id,jdbcType=VARCHAR}
   </delete>
 
-  <insert id="insertSelective" parameterType="com.prostate.assessmen.entity.CheckupRecord">
+  <insert id="insertSelective" parameterType="com.sicmed.assessmen.entity.CheckupRecord">
 
     <selectKey keyProperty="id" resultType="java.lang.String"
                order="BEFORE">

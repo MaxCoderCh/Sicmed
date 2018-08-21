@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.assessmen.mapper.pra.read.PatientIpssScoreReadMapper">
-    <resultMap id="BaseResultMap" type="com.prostate.assessmen.entity.PatientIpssScore">
+<mapper namespace="com.sicmed.assessmen.mapper.pra.read.PatientIpssScoreReadMapper">
+    <resultMap id="BaseResultMap" type="com.sicmed.assessmen.entity.PatientIpssScore">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="patient_id" jdbcType="VARCHAR" property="patientId"/>
         <result column="ipss_score" jdbcType="VARCHAR" property="ipssScore"/>
@@ -27,7 +27,7 @@
         where id = #{id,jdbcType=VARCHAR}
     </select>
     <!--================================================================================-->
-    <resultMap id="BeanResultMap" type="com.prostate.assessmen.beans.IpssScoreBean">
+    <resultMap id="BeanResultMap" type="com.sicmed.assessmen.beans.IpssScoreBean">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="ipss_score" jdbcType="VARCHAR" property="ipssScore"/>
         <result column="answer" jdbcType="VARCHAR" property="answer"/>
@@ -51,7 +51,7 @@
         id, create_time
     </sql>
 
-    <select id="selectByCreateTimeAndPatientId" parameterType="com.prostate.assessmen.entity.PatientIpssScore" resultMap="BaseResultMap">
+    <select id="selectByCreateTimeAndPatientId" parameterType="com.sicmed.assessmen.entity.PatientIpssScore" resultMap="BaseResultMap">
         select
         <include refid="CreateTimeAndPatientId_Column_List"/>
         from pra_patient_ipss_score

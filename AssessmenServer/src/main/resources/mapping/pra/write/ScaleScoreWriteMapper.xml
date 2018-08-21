@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.assessmen.mapper.pra.write.ScaleScoreWriteMapper">
-  <insert id="insertSelective" parameterType="com.prostate.assessmen.entity.PatientScaleScore">
+<mapper namespace="com.sicmed.assessmen.mapper.pra.write.ScaleScoreWriteMapper">
+  <insert id="insertSelective" parameterType="com.sicmed.assessmen.entity.PatientScaleScore">
     <selectKey keyProperty="id" resultType="java.lang.String"
                order="BEFORE">
       select replace(uuid(),'-','') from dual
@@ -109,7 +109,7 @@
     </trim>
   </insert>
 
-  <insert id="insertSelectiveById" parameterType="com.prostate.assessmen.entity.PatientScaleScore">
+  <insert id="insertSelectiveById" parameterType="com.sicmed.assessmen.entity.PatientScaleScore">
     insert into pra_scale_score
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -212,7 +212,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateSelective" parameterType="com.prostate.assessmen.entity.PatientScaleScore">
+  <update id="updateSelective" parameterType="com.sicmed.assessmen.entity.PatientScaleScore">
     update pra_scale_score
     <set>
       <if test="patientId != null">

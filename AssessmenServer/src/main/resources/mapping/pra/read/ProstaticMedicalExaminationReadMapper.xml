@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.assessmen.mapper.pra.read.ProstaticMedicalExaminationReadMapper">
-    <resultMap id="BaseResultMap" type="com.prostate.assessmen.entity.ProstaticMedicalExamination">
+<mapper namespace="com.sicmed.assessmen.mapper.pra.read.ProstaticMedicalExaminationReadMapper">
+    <resultMap id="BaseResultMap" type="com.sicmed.assessmen.entity.ProstaticMedicalExamination">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="patient_id" jdbcType="VARCHAR" property="patientId"/>
         <result column="blood_routine_answer" jdbcType="VARCHAR" property="bloodRoutineAnswer"/>
@@ -56,7 +56,7 @@
         specific_antigen_remark, ultrasonography_b_remark, urine_flow_rate_remark, urine_routine_remark,
         create_doctor, create_time
     </sql>
-    <select id="selectByParams" parameterType="com.prostate.assessmen.entity.ProstaticMedicalExamination" resultMap="BaseResultMap">
+    <select id="selectByParams" parameterType="com.sicmed.assessmen.entity.ProstaticMedicalExamination" resultMap="BaseResultMap">
         select
         <include refid="ProstaticMedicalExamination_List_Column_List"/>
         from pra_prostatic_medical_examination
@@ -68,7 +68,7 @@
     <sql id="CreateTimeAndPatientId_Column_List">
         id, create_time
     </sql>
-    <select id="selectByCreateTimeAndPatientId" parameterType="com.prostate.assessmen.entity.ProstaticMedicalExamination" resultMap="BaseResultMap">
+    <select id="selectByCreateTimeAndPatientId" parameterType="com.sicmed.assessmen.entity.ProstaticMedicalExamination" resultMap="BaseResultMap">
         select
         <include refid="CreateTimeAndPatientId_Column_List"/>
         from pra_prostatic_medical_examination
@@ -82,7 +82,7 @@
             </if>
         </where>
     </select>
-    <select id="selectByPatientAndData" parameterType="com.prostate.assessmen.entity.ProstaticMedicalExamination" resultMap="BaseResultMap">
+    <select id="selectByPatientAndData" parameterType="com.sicmed.assessmen.entity.ProstaticMedicalExamination" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from pra_prostatic_medical_examination

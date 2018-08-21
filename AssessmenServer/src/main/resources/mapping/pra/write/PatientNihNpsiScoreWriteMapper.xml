@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.assessmen.mapper.pra.write.PatientNihCpsiScoreWriteMapper">
-    <insert id="insertSelective" parameterType="com.prostate.assessmen.entity.PatientNihCpsiScore">
+<mapper namespace="com.sicmed.assessmen.mapper.pra.write.PatientNihCpsiScoreWriteMapper">
+    <insert id="insertSelective" parameterType="com.sicmed.assessmen.entity.PatientNihCpsiScore">
         <selectKey keyProperty="id" resultType="java.lang.String"
                    order="BEFORE">
             select replace(uuid(),'-','') from dual
@@ -90,7 +90,7 @@
             </if>
         </trim>
     </insert>
-    <insert id="insertSelectiveById" parameterType="com.prostate.assessmen.entity.PatientNihCpsiScore">
+    <insert id="insertSelectiveById" parameterType="com.sicmed.assessmen.entity.PatientNihCpsiScore">
         insert into pra_patient_nih_cpsi_score
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -175,7 +175,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateSelective" parameterType="com.prostate.assessmen.entity.PatientNihCpsiScore">
+    <update id="updateSelective" parameterType="com.sicmed.assessmen.entity.PatientNihCpsiScore">
         update pra_patient_nih_cpsi_score
         <set>
             <if test="patientId != null">

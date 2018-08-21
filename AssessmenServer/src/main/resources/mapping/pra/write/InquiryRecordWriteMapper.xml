@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.assessmen.mapper.pra.write.InquiryRecordWriteMapper">
-  <resultMap id="BaseResultMap" type="com.prostate.assessmen.entity.InquiryRecord">
+<mapper namespace="com.sicmed.assessmen.mapper.pra.write.InquiryRecordWriteMapper">
+  <resultMap id="BaseResultMap" type="com.sicmed.assessmen.entity.InquiryRecord">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="patient" jdbcType="VARCHAR" property="patient" />
     <result column="patient_archive" jdbcType="VARCHAR" property="patientArchive" />
@@ -33,7 +33,7 @@
     delete from inquiry_record
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.prostate.assessmen.entity.InquiryRecord">
+  <insert id="insert" parameterType="com.sicmed.assessmen.entity.InquiryRecord">
     insert into inquiry_record (id, patient, patient_archive, 
       inquiry_description, inquiry_answer, record_status, 
       record_type, caution, create_user, 
@@ -47,7 +47,7 @@
       #{deleteUser,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.prostate.assessmen.entity.InquiryRecord">
+  <insert id="insertSelective" parameterType="com.sicmed.assessmen.entity.InquiryRecord">
     <selectKey keyProperty="id" resultType="java.lang.String"
                order="BEFORE">
       select replace(uuid(),'-','') from dual
@@ -148,7 +148,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.assessmen.entity.InquiryRecord">
+  <update id="updateByPrimaryKeySelective" parameterType="com.sicmed.assessmen.entity.InquiryRecord">
     update inquiry_record
     <set>
       <if test="patient != null">
@@ -196,7 +196,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.prostate.assessmen.entity.InquiryRecord">
+  <update id="updateByPrimaryKey" parameterType="com.sicmed.assessmen.entity.InquiryRecord">
     update inquiry_record
     set patient = #{patient,jdbcType=VARCHAR},
       patient_archive = #{patientArchive,jdbcType=VARCHAR},

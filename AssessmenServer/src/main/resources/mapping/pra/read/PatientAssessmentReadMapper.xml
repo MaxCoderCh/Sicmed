@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.assessmen.mapper.pra.read.PatientAssessmentReadMapper">
+<mapper namespace="com.sicmed.assessmen.mapper.pra.read.PatientAssessmentReadMapper">
     <!-- 根据ID查询一条记录中的 所有评估结果 -->
-    <resultMap id="PatientAssessmentResultMap" type="com.prostate.assessmen.entity.PatientAssessment">
+    <resultMap id="PatientAssessmentResultMap" type="com.sicmed.assessmen.entity.PatientAssessment">
         <id column="ppncsId" jdbcType="VARCHAR" property="id"/>
         <result column="nihCpsiScore" jdbcType="VARCHAR" property="nihCpsiScore"/>
         <result column="ipssScore" jdbcType="VARCHAR" property="ipssScore"/>
         <result column="pssScaleScore" jdbcType="VARCHAR" property="scaleScore"/>
         <result column="createTime" jdbcType="TIMESTAMP" property="createTime"/>
-        <association property="patientNihNpsiScore" javaType="com.prostate.assessmen.entity.PatientNihCpsiScore">
+        <association property="patientNihNpsiScore" javaType="com.sicmed.assessmen.entity.PatientNihCpsiScore">
             <id column="ppncsId" jdbcType="VARCHAR" property="id"/>
             <result column="ppncsInflammationScore" jdbcType="VARCHAR" property="inflammationScore"/>
             <result column="ppncsSymptomScore" jdbcType="VARCHAR" property="symptomScore"/>
             <result column="ppncsLifeScore" jdbcType="VARCHAR" property="lifeScore"/>
             <result column="ppncsAnswer" jdbcType="VARCHAR" property="answer"/>
         </association>
-        <association property="patientIpssScore" javaType="com.prostate.assessmen.entity.PatientIpssScore">
+        <association property="patientIpssScore" javaType="com.sicmed.assessmen.entity.PatientIpssScore">
             <id column="ppisId" jdbcType="VARCHAR" property="id"/>
             <result column="ppisSymptomScore" jdbcType="VARCHAR" property="symptomScore"/>
             <result column="ppisLifeScore" jdbcType="VARCHAR" property="lifeScore"/>
             <result column="ppisAnswer" jdbcType="VARCHAR" property="answer"/>
         </association>
-        <association property="patientScaleScore" javaType="com.prostate.assessmen.entity.PatientScaleScore">
+        <association property="patientScaleScore" javaType="com.sicmed.assessmen.entity.PatientScaleScore">
             <id column="pssId" jdbcType="VARCHAR" property="id"/>
             <result column="pssInflammationScore" jdbcType="VARCHAR" property="inflammationScore"/>
             <result column="pssSymptomScore" jdbcType="VARCHAR" property="symptomScore"/>
@@ -56,7 +56,7 @@
         LEFT JOIN pra_patient_ipss_score ppis ON ppis.id = ppncs.id
         LEFT JOIN pra_scale_score pss ON pss.id = ppncs.id
     </sql>
-    <select id="selectById" parameterType="com.prostate.assessmen.entity.PatientAssessment" resultMap="PatientAssessmentResultMap">
+    <select id="selectById" parameterType="com.sicmed.assessmen.entity.PatientAssessment" resultMap="PatientAssessmentResultMap">
         select
         <include refid="PatientAssessment_Column_List"/>
         from pra_patient_nih_cpsi_score ppncs
@@ -66,7 +66,7 @@
 
 
     <!--根据患者查询 所有评估结果列表-->
-    <resultMap id="PatientAssessmentListResultMap" type="com.prostate.assessmen.entity.PatientAssessment">
+    <resultMap id="PatientAssessmentListResultMap" type="com.sicmed.assessmen.entity.PatientAssessment">
         <id column="ppncsId" jdbcType="VARCHAR" property="id"/>
         <result column="nihCpsiScore" jdbcType="VARCHAR" property="totalScore"/>
         <result column="ppisCaution" jdbcType="VARCHAR" property="caution"/>
@@ -85,7 +85,7 @@
     <sql id="IpssList_Left_Join">
         LEFT JOIN pra_scale_score pss ON pss.id = ppis.id
     </sql>
-    <select id="selectByPatientId" parameterType="com.prostate.assessmen.entity.PatientAssessment" resultMap="PatientAssessmentListResultMap">
+    <select id="selectByPatientId" parameterType="com.sicmed.assessmen.entity.PatientAssessment" resultMap="PatientAssessmentListResultMap">
         SELECT
         <include refid="NihCpsiList_Column_List"/>
         FROM pra_patient_nih_cpsi_score ppncs
@@ -105,7 +105,7 @@
         ORDER BY createTime DESC
     </select>
 
-    <select id="selectLastByPatientId" parameterType="com.prostate.assessmen.entity.PatientAssessment" resultMap="PatientAssessmentListResultMap">
+    <select id="selectLastByPatientId" parameterType="com.sicmed.assessmen.entity.PatientAssessment" resultMap="PatientAssessmentListResultMap">
         SELECT
         <include refid="NihCpsiList_Column_List"/>
         FROM pra_patient_nih_cpsi_score ppncs
