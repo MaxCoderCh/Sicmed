@@ -1,11 +1,25 @@
 package com.sicmed.assessmen.controller;
 
 
+import com.sicmed.assessmen.feignService.OrderServer;
+import com.sicmed.assessmen.feignService.RecordServer;
+import com.sicmed.assessmen.feignService.WalletServer;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.LinkedHashMap;
 
 public class BaseController {
 
     public LinkedHashMap<String, Object> resultMap;
+
+    @Autowired
+    protected OrderServer orderServer;
+
+    @Autowired
+    protected RecordServer recordServer;
+
+    @Autowired
+    protected WalletServer walletServer;
 
     /**
      * 参数为空返回值
