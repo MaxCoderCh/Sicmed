@@ -2,6 +2,7 @@ package com.prostate.record.service;
 
 import com.prostate.record.beans.PatientAnamnesisBean;
 import com.prostate.record.beans.PatientBean;
+import com.prostate.record.beans.WeChatPatientBean;
 import com.prostate.record.entity.Patient;
 import org.springframework.stereotype.Service;
 
@@ -29,4 +30,5 @@ public interface PatientService extends BaseService<Patient> {
     int insertSelectiveById(Patient patient);
 
 
+    List<WeChatPatientBean> getPatientListByIds(String[] patientIds);
 }

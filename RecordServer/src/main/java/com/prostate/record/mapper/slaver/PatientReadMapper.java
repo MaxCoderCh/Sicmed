@@ -2,6 +2,7 @@ package com.prostate.record.mapper.slaver;
 
 import com.prostate.record.beans.PatientAnamnesisBean;
 import com.prostate.record.beans.PatientBean;
+import com.prostate.record.beans.WeChatPatientBean;
 import com.prostate.record.entity.Patient;
 
 import java.util.List;
@@ -20,4 +21,5 @@ public interface PatientReadMapper extends BaseReadMapper<Patient> {
 
     PatientAnamnesisBean selectPatientInfoById(String id);
 
+    List<WeChatPatientBean> getPatientListByIds(String[] patientIds);
 }

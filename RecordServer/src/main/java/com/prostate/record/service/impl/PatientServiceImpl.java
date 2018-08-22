@@ -2,6 +2,7 @@ package com.prostate.record.service.impl;
 
 import com.prostate.record.beans.PatientAnamnesisBean;
 import com.prostate.record.beans.PatientBean;
+import com.prostate.record.beans.WeChatPatientBean;
 import com.prostate.record.entity.Patient;
 import com.prostate.record.mapper.slaver.PatientReadMapper;
 import com.prostate.record.mapper.master.PatientWriteMapper;
@@ -77,6 +78,11 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public int insertSelectiveById(Patient patient) {
         return patientWriteMapper.insertSelectiveById(patient);
+    }
+
+    @Override
+    public List<WeChatPatientBean> getPatientListByIds(String[] patientIds) {
+        return patientReadMapper.getPatientListByIds(patientIds);
     }
 
 }

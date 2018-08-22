@@ -54,6 +54,22 @@
         </where>
     </select>
 
+    <resultMap id="WeChatPatientBeanResultMap" type="com.prostate.record.entity.Patient">
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="patient_name" jdbcType="VARCHAR" property="patientName"/>
+        <result column="patient_age" jdbcType="VARCHAR" property="patientAge"/>
+        <result column="patient_sex" jdbcType="CHAR" property="patientSex"/>
+    </resultMap>
+    <select id="getPatientListByIds"  resultMap="WeChatPatientBeanResultMap">
+        select
+        id,patient_name,patient_age,patient_sex
+        from pomr_patient
+        where id in
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
     <!--分页查询 患者信息-->
     <resultMap id="PatientListResultMap" type="com.prostate.record.beans.PatientBean">
         <result column="id" jdbcType="VARCHAR" property="id"/>

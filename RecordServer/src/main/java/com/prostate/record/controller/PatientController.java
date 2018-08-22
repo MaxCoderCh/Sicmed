@@ -1,6 +1,7 @@
 package com.prostate.record.controller;
 
 import com.prostate.record.beans.PatientBean;
+import com.prostate.record.beans.WeChatPatientBean;
 import com.prostate.record.entity.Doctor;
 import com.prostate.record.entity.Patient;
 import com.prostate.record.entity.WechatUser;
@@ -10,10 +11,7 @@ import com.prostate.record.validator.phoneValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.LinkedHashMap;
@@ -156,6 +154,20 @@ public class PatientController extends BaseController {
         return queryEmptyResponse();
     }
 
+
+    /**
+     * Order Server 查询 患者列表
+     */
+    @PostMapping(value = "getPatientListByIds")
+    public Map getPatientListByIds(String[] patientIds) {
+
+        List<WeChatPatientBean> weChatPatientBeanList = patientService.getPatientListByIds(patientIds);
+
+        if (weChatPatientBeanList == null || weChatPatientBeanList.isEmpty()) {
+            return queryEmptyResponse();
+        }
+        return querySuccessResponse(weChatPatientBeanList);
+    }
 /*****************************************微信端 接口 **************************************************/
     /**
      * 根据微信token查询患者基本信息
