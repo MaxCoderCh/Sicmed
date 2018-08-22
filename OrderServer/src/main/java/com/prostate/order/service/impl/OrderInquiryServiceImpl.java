@@ -24,7 +24,7 @@ public class OrderInquiryServiceImpl implements OrderInquiryService {
 
     @Override
     public int updateSelective(OrderInquiry orderInquiry) {
-        return 0;
+        return orderInquiryWriteMapper.updateSelective(orderInquiry);
     }
 
     @Override

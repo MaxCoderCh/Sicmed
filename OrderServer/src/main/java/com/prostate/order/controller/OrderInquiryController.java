@@ -345,7 +345,7 @@ public class OrderInquiryController extends BaseController {
     }
 
     /**
-     * APP  转诊订单 列表
+     * APP  转诊订单
      *
      * @return
      */

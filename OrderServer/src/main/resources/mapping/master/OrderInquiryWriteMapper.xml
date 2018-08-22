@@ -131,7 +131,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.order.entity.OrderInquiry">
+  <update id="updateSelective" parameterType="com.prostate.order.entity.OrderInquiry">
     update order_inquiry
     <set>
       <if test="orderType != null">
