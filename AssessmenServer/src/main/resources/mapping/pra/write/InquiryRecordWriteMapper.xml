@@ -107,7 +107,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sicmed.assessmen.entity.InquiryRecord">
+  <update id="updateSelective" parameterType="com.sicmed.assessmen.entity.InquiryRecord">
     update inquiry_record
     <set>
       <if test="patient != null">

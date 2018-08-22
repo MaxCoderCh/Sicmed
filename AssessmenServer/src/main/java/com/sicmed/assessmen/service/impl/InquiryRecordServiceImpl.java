@@ -25,7 +25,7 @@ public class InquiryRecordServiceImpl implements InquiryRecordService {
 
     @Override
     public int updateSelective(InquiryRecord inquiryRecord) {
-        return inquiryRecordWriteMapper.insertSelective(inquiryRecord);
+        return inquiryRecordWriteMapper.updateSelective(inquiryRecord);
     }
 
     @Override
