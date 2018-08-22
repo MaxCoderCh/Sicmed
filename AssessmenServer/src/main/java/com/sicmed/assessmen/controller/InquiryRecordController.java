@@ -3,6 +3,8 @@ package com.sicmed.assessmen.controller;
 import com.sicmed.assessmen.entity.InquiryRecord;
 import com.sicmed.assessmen.entity.InquiryRecordConstants;
 import com.sicmed.assessmen.feignService.OrderServer;
+import com.sicmed.assessmen.feignService.RecordServer;
+import com.sicmed.assessmen.feignService.WalletServer;
 import com.sicmed.assessmen.service.InquiryRecordService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,6 @@ public class InquiryRecordController extends BaseController {
     @Autowired
     private InquiryRecordService inquiryRecordService;
 
-    @Autowired
-    private OrderServer orderServer;
-
     /**
      * 添加草稿
      *
@@ -34,29 +33,22 @@ public class InquiryRecordController extends BaseController {
      */
     @PostMapping(value = "addDraft")
     public Map addDraft(String inquiryRecordId, String patientId, String patientArchive, String inquiryDescription, String inquiryAnswer) {
-        if (StringUtils.isBlank(inquiryRecordId)) {
-            InquiryRecord inquiryRecord = new InquiryRecord();
-            inquiryRecord.setPatient(patientId);
-            inquiryRecord.setPatientArchive(patientArchive);
-            inquiryRecord.setInquiryDescription(inquiryDescription);
-            inquiryRecord.setInquiryAnswer(inquiryAnswer);
-            inquiryRecord.setRecordType(InquiryRecordConstants.DRAFT_TYPE);
-            inquiryRecord.setRecordStatus(InquiryRecordConstants.DRAFT_STATUS);
-            int i = inquiryRecordService.insertSelective(inquiryRecord);
-            if (i > 0) {
-                return insertSuccseeResponse(inquiryRecord.getId());
-            }
-            return insertFailedResponse();
-        }
+
         InquiryRecord inquiryRecord = new InquiryRecord();
-        inquiryRecord.setId(inquiryRecordId);
         inquiryRecord.setPatient(patientId);
         inquiryRecord.setPatientArchive(patientArchive);
         inquiryRecord.setInquiryDescription(inquiryDescription);
         inquiryRecord.setInquiryAnswer(inquiryAnswer);
         inquiryRecord.setRecordType(InquiryRecordConstants.DRAFT_TYPE);
         inquiryRecord.setRecordStatus(InquiryRecordConstants.DRAFT_STATUS);
-        int i = inquiryRecordService.updateSelective(inquiryRecord);
+
+        int i;
+        if (StringUtils.isBlank(inquiryRecordId)) {
+            i = inquiryRecordService.insertSelective(inquiryRecord);
+        } else {
+            inquiryRecord.setId(inquiryRecordId);
+            i = inquiryRecordService.updateSelective(inquiryRecord);
+        }
         if (i > 0) {
             return insertSuccseeResponse(inquiryRecord.getId());
         }
@@ -73,33 +65,32 @@ public class InquiryRecordController extends BaseController {
      * @return
      */
     @PostMapping(value = "addFinal")
-    public Map addFinal(String inquiryRecordId,String patientId, String patientArchive, String inquiryDescription, String inquiryAnswer,String orderId) {
-        if (StringUtils.isBlank(inquiryRecordId)){
-            InquiryRecord inquiryRecord = new InquiryRecord();
-            inquiryRecord.setPatient(patientId);
-            inquiryRecord.setPatientArchive(patientArchive);
-            inquiryRecord.setInquiryDescription(inquiryDescription);
-            inquiryRecord.setInquiryAnswer(inquiryAnswer);
-            inquiryRecord.setRecordType(InquiryRecordConstants.FINAL_TYPE);
-            inquiryRecord.setRecordStatus(InquiryRecordConstants.FINAL_STATUS);
-            int i = inquiryRecordService.insertSelective(inquiryRecord);
-            if (i > 0) {
-                orderServer.orderDoneSuccess(orderId);
-                return insertSuccseeResponse();
-            }
-            return insertFailedResponse();
-        }
+    public Map addFinal(String inquiryRecordId, String patientId, String patientArchive, String inquiryDescription, String inquiryAnswer, String orderId) {
+
         InquiryRecord inquiryRecord = new InquiryRecord();
-        inquiryRecord.setId(inquiryRecordId);
+
         inquiryRecord.setPatient(patientId);
         inquiryRecord.setPatientArchive(patientArchive);
         inquiryRecord.setInquiryDescription(inquiryDescription);
         inquiryRecord.setInquiryAnswer(inquiryAnswer);
         inquiryRecord.setRecordType(InquiryRecordConstants.FINAL_TYPE);
         inquiryRecord.setRecordStatus(InquiryRecordConstants.FINAL_STATUS);
-        int i = inquiryRecordService.updateSelective(inquiryRecord);
+
+        int i;
+        if (StringUtils.isBlank(inquiryRecordId)) {
+            i = inquiryRecordService.insertSelective(inquiryRecord);
+        } else {
+            inquiryRecord.setId(inquiryRecordId);
+            i = inquiryRecordService.updateSelective(inquiryRecord);
+        }
         if (i > 0) {
+            //调用订单服务 修改 订单状态
             orderServer.orderDoneSuccess(orderId);
+            //调用钱包服务 订单收益 存入医生零钱
+            walletServer.addOrderIncome(orderId);
+            //调用档案服务 建立医生 患者关系
+            recordServer.addUserPatient(orderId);
+
             return insertSuccseeResponse();
         }
         return insertFailedResponse();
