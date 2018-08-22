@@ -23,7 +23,6 @@ public class OrderInquiry extends BaseEntity implements Serializable{
 
     private String doctor;
 
-    @JsonIgnore
     private String goods;
 
     @JsonIgnore

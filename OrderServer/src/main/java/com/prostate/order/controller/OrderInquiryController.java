@@ -78,18 +78,9 @@ public class OrderInquiryController extends BaseController {
         return querySuccessResponse(orderInquiry);
     }
 
-    /**
-     * 3.查询订单
-     */
-    @PostMapping(value = "paymentSuccess")
-    public Map paymentSuccess() {
-
-
-        return null;
-    }
 
     /**
-     * 查询待支付订单 列表
+     * 公众号 查询 待支付订单 列表
      *
      * @return
      */
@@ -101,14 +92,14 @@ public class OrderInquiryController extends BaseController {
 
         List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
         if (orderInquiryList != null && orderInquiryList.size() > 0) {
-            return querySuccessResponse(orderBeanBuilder(orderInquiryList));
+            return querySuccessResponse(orderBeanBuilderForWeChat(orderInquiryList));
         }
         return queryEmptyResponse();
 
     }
 
     /**
-     * 查询  进行中 订单 列表
+     * 公众号 查询  进行中订单 列表
      *
      * @return
      */
@@ -120,20 +111,55 @@ public class OrderInquiryController extends BaseController {
 
         List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
         if (orderInquiryList != null && orderInquiryList.size() > 0) {
-            return querySuccessResponse(orderBeanBuilder(orderInquiryList));
+            return querySuccessResponse(orderBeanBuilderForWeChat(orderInquiryList));
         }
         return queryEmptyResponse();
     }
 
 
+    /**
+     * 公众号 修改 订单
+     *
+     * @param orderId
+     * @param doctorId
+     * @param patientId
+     * @param goodsId
+     * @param orderDescription
+     * @param patientArchive
+     * @param orderPrice
+     * @return
+     */
     @PostMapping(value = "updateOrder")
-    public Map updateOrder(String orderId, String orderDescription, String patientArchive) {
+    public Map updateOrder(String orderId, String doctorId, String patientId, String goodsId, String orderDescription, String patientArchive, String orderPrice) {
 
-        return null;
+        orderInquiryService.falseDeleteById(orderId);
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(doctorId);
+        orderInquiry.setPatient(patientId);
+        orderInquiry.setBuyer(getToken());
+        orderInquiry.setSeller(doctorId);
+        orderInquiry.setGoods(goodsId);
+        orderInquiry.setCreateUser(getToken());
+        orderInquiry.setOrderType(OrderConstants.PICTURE_INQUIRY_TYPE);
+        orderInquiry.setOrderStatus(OrderConstants.TO_BE_PAYMENT);
+        orderInquiry.setOrderDescription(orderDescription);
+        orderInquiry.setPatientArchive(patientArchive);
+        orderInquiry.setOrderNumber("ORDER_NUMBER");
+        orderInquiry.setOrderPrice(orderPrice);
+
+        //调用insert 服务 向数据库插入数据
+        int result = orderInquiryService.insertSelective(orderInquiry);
+        //数据插入结果 校验
+        if (result > 0) {
+            return updateSuccseeResponse(orderInquiry.getId());
+        }
+        return updateFailedResponse();
     }
 
     /**
-     * 删除订单
+     * 公众号 删除订单
      */
     @PostMapping(value = "removeOrder")
     public Map updateOrder(String orderId) {
@@ -146,7 +172,7 @@ public class OrderInquiryController extends BaseController {
     }
 
     /**
-     * 查询 已完成 订单 列表
+     * 公众号 查询 已完成 订单 列表
      *
      * @return
      */
@@ -160,12 +186,195 @@ public class OrderInquiryController extends BaseController {
         List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
 
         if (orderInquiryList != null && orderInquiryList.size() > 0) {
-            return querySuccessResponse(orderBeanBuilder(orderInquiryList));
+            return querySuccessResponse(orderBeanBuilderForWeChat(orderInquiryList));
         }
         return queryEmptyResponse();
     }
 
-    private List<OrderInquiryBean> orderBeanBuilder(List<OrderInquiry> orderInquiryList) {
+    /**
+     * APP 查询 待接受 订单 列表
+     *
+     * @return
+     */
+    @GetMapping(value = "getAcceptedOrderList")
+    public Map getAcceptedOrderList() {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(getToken());
+        orderInquiry.setOrderStatus(OrderConstants.TO_BE_ACCEPTED);
+        orderInquiry.setOrderType(OrderConstants.PICTURE_INQUIRY_TYPE);
+
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+
+        if (orderInquiryList != null && orderInquiryList.size() > 0) {
+            return querySuccessResponse(orderBeanBuilderForApp(orderInquiryList));
+        }
+        return queryEmptyResponse();
+    }
+
+    /**
+     * APP 查询 待回复 订单 列表
+     *
+     * @return
+     */
+    @GetMapping(value = "getAnsweredOrderList")
+    public Map getAnsweredOrderList() {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(getToken());
+        orderInquiry.setOrderStatus(OrderConstants.TO_BE_ANSWERED);
+        orderInquiry.setOrderType(OrderConstants.PICTURE_INQUIRY_TYPE);
+
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+
+        if (orderInquiryList != null && orderInquiryList.size() > 0) {
+            return querySuccessResponse(orderBeanBuilderForApp(orderInquiryList));
+        }
+        return queryEmptyResponse();
+    }
+
+    /**
+     * APP 查询 已完成 订单 列表
+     *
+     * @return
+     */
+    @GetMapping(value = "getIsDoneOrderList")
+    public Map getIsDoneOrderList() {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(getToken());
+        orderInquiry.setOrderStatus(OrderConstants.IS_DONE);
+        orderInquiry.setOrderType(OrderConstants.PICTURE_INQUIRY_TYPE);
+
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+
+        if (orderInquiryList != null && orderInquiryList.size() > 0) {
+            return querySuccessResponse(orderBeanBuilderForApp(orderInquiryList));
+        }
+        return queryEmptyResponse();
+    }
+
+    /**
+     * APP 查询 被拒绝 订单 列表
+     *
+     * @return
+     */
+    @GetMapping(value = "getBeRejectedOrderList")
+    public Map getBeRejectedOrderList() {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(getToken());
+        orderInquiry.setOrderStatus(OrderConstants.BE_REJECTED);
+        orderInquiry.setOrderType(OrderConstants.PICTURE_INQUIRY_TYPE);
+
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+
+        if (orderInquiryList != null && orderInquiryList.size() > 0) {
+            return querySuccessResponse(orderBeanBuilderForApp(orderInquiryList));
+        }
+        return queryEmptyResponse();
+    }
+
+    /**
+     * APP 查询 全部 问诊订单 列表
+     *
+     * @return
+     */
+    @GetMapping(value = "getAllOrderList")
+    public Map getAllOrderList() {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(getToken());
+        orderInquiry.setOrderType(OrderConstants.PICTURE_INQUIRY_TYPE);
+
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+
+        if (orderInquiryList != null && orderInquiryList.size() > 0) {
+            return querySuccessResponse(orderBeanBuilderForApp(orderInquiryList));
+        }
+        return queryEmptyResponse();
+    }
+
+
+    /**
+     * APP 接受 问诊订单
+     *
+     * @return
+     */
+    @PostMapping(value = "acceptedOrder")
+    public Map acceptedOrder(String orderId) {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setId(orderId);
+        orderInquiry.setOrderStatus(OrderConstants.TO_BE_ANSWERED);
+        orderInquiry.setDoctor(getToken());
+
+        int i = orderInquiryService.updateSelective(orderInquiry);
+
+        if (i > 0) {
+            return updateSuccseeResponse();
+        }
+        return updateFailedResponse();
+    }
+
+    /**
+     * APP 拒绝 问诊订单
+     *
+     * @return
+     */
+    @PostMapping(value = "rejectedOrder")
+    public Map rejectedOrder(String orderId) {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+        orderInquiry.setId(orderId);
+        orderInquiry.setOrderStatus(OrderConstants.BE_REJECTED);
+        orderInquiry.setDoctor(getToken());
+
+        int i = orderInquiryService.updateSelective(orderInquiry);
+
+        if (i > 0) {
+            return updateSuccseeResponse();
+        }
+        return updateFailedResponse();
+    }
+
+    /**
+     * APP  转诊订单 列表
+     *
+     * @return
+     */
+    @PostMapping(value = "turnOrder")
+    public Map turnOrder(String orderId, String doctorId) {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+        orderInquiry.setId(orderId);
+        orderInquiry.setOrderStatus(OrderConstants.TO_BE_ACCEPTED);
+        orderInquiry.setDoctor(doctorId);
+        orderInquiry.setSeller(doctorId);
+        orderInquiry.setOrderType(OrderConstants.PICTURE_TURN_TYPE);
+
+        int i = orderInquiryService.updateSelective(orderInquiry);
+
+        if (i > 0) {
+            return updateSuccseeResponse();
+        }
+        return updateFailedResponse();
+    }
+
+    /**
+     * 公众号 订单列表 数据 构建
+     *
+     * @param orderInquiryList
+     * @return
+     */
+
+    private List<OrderInquiryBean> orderBeanBuilderForWeChat(List<OrderInquiry> orderInquiryList) {
 
         List<OrderInquiryBean> orderInquiryBeanList = new ArrayList<>();
         for (OrderInquiry inquiry : orderInquiryList) {
@@ -191,4 +400,45 @@ public class OrderInquiryController extends BaseController {
         return orderInquiryBeanList;
     }
 
+    /**
+     * APP 订单列表 数据 构建
+     *
+     * @param orderInquiryList
+     * @return
+     */
+
+    private List<OrderInquiryBean> orderBeanBuilderForApp(List<OrderInquiry> orderInquiryList) {
+
+        List<OrderInquiryBean> orderInquiryBeanList = new ArrayList<>();
+        StringBuilder patientIds = new StringBuilder();
+        int i = 0;
+        for (OrderInquiry inquiry : orderInquiryList) {
+
+            OrderInquiryBean orderInquiryBean = new OrderInquiryBean();
+            orderInquiryBean.setId(inquiry.getId());
+            orderInquiryBean.setOrderStatus(inquiry.getOrderStatus());
+            orderInquiryBean.setOrderDescription(inquiry.getOrderDescription());
+            orderInquiryBean.setPatientId(inquiry.getPatient());
+            orderInquiryBean.setCreateTime(inquiry.getCreateTime());
+            orderInquiryBean.setOrderPrice(inquiry.getOrderPrice());
+
+            orderInquiryBeanList.add(orderInquiryBean);
+            if (i != 0) {
+                patientIds.append(",");
+            }
+            patientIds.append(inquiry.getPatient());
+            i++;
+        }
+        Map<String, Object> patientResult = recordServer.getPatientListByIds(patientIds.toString());
+        for (OrderInquiryBean orderInquiryBean : orderInquiryBeanList) {
+            List<LinkedHashMap<String, String>> weChatPatientBeanList = (List<LinkedHashMap<String, String>>) patientResult.get("result");
+            for (LinkedHashMap<String, String> patientLinkedHashMap : weChatPatientBeanList) {
+                if (patientLinkedHashMap.get("id").equals(orderInquiryBean.getPatientId())) {
+                    orderInquiryBean.setPatientSex(patientLinkedHashMap.get("patientSex"));
+                    orderInquiryBean.setPatientAge(patientLinkedHashMap.get("patientAge"));
+                }
+            }
+        }
+        return orderInquiryBeanList;
+    }
 }

@@ -149,4 +149,12 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <update id="falseDeleteById" parameterType="java.lang.String">
+    update order_inquiry
+    <set>
+      del_flag = 1,
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
 </mapper>
