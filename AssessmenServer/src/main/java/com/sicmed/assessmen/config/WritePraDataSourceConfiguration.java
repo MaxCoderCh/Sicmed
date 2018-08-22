@@ -14,11 +14,8 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
-
-/**
- */
 @Configuration
-@MapperScan(basePackages = "com.prostate.assessmen.mapper.pra.write", sqlSessionTemplateRef  = "writePraSqlSessionTemplate")
+@MapperScan(basePackages = "com.sicmed.assessmen.mapper.pra.write", sqlSessionTemplateRef  = "writePraSqlSessionTemplate")
 public class WritePraDataSourceConfiguration {
 
     @Value("${spring.datasource.writePra.driver-class-name}")

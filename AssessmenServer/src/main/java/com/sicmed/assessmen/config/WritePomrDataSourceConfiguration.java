@@ -19,7 +19,7 @@ import javax.sql.DataSource;
  * 写操作 数据源
  */
 @Configuration
-@MapperScan(basePackages = "com.prostate.assessmen.mapper.pomr.write", sqlSessionTemplateRef  = "writePomrSqlSessionTemplate")
+@MapperScan(basePackages = "com.sicmed.assessmen.mapper.pomr.write", sqlSessionTemplateRef  = "writePomrSqlSessionTemplate")
 public class WritePomrDataSourceConfiguration {
 
     @Value("${spring.datasource.writePomr.driver-class-name}")

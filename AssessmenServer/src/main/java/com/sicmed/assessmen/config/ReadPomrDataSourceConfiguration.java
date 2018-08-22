@@ -19,7 +19,7 @@ import javax.sql.DataSource;
  * 读操作数据源
  */
 @Configuration
-@MapperScan(basePackages = "com.prostate.assessmen.mapper.pomr.read", sqlSessionTemplateRef  = "readPomrSqlSessionTemplate")
+@MapperScan(basePackages = "com.sicmed.assessmen.mapper.pomr.read", sqlSessionTemplateRef  = "readPomrSqlSessionTemplate")
 public class ReadPomrDataSourceConfiguration {
 
     @Value("${spring.datasource.readPomr.driver-class-name}")

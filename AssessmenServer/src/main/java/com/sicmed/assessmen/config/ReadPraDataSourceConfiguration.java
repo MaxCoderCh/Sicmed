@@ -14,11 +14,9 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
-/**
- * 读操作数据源
- */
+
 @Configuration
-@MapperScan(basePackages = "com.prostate.assessmen.mapper.pra.read", sqlSessionTemplateRef  = "readPraSqlSessionTemplate")
+@MapperScan(basePackages = "com.sicmed.assessmen.mapper.pra.read", sqlSessionTemplateRef  = "readPraSqlSessionTemplate")
 public class ReadPraDataSourceConfiguration {
 
     @Value("${spring.datasource.readPra.driver-class-name}")
