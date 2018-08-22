@@ -2,6 +2,7 @@ package com.sicmed.assessmen.controller;
 
 import com.sicmed.assessmen.entity.InquiryRecord;
 import com.sicmed.assessmen.entity.InquiryRecordConstants;
+import com.sicmed.assessmen.feignService.OrderServer;
 import com.sicmed.assessmen.service.InquiryRecordService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class InquiryRecordController extends BaseController {
     @Autowired
     private InquiryRecordService inquiryRecordService;
 
+    @Autowired
+    private OrderServer orderServer;
 
     /**
      * 添加草稿
@@ -54,15 +57,31 @@ public class InquiryRecordController extends BaseController {
      * @return
      */
     @PostMapping(value = "addFinal")
-    public Map addFinal(String patientId, String patientArchive, String inquiryDescription, String inquiryAnswer) {
+    public Map addFinal(String inquiryRecordId,String patientId, String patientArchive, String inquiryDescription, String inquiryAnswer,String orderId) {
+        if (StringUtils.isBlank(inquiryRecordId)){
+            InquiryRecord inquiryRecord = new InquiryRecord();
+            inquiryRecord.setPatient(patientId);
+            inquiryRecord.setPatientArchive(patientArchive);
+            inquiryRecord.setInquiryDescription(inquiryDescription);
+            inquiryRecord.setInquiryAnswer(inquiryAnswer);
+            inquiryRecord.setRecordType(InquiryRecordConstants.FINAL_TYPE);
+            int i = inquiryRecordService.insertSelective(inquiryRecord);
+            if (i > 0) {
+                orderServer.orderDoneSuccess(orderId);
+                return insertSuccseeResponse();
+            }
+            return insertFailedResponse();
+        }
         InquiryRecord inquiryRecord = new InquiryRecord();
+        inquiryRecord.setId(inquiryRecordId);
         inquiryRecord.setPatient(patientId);
         inquiryRecord.setPatientArchive(patientArchive);
         inquiryRecord.setInquiryDescription(inquiryDescription);
         inquiryRecord.setInquiryAnswer(inquiryAnswer);
         inquiryRecord.setRecordType(InquiryRecordConstants.FINAL_TYPE);
-        int i = inquiryRecordService.insertSelective(inquiryRecord);
+        int i = inquiryRecordService.updateSelective(inquiryRecord);
         if (i > 0) {
+            orderServer.orderDoneSuccess(orderId);
             return insertSuccseeResponse();
         }
         return insertFailedResponse();
@@ -87,4 +106,6 @@ public class InquiryRecordController extends BaseController {
         }
         return querySuccessResponse(inquiryRecord);
     }
+
+
 }

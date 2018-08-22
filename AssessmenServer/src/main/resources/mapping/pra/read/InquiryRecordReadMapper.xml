@@ -31,7 +31,7 @@
     </select>
     <select id="selectByArchive" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        id,inquiry_answer
+        id,inquiry_answer,record_status
         from inquiry_record
         where patient_archive = #{archive}
     </select>
