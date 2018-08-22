@@ -80,4 +80,9 @@ public class UserPatientServiceImpl implements UserPatientService {
         return userPatientReadMapper.getByPatientIdAndToken(userPatient);
     }
 
+    @Override
+    public int selectCountByParams(UserPatient userPatient) {
+        return userPatientReadMapper.selectCountByParams(userPatient);
+    }
+
 }

@@ -17,4 +17,6 @@ public interface UserPatientService extends BaseService<UserPatient> {
     int updateByParams(UserPatient userPatient);
 
     UserPatient getByPatientIdAndToken(UserPatient userPatient);
+
+    int selectCountByParams(UserPatient userPatient);
 }

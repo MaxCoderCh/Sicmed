@@ -2,6 +2,7 @@ package com.prostate.record.controller;
 
 import com.prostate.record.beans.WeChatPatientBean;
 import com.prostate.record.entity.UserPatient;
+import com.prostate.record.feignService.OrderServer;
 import com.prostate.record.service.PatientService;
 import com.prostate.record.service.UserPatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class UserPatientController extends BaseController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private OrderServer orderServer;
     /**
      * 添加医生 患者 关系
      *
@@ -126,7 +130,38 @@ public class UserPatientController extends BaseController {
     }
 
 
+    /**
+     * 订单完成 添加 医生 患者 关系
+     */
+    @PostMapping(value = "addUserPatient")
+    public String addUserPatient(String orderId) {
 
+        //查询订单 信息
+        Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
+        Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
+        //插入对象 赋值
+        UserPatient userPatient = new UserPatient();
+
+        userPatient.setUserId(orderMap.get("doctor").toString());
+        userPatient.setPatientId(orderMap.get("patient").toString());
+        String orderType = orderMap.get("orderType").toString();
+        if ("".equals(orderType)) {
+            userPatient.setPatientSource("问诊");
+        } else {
+            userPatient.setPatientSource("转诊");
+        }
+        //重复记录校验
+        int i = userPatientService.selectCountByParams(userPatient);
+        if (i > 0) {
+            return "ERROR";
+        }
+        //添加记录
+        i = userPatientService.insertSelective(userPatient);
+        if (i > 0) {
+            return "SUCCESS";
+        }
+        return "ERROR";
+    }
 
 
 }

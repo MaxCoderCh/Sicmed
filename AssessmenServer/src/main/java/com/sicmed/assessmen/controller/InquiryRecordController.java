@@ -33,16 +33,32 @@ public class InquiryRecordController extends BaseController {
      * @return
      */
     @PostMapping(value = "addDraft")
-    public Map addDraft(String patientId, String patientArchive, String inquiryDescription, String inquiryAnswer) {
+    public Map addDraft(String inquiryRecordId, String patientId, String patientArchive, String inquiryDescription, String inquiryAnswer) {
+        if (StringUtils.isBlank(inquiryRecordId)) {
+            InquiryRecord inquiryRecord = new InquiryRecord();
+            inquiryRecord.setPatient(patientId);
+            inquiryRecord.setPatientArchive(patientArchive);
+            inquiryRecord.setInquiryDescription(inquiryDescription);
+            inquiryRecord.setInquiryAnswer(inquiryAnswer);
+            inquiryRecord.setRecordType(InquiryRecordConstants.DRAFT_TYPE);
+            inquiryRecord.setRecordStatus(InquiryRecordConstants.DRAFT_STATUS);
+            int i = inquiryRecordService.insertSelective(inquiryRecord);
+            if (i > 0) {
+                return insertSuccseeResponse(inquiryRecord.getId());
+            }
+            return insertFailedResponse();
+        }
         InquiryRecord inquiryRecord = new InquiryRecord();
+        inquiryRecord.setId(inquiryRecordId);
         inquiryRecord.setPatient(patientId);
         inquiryRecord.setPatientArchive(patientArchive);
         inquiryRecord.setInquiryDescription(inquiryDescription);
         inquiryRecord.setInquiryAnswer(inquiryAnswer);
         inquiryRecord.setRecordType(InquiryRecordConstants.DRAFT_TYPE);
-        int i = inquiryRecordService.insertSelective(inquiryRecord);
+        inquiryRecord.setRecordStatus(InquiryRecordConstants.DRAFT_STATUS);
+        int i = inquiryRecordService.updateSelective(inquiryRecord);
         if (i > 0) {
-            return insertSuccseeResponse();
+            return insertSuccseeResponse(inquiryRecord.getId());
         }
         return insertFailedResponse();
     }
@@ -65,6 +81,7 @@ public class InquiryRecordController extends BaseController {
             inquiryRecord.setInquiryDescription(inquiryDescription);
             inquiryRecord.setInquiryAnswer(inquiryAnswer);
             inquiryRecord.setRecordType(InquiryRecordConstants.FINAL_TYPE);
+            inquiryRecord.setRecordStatus(InquiryRecordConstants.FINAL_STATUS);
             int i = inquiryRecordService.insertSelective(inquiryRecord);
             if (i > 0) {
                 orderServer.orderDoneSuccess(orderId);
@@ -79,6 +96,7 @@ public class InquiryRecordController extends BaseController {
         inquiryRecord.setInquiryDescription(inquiryDescription);
         inquiryRecord.setInquiryAnswer(inquiryAnswer);
         inquiryRecord.setRecordType(InquiryRecordConstants.FINAL_TYPE);
+        inquiryRecord.setRecordStatus(InquiryRecordConstants.FINAL_STATUS);
         int i = inquiryRecordService.updateSelective(inquiryRecord);
         if (i > 0) {
             orderServer.orderDoneSuccess(orderId);
