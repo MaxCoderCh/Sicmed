@@ -192,7 +192,7 @@ public class OrderInquiryController extends BaseController {
     }
 
     /**
-     * APP 查询 待接受 订单 列表
+     * APP 查询 待接受 问诊订单 列表
      *
      * @return
      */
@@ -214,7 +214,7 @@ public class OrderInquiryController extends BaseController {
     }
 
     /**
-     * APP 查询 待回复 订单 列表
+     * APP 查询 待回复 问诊订单 列表
      *
      * @return
      */
@@ -236,7 +236,7 @@ public class OrderInquiryController extends BaseController {
     }
 
     /**
-     * APP 查询 已完成 订单 列表
+     * APP 查询 已完成 问诊订单 列表
      *
      * @return
      */
@@ -258,7 +258,7 @@ public class OrderInquiryController extends BaseController {
     }
 
     /**
-     * APP 查询 被拒绝 订单 列表
+     * APP 查询 被拒绝 问诊订单 列表
      *
      * @return
      */
@@ -291,6 +291,116 @@ public class OrderInquiryController extends BaseController {
 
         orderInquiry.setDoctor(getToken());
         orderInquiry.setOrderType(OrderConstants.PICTURE_INQUIRY_TYPE);
+
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+
+        if (orderInquiryList != null && orderInquiryList.size() > 0) {
+            return querySuccessResponse(orderBeanBuilderForApp(orderInquiryList));
+        }
+        return queryEmptyResponse();
+    }
+
+
+    /**
+     * APP 查询 待接受 转诊订单 列表
+     *
+     * @return
+     */
+    @GetMapping(value = "getAcceptedTurnOrderList")
+    public Map getAcceptedTurnOrderList() {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(getToken());
+        orderInquiry.setOrderStatus(OrderConstants.TO_BE_ACCEPTED);
+        orderInquiry.setOrderType(OrderConstants.PICTURE_TURN_TYPE);
+
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+
+        if (orderInquiryList != null && orderInquiryList.size() > 0) {
+            return querySuccessResponse(orderBeanBuilderForApp(orderInquiryList));
+        }
+        return queryEmptyResponse();
+    }
+
+    /**
+     * APP 查询 待回复 转诊订单 列表
+     *
+     * @return
+     */
+    @GetMapping(value = "getAnsweredTurnOrderList")
+    public Map getAnsweredTurnOrderList() {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(getToken());
+        orderInquiry.setOrderStatus(OrderConstants.TO_BE_ANSWERED);
+        orderInquiry.setOrderType(OrderConstants.PICTURE_TURN_TYPE);
+
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+
+        if (orderInquiryList != null && orderInquiryList.size() > 0) {
+            return querySuccessResponse(orderBeanBuilderForApp(orderInquiryList));
+        }
+        return queryEmptyResponse();
+    }
+
+    /**
+     * APP 查询 已完成 转诊订单 列表
+     *
+     * @return
+     */
+    @GetMapping(value = "getIsDoneTurnOrderList")
+    public Map getIsDoneTurnOrderList() {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(getToken());
+        orderInquiry.setOrderStatus(OrderConstants.IS_DONE);
+        orderInquiry.setOrderType(OrderConstants.PICTURE_TURN_TYPE);
+
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+
+        if (orderInquiryList != null && orderInquiryList.size() > 0) {
+            return querySuccessResponse(orderBeanBuilderForApp(orderInquiryList));
+        }
+        return queryEmptyResponse();
+    }
+
+    /**
+     * APP 查询 被拒绝 转诊订单 列表
+     *
+     * @return
+     */
+    @GetMapping(value = "getBeRejectedTurnOrderList")
+    public Map getBeRejectedTurnOrderList() {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(getToken());
+        orderInquiry.setOrderStatus(OrderConstants.BE_REJECTED);
+        orderInquiry.setOrderType(OrderConstants.PICTURE_TURN_TYPE);
+
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+
+        if (orderInquiryList != null && orderInquiryList.size() > 0) {
+            return querySuccessResponse(orderBeanBuilderForApp(orderInquiryList));
+        }
+        return queryEmptyResponse();
+    }
+
+    /**
+     * APP 查询 全部 转诊订单 列表
+     *
+     * @return
+     */
+    @GetMapping(value = "getAllTurnOrderList")
+    public Map getAllTurnOrderList() {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(getToken());
+        orderInquiry.setOrderType(OrderConstants.PICTURE_TURN_TYPE);
 
         List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
 
