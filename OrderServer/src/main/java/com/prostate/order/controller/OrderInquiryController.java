@@ -6,6 +6,7 @@ import com.prostate.order.entity.OrderInquiry;
 import com.prostate.order.feignService.RecordServer;
 import com.prostate.order.service.OrderInquiryService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -475,6 +476,29 @@ public class OrderInquiryController extends BaseController {
             return updateSuccseeResponse();
         }
         return updateFailedResponse();
+    }
+
+
+    /**
+     * APP 根据患者ID查询订单 列表
+     *
+     * @return
+     */
+    @GetMapping(value = "getOrderListByPatient")
+    public Map getOrderListByPatient(String patientId) {
+        if (StringUtils.isBlank(patientId)){
+            return emptyParamResponse();
+        }
+        OrderInquiry orderInquiry = new OrderInquiry();
+        orderInquiry.setPatient(patientId);
+        orderInquiry.setOrderStatus(OrderConstants.IS_DONE);
+
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+        if (orderInquiryList != null && orderInquiryList.size() > 0) {
+            return querySuccessResponse(orderBeanBuilderForApp(orderInquiryList));
+        }
+        return queryEmptyResponse();
+
     }
 
     /**
