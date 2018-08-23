@@ -1,16 +1,22 @@
 package com.prostate.record.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 public class PatientSticker {
+
     private String id;
 
+    @JsonIgnore
     private String patientId;
 
     private String stickerId;
 
+    @JsonIgnore
     private String createUser;
 
+    @JsonIgnore
     private Date createTime;
 
     public String getId() {

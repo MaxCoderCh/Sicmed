@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.record.mapper.PatientStickerMapper">
+<mapper namespace="com.prostate.record.mapper.slaver.PatientStickerReadMapper">
   <resultMap id="BaseResultMap" type="com.prostate.record.entity.PatientSticker">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
@@ -17,77 +17,18 @@
     from patient_sticker
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from patient_sticker
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.prostate.record.entity.PatientSticker">
-    insert into patient_sticker (id, patient_id, sticker_id, 
-      create_user, create_time)
-    values (#{id,jdbcType=VARCHAR}, #{patientId,jdbcType=VARCHAR}, #{stickerId,jdbcType=VARCHAR}, 
-      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.prostate.record.entity.PatientSticker">
-    insert into patient_sticker
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+  <select id="selectByParams" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from patient_sticker
+    <where>
+      <if test="patientId != null and patientId != ''">
+        AND patient_id = #{patientId,jdbcType=VARCHAR}
       </if>
-      <if test="patientId != null">
-        patient_id,
+      <if test="createUser != null and createUser != ''">
+        AND create_user = #{createUser,jdbcType=VARCHAR}
       </if>
-      <if test="stickerId != null">
-        sticker_id,
-      </if>
-      <if test="createUser != null">
-        create_user,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="patientId != null">
-        #{patientId,jdbcType=VARCHAR},
-      </if>
-      <if test="stickerId != null">
-        #{stickerId,jdbcType=VARCHAR},
-      </if>
-      <if test="createUser != null">
-        #{createUser,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.record.entity.PatientSticker">
-    update patient_sticker
-    <set>
-      <if test="patientId != null">
-        patient_id = #{patientId,jdbcType=VARCHAR},
-      </if>
-      <if test="stickerId != null">
-        sticker_id = #{stickerId,jdbcType=VARCHAR},
-      </if>
-      <if test="createUser != null">
-        create_user = #{createUser,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.prostate.record.entity.PatientSticker">
-    update patient_sticker
-    set patient_id = #{patientId,jdbcType=VARCHAR},
-      sticker_id = #{stickerId,jdbcType=VARCHAR},
-      create_user = #{createUser,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+    </where>
+  </select>
+
 </mapper>
