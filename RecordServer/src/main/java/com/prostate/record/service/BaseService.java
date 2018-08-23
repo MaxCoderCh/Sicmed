@@ -1,7 +1,5 @@
 package com.prostate.record.service;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 public interface BaseService<E> {

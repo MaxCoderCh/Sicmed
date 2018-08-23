@@ -102,6 +102,7 @@
 
     </sql>
     <resultMap id="QueryByParamsResultMap" type="com.prostate.record.beans.PatientListBean">
+        <result column="patientId" jdbcType="VARCHAR" property="patientId"/>
         <result column="patientName" jdbcType="VARCHAR" property="patientName"/>
         <result column="patientAge" jdbcType="VARCHAR" property="patientAge"/>
         <result column="patientSex" jdbcType="VARCHAR" property="patientSex"/>
@@ -110,7 +111,7 @@
 
     <select id="queryByParams" parameterType="com.prostate.record.beans.QueryPatientParamBean" resultMap="QueryByParamsResultMap">
         select
-        patient.patient_name patientName, patient.patient_age patientAge,patient.patient_sex patientSex,
+        patient.id patientId,patient.patient_name patientName, patient.patient_age patientAge,patient.patient_sex patientSex,
         userPatient.patient_source patientSource
         from pomr_patient patient
         LEFT JOIN patient_sticker patientSticker ON patientSticker.patient_id = patient.id
@@ -125,8 +126,9 @@
                 AND patientSticker.sticker_id = #{stickerId,jdbcType=VARCHAR}
             </if>
         </where>
+        GROUP BY patient.id
         ORDER BY patient.create_time DESC
-        limit #{pageNo},#{pageSize}
+        limit #{beginNo},#{pageSize}
     </select>
 
     <select id="selectByParamss" parameterType="com.prostate.record.beans.PatientBean" resultMap="PatientListResultMap">

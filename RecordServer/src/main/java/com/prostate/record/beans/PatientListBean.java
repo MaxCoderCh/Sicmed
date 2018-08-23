@@ -8,6 +8,8 @@ import lombok.Setter;
 @Getter
 public class PatientListBean {
 
+    private String patientId;
+
     private String patientName;
 
     private String patientAge;
