@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,5 +63,32 @@ public class MedicalReportController extends BaseController {
             return queryEmptyResponse();
         }
         return querySuccessResponse(reportUrlList);
+    }
+
+    /**
+     * APP
+     */
+    @GetMapping(value = "getMedicalReportList")
+    public Map getMedicalReportList(String patientId) {
+        if (StringUtils.isBlank(patientId)) {
+            return emptyParamResponse();
+        }
+        MedicalReport medicalReport = new MedicalReport();
+        medicalReport.setPatientId(patientId);
+        Map<String, List<String>> medicalReportGroupList = new LinkedHashMap<>();
+
+        List<MedicalReport> medicalReportList = medicalReportService.selectByParams(medicalReport);
+        if (medicalReportList == null || medicalReportList.isEmpty()) {
+            return queryEmptyResponse();
+        }
+        for (MedicalReport report : medicalReportList) {
+            List<String> urlList = medicalReportGroupList.get(report.getReportGroup());
+            if (urlList == null) {
+                urlList = new ArrayList<>();
+                medicalReportGroupList.put(report.getReportGroup(), urlList);
+            }
+            urlList.add(report.getReportUrl());
+        }
+        return querySuccessResponse(medicalReportGroupList);
     }
 }

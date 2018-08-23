@@ -20,4 +20,13 @@
       report_group = #{reportGroup,jdbcType=VARCHAR}
     </where>
   </select>
+  <select id="selectByParams" parameterType="com.sicmed.archive.entity.MedicalReport" resultMap="BaseResultMap">
+    select
+    report_url,report_group
+    from medical_report
+    <where>
+      patient_id = #{patientId,jdbcType=VARCHAR}
+    </where>
+  </select>
+
 </mapper>
