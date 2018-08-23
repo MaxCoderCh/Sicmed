@@ -89,7 +89,7 @@ public class InquiryRecordController extends BaseController {
             //调用钱包服务 订单收益 存入医生零钱
             walletServer.addOrderIncome(orderId);
             //调用档案服务 建立医生 患者关系
-            recordServer.addUserPatient(orderId);
+            recordServer.addUserPatientByOrder(orderId);
 
             return insertSuccseeResponse();
         }
