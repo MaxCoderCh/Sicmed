@@ -146,6 +146,12 @@
       <if test="orderDescription != null">
         order_description = #{orderDescription,jdbcType=VARCHAR},
       </if>
+      <if test="doctor != null">
+        doctor = #{doctor,jdbcType=VARCHAR},
+      </if>
+      <if test="seller != null">
+        seller = #{seller,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
