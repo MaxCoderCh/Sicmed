@@ -133,8 +133,8 @@ public class UserPatientController extends BaseController {
     /**
      * 订单完成 添加 医生 患者 关系
      */
-    @PostMapping(value = "addUserPatient")
-    public String addUserPatient(String orderId) {
+    @PostMapping(value = "addUserPatientByOrder")
+    public String addUserPatientByOrder(String orderId) {
 
         //查询订单 信息
         Map<String, Object> orderResultMap = orderServer.getOrder(orderId);

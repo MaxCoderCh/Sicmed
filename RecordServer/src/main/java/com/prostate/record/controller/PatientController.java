@@ -1,6 +1,8 @@
 package com.prostate.record.controller;
 
 import com.prostate.record.beans.PatientBean;
+import com.prostate.record.beans.PatientListBean;
+import com.prostate.record.beans.QueryPatientParamBean;
 import com.prostate.record.beans.WeChatPatientBean;
 import com.prostate.record.entity.Doctor;
 import com.prostate.record.entity.Patient;
@@ -11,7 +13,10 @@ import com.prostate.record.validator.phoneValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.LinkedHashMap;
@@ -224,6 +229,27 @@ public class PatientController extends BaseController {
         return queryEmptyResponse();
 
     }
+
+    /**
+     * APP 查询 患者列表
+     */
+    @GetMapping(value = "findPatientList")
+    public Map findPatientList(String stickerId, String patientName) {
+
+        QueryPatientParamBean queryPatientParamBean = new QueryPatientParamBean();
+
+        queryPatientParamBean.setDoctorId(getToken());
+        queryPatientParamBean.setPatientName(patientName);
+        queryPatientParamBean.setStickerId(stickerId);
+
+        List<PatientListBean> patientListBeanList = patientService.queryByParams(queryPatientParamBean);
+        if (patientListBeanList != null && patientListBeanList.size() > 0) {
+            return querySuccessResponse(patientListBeanList);
+        }
+        return queryEmptyResponse();
+
+    }
+
 
 }
 

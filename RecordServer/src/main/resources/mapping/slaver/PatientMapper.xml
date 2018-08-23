@@ -101,6 +101,34 @@
     <sql id="PatientList_Left_Join_List">
 
     </sql>
+    <resultMap id="QueryByParamsResultMap" type="com.prostate.record.beans.PatientListBean">
+        <result column="patientName" jdbcType="VARCHAR" property="patientName"/>
+        <result column="patientAge" jdbcType="VARCHAR" property="patientAge"/>
+        <result column="patientSex" jdbcType="VARCHAR" property="patientSex"/>
+        <result column="patientSource" jdbcType="VARCHAR" property="patientSource"/>
+    </resultMap>
+
+    <select id="queryByParams" parameterType="com.prostate.record.beans.QueryPatientParamBean" resultMap="QueryByParamsResultMap">
+        select
+        patient.patient_name patientName, patient.patient_age patientAge,patient.patient_sex patientSex,
+        userPatient.patient_source patientSource
+        from pomr_patient patient
+        LEFT JOIN patient_sticker patientSticker ON patientSticker.patient_id = patient.id
+        LEFT JOIN user_patient userPatient ON userPatient.patient_id = patient.id
+        <where>
+            patient.del_flag = 0
+            AND userPatient.user_id = #{doctorId,jdbcType=VARCHAR}
+            <if test="patientName != null and patientName != ''">
+                AND patient.patient_name LIKE CONCAT(CONCAT('%',#{patientName,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="stickerId != null and stickerId != ''">
+                AND patientSticker.sticker_id = #{stickerId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ORDER BY patient.create_time DESC
+        limit #{pageNo},#{pageSize}
+    </select>
+
     <select id="selectByParamss" parameterType="com.prostate.record.beans.PatientBean" resultMap="PatientListResultMap">
         select
         <include refid="PatientList_Column_List"/>
