@@ -102,9 +102,9 @@ public class CachDataController extends BaseController {
      *@param:
     */
     @GetMapping(value = "getLablePatientJson")
-    public Map<String,Object> lablePatientJson(String token){
+    public Map<String,Object> lablePatientJson(){
         LablePatient lablePatient = new LablePatient();
-        lablePatient.setCreateUser(token);
+        lablePatient.setCreateUser(getToken());
         Map<String,String> map = lablePatientService.getDoctorTitleJson(lablePatient);
         //map.isEmpty    判断的话会报空指针异常
         if (map==null || map.size()== 0){
@@ -121,9 +121,9 @@ public class CachDataController extends BaseController {
      *@param:
     */
     @GetMapping(value = "getLablePriceJson")
-    public Map<String,Object> lablePriceJson(String token){
+    public Map<String,Object> lablePriceJson(){
         LablePrice lablePrice = new LablePrice();
-        lablePrice.setCreateUser(token);
+        lablePrice.setCreateUser(getToken());
         Map<String,String> map = lablePriceService.getLablePriceJson(lablePrice);
         if (map==null || map.size()== 0){
             return queryEmptyResponse();
