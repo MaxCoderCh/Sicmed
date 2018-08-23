@@ -22,7 +22,7 @@
   </select>
   <select id="selectByParams" parameterType="com.sicmed.archive.entity.MedicalReport" resultMap="BaseResultMap">
     select
-    report_url,report_group
+    report_url,report_group,create_time
     from medical_report
     <where>
       patient_id = #{patientId,jdbcType=VARCHAR}

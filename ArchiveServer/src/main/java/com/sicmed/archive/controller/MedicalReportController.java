@@ -3,6 +3,7 @@ package com.sicmed.archive.controller;
 import com.sicmed.archive.entity.MedicalReport;
 import com.sicmed.archive.entity.MedicalReportConstants;
 import com.sicmed.archive.service.MedicalReportService;
+import com.sicmed.archive.util.DateFormatUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,7 @@ public class MedicalReportController extends BaseController {
         }
         MedicalReport medicalReport = new MedicalReport();
         medicalReport.setPatientId(patientId);
+
         Map<String, List<String>> medicalReportGroupList = new LinkedHashMap<>();
 
         List<MedicalReport> medicalReportList = medicalReportService.selectByParams(medicalReport);
@@ -82,10 +84,11 @@ public class MedicalReportController extends BaseController {
             return queryEmptyResponse();
         }
         for (MedicalReport report : medicalReportList) {
-            List<String> urlList = medicalReportGroupList.get(report.getReportGroup());
+
+            List<String> urlList = medicalReportGroupList.get(DateFormatUtils.dateToStr(report.getCreateTime()));
             if (urlList == null) {
                 urlList = new ArrayList<>();
-                medicalReportGroupList.put(report.getReportGroup(), urlList);
+                medicalReportGroupList.put(DateFormatUtils.dateToStr(report.getCreateTime()), urlList);
             }
             urlList.add(report.getReportUrl());
         }
