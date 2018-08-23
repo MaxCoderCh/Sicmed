@@ -7,7 +7,7 @@ import javax.validation.constraints.Null;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ProstaticMedicalExamination {
+public class ProstaticMedicalExamination extends BaseEntity{
 
     @Null
     private String id;

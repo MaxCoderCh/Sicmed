@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Date;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PatientAssessment {
+public class PatientAssessment extends BaseEntity{
 
     private String id;
 

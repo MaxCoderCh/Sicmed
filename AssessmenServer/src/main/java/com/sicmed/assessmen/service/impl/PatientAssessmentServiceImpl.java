@@ -32,4 +32,9 @@ public class PatientAssessmentServiceImpl implements PatientAssessmentService {
     public PatientAssessment selectLastByPatientId(PatientAssessment patientAssessment) {
         return assessmentReadMapper.selectLastByPatientId(patientAssessment);
     }
+
+    @Override
+    public List<PatientAssessment> queryPageByParams(PatientAssessment patientAssessment) {
+        return assessmentReadMapper.queryPageByParams(patientAssessment);
+    }
 }

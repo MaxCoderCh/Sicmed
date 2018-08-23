@@ -8,6 +8,7 @@ import com.sicmed.assessmen.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -230,5 +231,28 @@ public class MedicalExaminationController extends BaseController {
 
         }
         return mp;
+    }
+
+
+    /**
+     * APP 根据患者Id 查询 化验单解读记录
+     */
+    @GetMapping(value = "getExaminationListByPatient")
+    public LinkedHashMap getExaminationListByPatient(String patientId) {
+        if (StringUtils.isBlank(patientId)) {
+            return emptyParamResponse();
+        }
+        ProstaticMedicalExamination prostaticMedicalExamination = new ProstaticMedicalExamination();
+
+        prostaticMedicalExamination.setPatientId(patientId);
+
+        List<ProstaticMedicalExamination> prostaticMedicalExaminationList = prostaticMedicalExaminationService.queryPageByParams(prostaticMedicalExamination);
+        if (prostaticMedicalExaminationList == null || prostaticMedicalExaminationList.size() == 0) {
+            return queryEmptyResponse();
+        }
+
+        LinkedHashMap<String, LinkedHashMap<String, List<ProstaticMedicalExamination>>> mp = prostaticMedicalExaminationOrder(prostaticMedicalExaminationList);
+
+        return querySuccessResponse(mp);
     }
 }

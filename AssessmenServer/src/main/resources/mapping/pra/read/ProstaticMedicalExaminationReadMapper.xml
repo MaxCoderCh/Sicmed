@@ -65,6 +65,18 @@
         </where>
         ORDER BY create_time DESC
     </select>
+
+    <select id="queryPageByParams" parameterType="com.sicmed.assessmen.entity.ProstaticMedicalExamination" resultMap="BaseResultMap">
+        select
+        <include refid="ProstaticMedicalExamination_List_Column_List"/>
+        from pra_prostatic_medical_examination
+        <where>
+            patient_id = #{patientId,jdbcType=VARCHAR}
+        </where>
+        ORDER BY create_time DESC
+        limit  #{beginNo},#{pageSize}
+    </select>
+
     <sql id="CreateTimeAndPatientId_Column_List">
         id, create_time
     </sql>

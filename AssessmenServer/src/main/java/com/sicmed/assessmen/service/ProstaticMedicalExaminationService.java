@@ -3,6 +3,8 @@ package com.sicmed.assessmen.service;
 import com.sicmed.assessmen.entity.ProstaticMedicalExamination;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface ProstaticMedicalExaminationService extends BaseService<ProstaticMedicalExamination> {
 
@@ -21,4 +23,6 @@ public interface ProstaticMedicalExaminationService extends BaseService<Prostati
      * @return
      */
     ProstaticMedicalExamination selectByPatientAndData(ProstaticMedicalExamination prostaticMedicalExamination);
+
+    List<ProstaticMedicalExamination> queryPageByParams(ProstaticMedicalExamination prostaticMedicalExamination);
 }

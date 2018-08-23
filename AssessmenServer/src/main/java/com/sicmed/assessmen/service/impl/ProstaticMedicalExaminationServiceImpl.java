@@ -52,4 +52,9 @@ public class ProstaticMedicalExaminationServiceImpl implements ProstaticMedicalE
     public ProstaticMedicalExamination selectByPatientAndData(ProstaticMedicalExamination prostaticMedicalExamination) {
         return prostaticMedicalExaminationReadMapper.selectByPatientAndData(prostaticMedicalExamination);
     }
+
+    @Override
+    public List<ProstaticMedicalExamination> queryPageByParams(ProstaticMedicalExamination prostaticMedicalExamination) {
+        return prostaticMedicalExaminationReadMapper.queryPageByParams(prostaticMedicalExamination);
+    }
 }

@@ -6,6 +6,7 @@ import com.sicmed.assessmen.entity.WechatUser;
 import com.sicmed.assessmen.service.PatientAssessmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -99,6 +100,27 @@ public class PatientAssessmentController extends BaseController {
         patientAssessment = assessmentService.selectLastByPatientId(patientAssessment);
         if(patientAssessment!=null){
             return querySuccessResponse(patientAssessment);
+        }
+        return queryEmptyResponse();
+    }
+
+
+    /**
+     * APP 根据患者ID查询 所有评估结果列表
+     */
+    @GetMapping(value = "getAssessmentListByPatient")
+    public Map getAssessmentListByPatient(String patientId){
+        //参数校验
+        if(patientId==null||"".equals(patientId)){
+            return emptyParamResponse();
+        }
+
+        PatientAssessment patientAssessment =new PatientAssessment();
+        patientAssessment.setId(patientId);
+
+        List<PatientAssessment> patientAssessmentList =  assessmentService.queryPageByParams(patientAssessment);
+        if(patientAssessmentList!=null&&patientAssessmentList.size()>0){
+            return querySuccessResponse(patientAssessmentList);
         }
         return queryEmptyResponse();
     }

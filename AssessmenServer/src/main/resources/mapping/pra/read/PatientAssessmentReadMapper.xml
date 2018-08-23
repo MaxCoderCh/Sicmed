@@ -104,6 +104,27 @@
         </where>
         ORDER BY createTime DESC
     </select>
+    <select id="queryPageByParams" parameterType="com.sicmed.assessmen.entity.PatientAssessment" resultMap="PatientAssessmentListResultMap">
+        SELECT
+        <include refid="NihCpsiList_Column_List"/>
+        FROM pra_patient_nih_cpsi_score ppncs
+        <where>
+            ppncs.patient_id = #{id,jdbcType=VARCHAR}
+        </where>
+        <!--<include refid="NihCpsiList_Left_Join"/>-->
+        UNION
+
+        SELECT
+        <include refid="IpssList_Column_List"/>
+        FROM pra_patient_ipss_score ppis
+        <!--<include refid="IpssList_Left_Join"/>-->
+        <where>
+            ppis.patient_id = #{id,jdbcType=VARCHAR}
+        </where>
+        ORDER BY createTime DESC
+        limit #{beginNo},#{pageSize}
+    </select>
+
 
     <select id="selectLastByPatientId" parameterType="com.sicmed.assessmen.entity.PatientAssessment" resultMap="PatientAssessmentListResultMap">
         SELECT

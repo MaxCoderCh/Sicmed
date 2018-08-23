@@ -10,4 +10,6 @@ public interface PatientAssessmentService {
     List<PatientAssessment> selectByPatientId(PatientAssessment patientAssessment);
 
     PatientAssessment selectLastByPatientId(PatientAssessment patientAssessment);
+
+    List<PatientAssessment> queryPageByParams(PatientAssessment patientAssessment);
 }

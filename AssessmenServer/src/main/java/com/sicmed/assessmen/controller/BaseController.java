@@ -5,7 +5,10 @@ import com.sicmed.assessmen.feignService.OrderServer;
 import com.sicmed.assessmen.feignService.RecordServer;
 import com.sicmed.assessmen.feignService.WalletServer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 
 public class BaseController {
@@ -21,6 +24,12 @@ public class BaseController {
     @Autowired
     protected WalletServer walletServer;
 
+    protected String getToken() {
+
+        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+
+        return request.getHeader("token");
+    }
     /**
      * 参数为空返回值
      *
