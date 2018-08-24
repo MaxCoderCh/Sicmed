@@ -65,10 +65,22 @@
         </where>
         ORDER BY create_time DESC
     </select>
-
-    <select id="queryPageByParams" parameterType="com.sicmed.assessmen.entity.ProstaticMedicalExamination" resultMap="BaseResultMap">
+    <resultMap id="QueryPageResultMap" type="com.sicmed.assessmen.beans.MedicalExaminationBean">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="blood_routine_answer" jdbcType="VARCHAR" property="bloodRoutineAnswer"/>
+        <result column="digital_rectal_answer" jdbcType="VARCHAR" property="digitalRectalAnswer"/>
+        <result column="expressed_prostatic_secretion_answer" jdbcType="VARCHAR" property="expressedProstaticSecretionAnswer"/>
+        <result column="specific_antigen_answer" jdbcType="VARCHAR" property="specificAntigenAnswer"/>
+        <result column="ultrasonography_b_answer" jdbcType="VARCHAR" property="ultrasonographyBAnswer"/>
+        <result column="urine_flow_rate_answer" jdbcType="VARCHAR" property="urineFlowRateAnswer"/>
+        <result column="urine_routine_answer" jdbcType="VARCHAR" property="urineRoutineAnswer"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <select id="queryPageByParams" parameterType="com.sicmed.assessmen.entity.ProstaticMedicalExamination" resultMap="QueryPageResultMap">
         select
-        <include refid="ProstaticMedicalExamination_List_Column_List"/>
+        id, blood_routine_answer, digital_rectal_answer, expressed_prostatic_secretion_answer,
+        specific_antigen_answer, ultrasonography_b_answer, urine_flow_rate_answer, urine_routine_answer,
+        create_time
         from pra_prostatic_medical_examination
         <where>
             patient_id = #{patientId,jdbcType=VARCHAR}

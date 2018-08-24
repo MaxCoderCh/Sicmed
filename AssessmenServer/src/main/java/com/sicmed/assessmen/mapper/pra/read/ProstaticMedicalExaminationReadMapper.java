@@ -1,5 +1,6 @@
 package com.sicmed.assessmen.mapper.pra.read;
 
+import com.sicmed.assessmen.beans.MedicalExaminationBean;
 import com.sicmed.assessmen.entity.ProstaticMedicalExamination;
 import com.sicmed.assessmen.mapper.BaseReadMapper;
 
@@ -11,5 +12,5 @@ public interface ProstaticMedicalExaminationReadMapper extends BaseReadMapper<Pr
 
     ProstaticMedicalExamination selectByPatientAndData(ProstaticMedicalExamination prostaticMedicalExamination);
 
-    List<ProstaticMedicalExamination> queryPageByParams(ProstaticMedicalExamination prostaticMedicalExamination);
+    List<MedicalExaminationBean> queryPageByParams(ProstaticMedicalExamination prostaticMedicalExamination);
 }

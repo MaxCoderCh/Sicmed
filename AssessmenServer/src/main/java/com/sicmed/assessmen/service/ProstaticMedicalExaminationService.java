@@ -1,5 +1,6 @@
 package com.sicmed.assessmen.service;
 
+import com.sicmed.assessmen.beans.MedicalExaminationBean;
 import com.sicmed.assessmen.entity.ProstaticMedicalExamination;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,5 @@ public interface ProstaticMedicalExaminationService extends BaseService<Prostati
      */
     ProstaticMedicalExamination selectByPatientAndData(ProstaticMedicalExamination prostaticMedicalExamination);
 
-    List<ProstaticMedicalExamination> queryPageByParams(ProstaticMedicalExamination prostaticMedicalExamination);
+    List<MedicalExaminationBean> queryPageByParams(ProstaticMedicalExamination prostaticMedicalExamination);
 }

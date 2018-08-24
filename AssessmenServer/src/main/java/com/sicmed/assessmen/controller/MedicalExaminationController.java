@@ -1,5 +1,6 @@
 package com.sicmed.assessmen.controller;
 
+import com.sicmed.assessmen.beans.MedicalExaminationBean;
 import com.sicmed.assessmen.cache.redis.RedisSerive;
 import com.sicmed.assessmen.entity.ProstaticMedicalExamination;
 import com.sicmed.assessmen.entity.WechatUser;
@@ -246,13 +247,11 @@ public class MedicalExaminationController extends BaseController {
 
         prostaticMedicalExamination.setPatientId(patientId);
 
-        List<ProstaticMedicalExamination> prostaticMedicalExaminationList = prostaticMedicalExaminationService.queryPageByParams(prostaticMedicalExamination);
-        if (prostaticMedicalExaminationList == null || prostaticMedicalExaminationList.size() == 0) {
+        List<MedicalExaminationBean> medicalExaminationBeanList = prostaticMedicalExaminationService.queryPageByParams(prostaticMedicalExamination);
+        if (medicalExaminationBeanList == null || medicalExaminationBeanList.size() == 0) {
             return queryEmptyResponse();
         }
 
-        LinkedHashMap<String, LinkedHashMap<String, List<ProstaticMedicalExamination>>> mp = prostaticMedicalExaminationOrder(prostaticMedicalExaminationList);
-
-        return querySuccessResponse(mp);
+        return querySuccessResponse(medicalExaminationBeanList);
     }
 }

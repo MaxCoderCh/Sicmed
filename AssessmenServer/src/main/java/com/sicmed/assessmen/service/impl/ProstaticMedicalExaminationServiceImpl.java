@@ -1,5 +1,6 @@
 package com.sicmed.assessmen.service.impl;
 
+import com.sicmed.assessmen.beans.MedicalExaminationBean;
 import com.sicmed.assessmen.entity.ProstaticMedicalExamination;
 import com.sicmed.assessmen.mapper.pra.write.ProstaticMedicalExaminationWriteMapper;
 import com.sicmed.assessmen.mapper.pra.read.ProstaticMedicalExaminationReadMapper;
@@ -54,7 +55,7 @@ public class ProstaticMedicalExaminationServiceImpl implements ProstaticMedicalE
     }
 
     @Override
-    public List<ProstaticMedicalExamination> queryPageByParams(ProstaticMedicalExamination prostaticMedicalExamination) {
+    public List<MedicalExaminationBean> queryPageByParams(ProstaticMedicalExamination prostaticMedicalExamination) {
         return prostaticMedicalExaminationReadMapper.queryPageByParams(prostaticMedicalExamination);
     }
 }
