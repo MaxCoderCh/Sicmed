@@ -86,7 +86,7 @@
     </appender>
     <!-- 开发环境. 多个使用逗号隔开. -->
     <springProfile name="dev">
-        <logger name="com.prostate.order.mapper" level="DEBUG" additivity="false">
+        <logger name="com.prostate.wallet.mapper" level="DEBUG" additivity="false">
             <appender-ref ref="SQL_CONSOLE_LOG"/>
         </logger>
         <logger name="com.prostate" level="info" additivity="false">
