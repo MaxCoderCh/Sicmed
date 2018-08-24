@@ -1,16 +1,10 @@
 package com.prostate.wallet.mapper.slaver;
 
 import com.prostate.wallet.entity.DoctorWallet;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
-@Repository
-public interface DoctorWalletReadMapper{
+public interface DoctorWalletReadMapper extends BaseReadMapper<DoctorWallet> {
 
-    DoctorWallet selectById(String id);
 
     DoctorWallet selectByDoctorId(String doctorId);
-
-    List<DoctorWallet> selectByParams(DoctorWallet DoctorWallet);
 
 }

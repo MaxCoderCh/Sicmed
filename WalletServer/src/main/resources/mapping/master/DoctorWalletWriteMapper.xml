@@ -100,7 +100,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.wallet.entity.DoctorWallet">
+  <update id="updateSelective" parameterType="com.prostate.wallet.entity.DoctorWallet">
     update doctor_wallet
     <set>
       <if test="doctorId != null">

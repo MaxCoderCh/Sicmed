@@ -48,7 +48,7 @@ public class WritePraDataSourceConfiguration {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("writePraDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/wallet/master/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/master/*.xml"));
         return bean.getObject();
     }
 

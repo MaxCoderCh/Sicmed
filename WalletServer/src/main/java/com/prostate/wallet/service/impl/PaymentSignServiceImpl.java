@@ -1,8 +1,8 @@
 package com.prostate.wallet.service.impl;
 
 import com.prostate.wallet.entity.PaymentSign;
-import com.prostate.wallet.mapper.read.PaymentSignReadMapper;
-import com.prostate.wallet.mapper.write.PaymentSignWriteMapper;
+import com.prostate.wallet.mapper.slaver.PaymentSignReadMapper;
+import com.prostate.wallet.mapper.master.PaymentSignWriteMapper;
 import com.prostate.wallet.service.PaymentSignService;
 import com.prostate.wallet.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * @Author: bian

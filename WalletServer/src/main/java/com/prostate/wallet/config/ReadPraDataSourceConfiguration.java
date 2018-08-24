@@ -48,7 +48,7 @@ public class ReadPraDataSourceConfiguration {
     public SqlSessionFactory sqlSessionFactory(@Qualifier("readPraDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/wallet/slaver/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/slaver/*.xml"));
         return bean.getObject();
     }
 
