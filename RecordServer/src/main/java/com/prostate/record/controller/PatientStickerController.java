@@ -2,6 +2,7 @@ package com.prostate.record.controller;
 
 import com.prostate.record.entity.PatientSticker;
 import com.prostate.record.service.PatientStickerService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,25 +22,26 @@ public class PatientStickerController extends BaseController {
     /**
      * APP 患者 标签 添加
      * @param patientId
-     * @param stickers
      * @return
      */
     @PostMapping(value = "add")
-    public Map add(String patientId, String[] stickers) {
+    public Map add(String patientId, String sticker) {
 
-        PatientSticker patientSticker;
-
-        for (String sticker : stickers) {
-            patientSticker = new PatientSticker();
-            patientSticker.setPatientId(patientId);
-            patientSticker.setStickerId(sticker);
-            patientSticker.setCreateUser(getToken());
-
-            patientStickerService.insertSelective(patientSticker);
+        if (StringUtils.isBlank(patientId) || StringUtils.isBlank(sticker)) {
+            return emptyParamResponse();
         }
+        PatientSticker patientSticker = new PatientSticker();
 
-        return insertSuccseeResponse();
+        patientSticker.setPatientId(patientId);
+        patientSticker.setStickerId(sticker);
+        patientSticker.setCreateUser(getToken());
 
+        int i = patientStickerService.insertSelective(patientSticker);
+        if (i > 0) {
+
+            return insertSuccseeResponse(patientSticker);
+        }
+        return insertFailedResponse();
     }
 
     /**
