@@ -11,4 +11,8 @@ public interface LablePatientService extends BaseService<LablePatient> {
     List<LablePatient> selectByToken(LablePatient lablePatient);
 
     Map<String,String> getDoctorTitleJson(LablePatient lablePatient);
+
+    int remove(String id);
+
+    int deleteByParams(LablePatient lablePatient);
 }

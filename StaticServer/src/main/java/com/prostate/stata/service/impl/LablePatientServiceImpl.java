@@ -38,6 +38,16 @@ public class LablePatientServiceImpl implements LablePatientService {
     }
 
     @Override
+    public int remove(String id) {
+        return lablePatientWriteMapper.remove(id);
+    }
+
+    @Override
+    public int deleteByParams(LablePatient lablePatient) {
+        return lablePatientWriteMapper.deleteByParams(lablePatient);
+    }
+
+    @Override
     public int updateSelective(LablePatient lablePatient) {
         return 0;
     }
@@ -54,7 +64,7 @@ public class LablePatientServiceImpl implements LablePatientService {
 
     @Override
     public int deleteById(String id) {
-        return 0;
+        return lablePatientWriteMapper.deleteById(id);
     }
 
     @Override

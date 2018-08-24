@@ -152,4 +152,29 @@ public class BaseController{
         resultMap.put("result",null);
         return resultMap;
     }
+
+
+    public Map deleteFailedResponse(){
+        resultMap = new LinkedHashMap<>();
+        resultMap.put("code","50004");
+        resultMap.put("msg","DELETE_FAILED");
+        resultMap.put("result",null);
+        return resultMap;
+    }
+
+    public Map deleteSuccessResponse(){
+        resultMap = new LinkedHashMap<>();
+        resultMap.put("code","20000");
+        resultMap.put("msg","DELETE_SUCCESS");
+        resultMap.put("result",null);
+        return resultMap;
+    }
+
+    public Map unableDeleteResponse(){
+        resultMap = new LinkedHashMap<>();
+        resultMap.put("code","60001");
+        resultMap.put("msg","UNABLE_DELETE");
+        resultMap.put("result",null);
+        return resultMap;
+    }
 }

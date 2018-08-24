@@ -36,7 +36,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.stata.entity.LablePatient">
+  <update id="updateSelective" parameterType="com.prostate.stata.entity.LablePatient">
     update lable_patient
     <set>
       <if test="lableName != null">
@@ -51,11 +51,29 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.prostate.stata.entity.LablePatient">
+  <update id="remove" parameterType="com.prostate.stata.entity.LablePatient">
     update lable_patient
-    set lable_name = #{lableName,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user = #{createUser,jdbcType=VARCHAR}
+    <set>
+      <if test="lableName != null">
+        lable_name = #{lableName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+    </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from lable_patient
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByParams" parameterType="com.prostate.stata.entity.LablePatient">
+    delete from lable_patient
+    where id = #{id,jdbcType=VARCHAR}
+    AND  create_user = #{createUser,jdbcType=VARCHAR}
+  </delete>
 </mapper>

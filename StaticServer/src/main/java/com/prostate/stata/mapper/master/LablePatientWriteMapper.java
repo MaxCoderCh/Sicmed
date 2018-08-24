@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LablePatientWriteMapper extends BaseWriteMapper<LablePatient>{
 
+    int remove(String id);
+
+    int deleteByParams(LablePatient lablePatient);
 }

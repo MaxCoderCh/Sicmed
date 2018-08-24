@@ -32,12 +32,30 @@ public class LablePatientController extends BaseController {
         int result = lablePatientService.insertSelective(lablePatient);
 
         if (result > 0) {
-            return insertSuccseeResponse(lablePatient);
+            return insertSuccseeResponse(lablePatient.getId());
         }
         return insertFailedResponse();
 
     }
 
+    /**
+     * 删除 自定义标签
+     *
+     * @return
+     */
+    @PostMapping(value = "remove")
+    public Map remove(String id) {
+        LablePatient lablePatient = new  LablePatient();
+        lablePatient.setCreateUser(getToken());
+        lablePatient.setId(id);
+        int i = lablePatientService.deleteByParams(lablePatient);
+
+        if (i > 0) {
+            return deleteSuccessResponse();
+        }
+        return unableDeleteResponse();
+
+    }
 
     /**
      * 医生查询 标签
