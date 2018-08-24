@@ -495,7 +495,7 @@ public class OrderInquiryController extends BaseController {
 
         List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
         if (orderInquiryList != null && orderInquiryList.size() > 0) {
-            return querySuccessResponse(orderBeanBuilderForApp(orderInquiryList));
+            return querySuccessResponse(orderBeanBuilderForWeChat(orderInquiryList));
         }
         return queryEmptyResponse();
 
