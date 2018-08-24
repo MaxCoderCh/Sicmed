@@ -71,9 +71,6 @@
       <if test="patientId != null and patientId != ''">
         AND patient_id = #{patientId,jdbcType=VARCHAR}
       </if>
-      <if test="patientSource != null and patientSource != ''">
-        AND patient_source = #{patientId,jdbcType=VARCHAR}
-      </if>
     </where>
   </select>
 
