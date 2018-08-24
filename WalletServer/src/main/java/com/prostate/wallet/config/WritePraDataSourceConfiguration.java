@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 /**
  */
 @Configuration
-@MapperScan(basePackages = {"com.prostate.wallet.mapper.write"}, sqlSessionTemplateRef  = "writePraSqlSessionTemplate")
+@MapperScan(basePackages = {"com.prostate.wallet.mapper.master"}, sqlSessionTemplateRef  = "writePraSqlSessionTemplate")
 public class WritePraDataSourceConfiguration {
 
     @Value("${spring.datasource.writeWallet.driver-class-name}")

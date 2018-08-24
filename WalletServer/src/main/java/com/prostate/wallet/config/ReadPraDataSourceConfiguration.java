@@ -18,7 +18,7 @@ import javax.sql.DataSource;
  * 读操作数据源
  */
 @Configuration
-@MapperScan(basePackages = {"com.prostate.wallet.mapper.read"}, sqlSessionTemplateRef  = "readPraSqlSessionTemplate")
+@MapperScan(basePackages = {"com.prostate.wallet.mapper.slaver"}, sqlSessionTemplateRef  = "readPraSqlSessionTemplate")
 public class ReadPraDataSourceConfiguration {
 
     @Value("${spring.datasource.readWallet.driver-class-name}")
