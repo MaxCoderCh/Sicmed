@@ -77,7 +77,7 @@ public class MedicalReportController extends BaseController {
         MedicalReport medicalReport = new MedicalReport();
         medicalReport.setPatientId(patientId);
 
-        Map<String, List<String>> medicalReportGroupList = new LinkedHashMap<>();
+        Map<String, List<String>> medicalReportGroupMap = new LinkedHashMap<>();
 
         List<MedicalReport> medicalReportList = medicalReportService.selectByParams(medicalReport);
         if (medicalReportList == null || medicalReportList.isEmpty()) {
@@ -85,13 +85,13 @@ public class MedicalReportController extends BaseController {
         }
         for (MedicalReport report : medicalReportList) {
 
-            List<String> urlList = medicalReportGroupList.get(DateFormatUtils.dateToStr(report.getCreateTime()));
+            List<String> urlList = medicalReportGroupMap.get(DateFormatUtils.dateToStr(report.getCreateTime()));
             if (urlList == null) {
                 urlList = new ArrayList<>();
-                medicalReportGroupList.put(DateFormatUtils.dateToStr(report.getCreateTime()), urlList);
+                medicalReportGroupMap.put(DateFormatUtils.dateToStr(report.getCreateTime()), urlList);
             }
             urlList.add(report.getReportUrl());
         }
-        return querySuccessResponse(medicalReportGroupList);
+        return querySuccessResponse(medicalReportGroupMap,medicalReportGroupMap.size());
     }
 }

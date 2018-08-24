@@ -52,7 +52,7 @@ public class BaseController {
      * @param result
      * @return
      */
-    public Map querySuccessResponse(Object result, String count) {
+    public Map querySuccessResponse(Object result, Object count) {
         resultMap = new LinkedHashMap<>();
         resultMap.put("code", "20000");
         resultMap.put("msg", "SUCCESS");
