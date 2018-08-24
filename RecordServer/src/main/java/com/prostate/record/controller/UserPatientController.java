@@ -163,7 +163,26 @@ public class UserPatientController extends BaseController {
         return "ERROR";
     }
 
+    /**
+     * 转诊 患者
+     */
+    @PostMapping(value = "turnPatient")
+    public Map<String, Object> turnPatient(String patientId, String doctorId) {
+        UserPatient userPatient = new UserPatient();
+        userPatient.setUserId(doctorId);
+        userPatient.setPatientId(patientId);
 
+        int i = userPatientService.selectCountByParams(userPatient);
+        if (i > 0) {
+            return insertSuccseeResponse("转诊成功");
+        }
+        userPatient.setPatientSource("转诊");
+        i = userPatientService.insertSelective(userPatient);
+        if (i > 0) {
+            return insertSuccseeResponse("转诊成功");
+        }
+        return insertFailedResponse("转诊失败");
+    }
 }
 
 
