@@ -8,3 +8,6 @@ spring:
       label: master
 server:
   port: 8804
+logging:
+  level:
+    root: debug
