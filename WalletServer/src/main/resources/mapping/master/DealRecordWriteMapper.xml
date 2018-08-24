@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.wallet.mapper.master.DealRecordWriteMapper">
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from deal_record
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.prostate.wallet.entity.DealRecord">
+        <selectKey keyProperty="id" resultType="string" order="BEFORE">
+            select replace(uuid(), '-', '') as id from dual
+        </selectKey>
+        insert into deal_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="walletId != null">
+                wallet_id,
+            </if>
+            <if test="serialNumber != null">
+                serial_number,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="dealAmount != null">
+                deal_amount,
+            </if>
+            <if test="dealType != null">
+                deal_type,
+            </if>
+            <if test="paymentType != null">
+                payment_type,
+            </if>
+            <if test="walletBalance != null">
+                wallet_balance,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="walletId != null">
+                #{walletId,jdbcType=VARCHAR},
+            </if>
+            <if test="serialNumber != null">
+                #{serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="dealAmount != null">
+                #{dealAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="dealType != null">
+                #{dealType,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentType != null">
+                #{paymentType,jdbcType=VARCHAR},
+            </if>
+            <if test="walletBalance != null">
+                #{walletBalance,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.prostate.wallet.entity.DealRecord">
+        update deal_record
+        <set>
+            <if test="walletId != null">
+                wallet_id = #{walletId,jdbcType=VARCHAR},
+            </if>
+            <if test="serialNumber != null">
+                serial_number = #{serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=VARCHAR},
+            </if>
+            <if test="dealAmount != null">
+                deal_amount = #{dealAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="dealType != null">
+                deal_type = #{dealType,jdbcType=VARCHAR},
+            </if>
+            <if test="paymentType != null">
+                payment_type = #{paymentType,jdbcType=VARCHAR},
+            </if>
+            <if test="walletBalance != null">
+                wallet_balance = #{walletBalance,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

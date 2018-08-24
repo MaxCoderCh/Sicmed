@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.wallet.mapper.read.ReceiptPaymentReadMapper">
+<mapper namespace="com.prostate.wallet.mapper.slaver.ReceiptPaymentReadMapper">
   <resultMap id="BaseResultMap" type="com.prostate.wallet.entity.ReceiptPayment">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="wallet_id" jdbcType="VARCHAR" property="walletId" />

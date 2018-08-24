@@ -1,7 +1,6 @@
-package com.prostate.wallet.mapper.read;
+package com.prostate.wallet.mapper.slaver;
 
 import com.prostate.wallet.entity.PaymentSign;
-import com.prostate.wallet.mapper.BaseReadMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

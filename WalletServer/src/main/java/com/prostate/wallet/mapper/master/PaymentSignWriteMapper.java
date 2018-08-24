@@ -1,7 +1,6 @@
-package com.prostate.wallet.mapper.write;
+package com.prostate.wallet.mapper.master;
 
 import com.prostate.wallet.entity.PaymentSign;
-import com.prostate.wallet.mapper.BaseWriteMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository

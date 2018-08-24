@@ -1,4 +1,4 @@
-package com.prostate.wallet.mapper.write;
+package com.prostate.wallet.mapper.master;
 
 import com.prostate.wallet.entity.DoctorWallet;
 import org.springframework.stereotype.Repository;

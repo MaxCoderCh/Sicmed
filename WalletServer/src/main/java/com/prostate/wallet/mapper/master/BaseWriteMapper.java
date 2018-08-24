@@ -1,4 +1,4 @@
-package com.prostate.wallet.mapper;
+package com.prostate.wallet.mapper.master;
 
 
 public interface BaseWriteMapper<E> {
