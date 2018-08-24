@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Setter
 @Getter
-public class MedicalReport {
+public class MedicalReport extends BaseEntity{
     private String id;
 
     private String patientId;

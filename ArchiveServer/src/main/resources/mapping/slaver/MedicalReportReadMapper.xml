@@ -27,6 +27,7 @@
     <where>
       patient_id = #{patientId,jdbcType=VARCHAR}
     </where>
+    limit #{beginNo},#{pageSize}
   </select>
 
 </mapper>
