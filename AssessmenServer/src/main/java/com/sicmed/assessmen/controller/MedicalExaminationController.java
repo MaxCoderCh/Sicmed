@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.ws.rs.GET;
 import java.util.*;
 
 /**
@@ -253,5 +254,25 @@ public class MedicalExaminationController extends BaseController {
         }
 
         return querySuccessResponse(medicalExaminationBeanList);
+    }
+
+
+    /**
+     * APP 根据 ID 查询 化验单解读结果
+     *
+     * @return
+     */
+    @GetMapping(value = "getById")
+    public Map getById(String id) {
+
+        if (StringUtils.isBlank(id)) {
+            return emptyParamResponse();
+        }
+        ProstaticMedicalExamination prostaticMedicalExamination = prostaticMedicalExaminationService.selectById(id);
+
+        if (prostaticMedicalExamination == null) {
+            return queryEmptyResponse();
+        }
+        return querySuccessResponse(prostaticMedicalExamination);
     }
 }

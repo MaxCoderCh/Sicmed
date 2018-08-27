@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import javax.validation.constraints.Null;
 import java.util.Date;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProstaticMedicalExamination extends BaseEntity{
 
     @Null

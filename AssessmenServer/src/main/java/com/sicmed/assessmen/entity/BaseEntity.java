@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 @Setter
 @Getter
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class BaseEntity{
 
     @JsonIgnore

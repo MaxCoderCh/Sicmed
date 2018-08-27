@@ -44,7 +44,7 @@
         digital_rectal_inspect_time, expressed_prostatic_secretion_inspect_time, specific_antigen_inspect_time,
         blood_routine_inspect_time
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from pra_prostatic_medical_examination
