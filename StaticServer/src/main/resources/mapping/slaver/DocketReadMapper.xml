@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.stata.mapper.slaver.DocketReadMapper">
+  <resultMap id="BaseResultMap" type="com.prostate.stata.entity.Docket">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="docket_name" jdbcType="VARCHAR" property="docketName" />
+    <result column="docket_type" jdbcType="VARCHAR" property="docketType" />
+    <result column="docket_status" jdbcType="VARCHAR" property="docketStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, docket_name, docket_type, docket_status, create_time, create_user
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from base_docket
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from base_docket
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.prostate.stata.entity.Docket">
+    insert into base_docket (id, docket_name, docket_type, 
+      docket_status, create_time, create_user
+      )
+    values (#{id,jdbcType=VARCHAR}, #{docketName,jdbcType=VARCHAR}, #{docketType,jdbcType=VARCHAR}, 
+      #{docketStatus,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.prostate.stata.entity.Docket">
+    insert into base_docket
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="docketName != null">
+        docket_name,
+      </if>
+      <if test="docketType != null">
+        docket_type,
+      </if>
+      <if test="docketStatus != null">
+        docket_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="docketName != null">
+        #{docketName,jdbcType=VARCHAR},
+      </if>
+      <if test="docketType != null">
+        #{docketType,jdbcType=VARCHAR},
+      </if>
+      <if test="docketStatus != null">
+        #{docketStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.stata.entity.Docket">
+    update base_docket
+    <set>
+      <if test="docketName != null">
+        docket_name = #{docketName,jdbcType=VARCHAR},
+      </if>
+      <if test="docketType != null">
+        docket_type = #{docketType,jdbcType=VARCHAR},
+      </if>
+      <if test="docketStatus != null">
+        docket_status = #{docketStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.prostate.stata.entity.Docket">
+    update base_docket
+    set docket_name = #{docketName,jdbcType=VARCHAR},
+      docket_type = #{docketType,jdbcType=VARCHAR},
+      docket_status = #{docketStatus,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
