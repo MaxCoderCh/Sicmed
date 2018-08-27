@@ -15,12 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Map;
 
-/**
- * @Author: developerfengrui
- * @Description:
- * @Date: Created in 10:23 2018/4/19
- * @Modified By:
- */
 @Slf4j
 @RestController
 @RequestMapping("doctor")
@@ -42,7 +36,7 @@ public class DoctorController extends BaseController {
      * @param doctorRegisteParams
      * @return
      */
-    @RequestMapping(value = "register", method = RequestMethod.POST)
+    @PostMapping(value = "register")
     public Map registerDoctor(@Valid DoctorRegisteParams doctorRegisteParams) {
 
         String doctorPhone = doctorRegisteParams.getDoctorPhone();
@@ -87,7 +81,7 @@ public class DoctorController extends BaseController {
      * @param doctorPassword
      * @return
      */
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @PostMapping(value = "login")
     public Map loginDoctor(String doctorPhone, String doctorPassword) {
         Doctor doctor = doctorService.selectByPhone(doctorPhone);
         if (doctor == null) {
@@ -112,7 +106,7 @@ public class DoctorController extends BaseController {
      * @param doctorPhone
      * @param smsCode
      */
-    @RequestMapping(value = "smsLogin", method = RequestMethod.POST)
+    @PostMapping(value = "smsLogin")
     public Map smsLogin(String doctorPhone, String smsCode) {
 
         //短信验证码校验
@@ -139,7 +133,7 @@ public class DoctorController extends BaseController {
      * @param doctorPassword
      * @return
      */
-    @RequestMapping(value = "passwordReset", method = RequestMethod.POST)
+    @PostMapping(value = "passwordReset")
     public Map passwordReset(String doctorPhone, String smsCode, String doctorPassword) {
         //短信验证码校验
         String cachePhone = redisSerive.getSmsCode(smsCode);
@@ -174,7 +168,7 @@ public class DoctorController extends BaseController {
      * @param newPassword
      * @return
      */
-    @RequestMapping(value = "updatePassword", method = RequestMethod.POST)
+    @PostMapping(value = "updatePassword")
     public Map updatePassword(String oldPassword, String newPassword) {
 
         if(StringUtils.isBlank(newPassword)||newPassword.length()<6){
