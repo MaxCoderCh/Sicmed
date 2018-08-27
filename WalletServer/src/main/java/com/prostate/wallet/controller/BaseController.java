@@ -1,12 +1,24 @@
 package com.prostate.wallet.controller;
 
 
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BaseController {
 
     public  Map<String,Object> resultMap;
+
+    public String getToken() {
+
+        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+
+        return request.getHeader("token");
+    }
+
     /**
      * 参数为空返回值
      * @return

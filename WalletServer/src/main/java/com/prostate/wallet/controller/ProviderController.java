@@ -1,6 +1,7 @@
 package com.prostate.wallet.controller;
 
 import com.prostate.wallet.entity.DealRecord;
+import com.prostate.wallet.entity.DealRecordConstant;
 import com.prostate.wallet.entity.DoctorWallet;
 import com.prostate.wallet.feignService.OrderServer;
 import com.prostate.wallet.service.DealRecordService;
@@ -56,7 +57,7 @@ public class ProviderController extends BaseController{
         dealRecord.setWalletId(doctorWallet.getId());
         dealRecord.setSerialNumber(RandomStringUtils.randomNumeric(24));
         dealRecord.setDealAmount(orderMap.get("orderPrice").toString());
-        dealRecord.setDealType("问诊收益");
+        dealRecord.setDealType(DealRecordConstant.INCOME_TYPE);
         dealRecord.setPaymentType("微信支付");
         dealRecord.setWalletBalance(newWalletBalanceStr);
         dealRecord.setRemark("交易备注");

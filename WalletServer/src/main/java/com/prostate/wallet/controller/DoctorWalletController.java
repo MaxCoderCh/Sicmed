@@ -36,12 +36,7 @@ public class DoctorWalletController  extends BaseController {
 
     @Autowired
     private RedisSerive redisSerive;
-    /**
-     * @Author: bian
-     * @Date: 2018/7/17 16:32
-     * @todo:   创建钱包
-     * @param:   不含id的钱包对象，其中医生id不能为空，
-     */
+
     @PostMapping("/save")
     public Map save(String token){
         doctorWallet.setWalletBalance("0");
@@ -58,12 +53,6 @@ public class DoctorWalletController  extends BaseController {
     }
 
 
-    /**
-     * @Author: bian
-     * @Date: 2018/7/17 16:41
-     * @todo:   根据医生信息（医生token）查询钱包信息
-     * @param:   医生id
-     */
     @GetMapping("/selectByToken")
     public Map selectByDoctorId( String token){
         //查询钱包信息====因为token和id的值相等，所以把token当做id当做查询条件
@@ -78,12 +67,6 @@ public class DoctorWalletController  extends BaseController {
         }
     }
 
-    /**
-     * @Author: bian
-     * @Date: 2018/7/17 16:32
-     * @todo:   修改钱包金额=============>患者支付订单和医生提现通用
-     * @param:
-     */
     @PostMapping(value = "/updateBalance")
     public Map updateBalance(@RequestBody @Validated({GroupID.class,GroupWithoutID.class})DoctorWallet doctorWallet,String token){
         //取出交易金额
@@ -124,4 +107,21 @@ public class DoctorWalletController  extends BaseController {
         }
     }
 
+    /**
+     * 查询余额
+     * @return
+     */
+    @GetMapping("getBalance")
+    public Map getBalance(){
+        //查询钱包信息====因为token和id的值相等，所以把token当做id当做查询条件
+        DoctorWallet doctorWallet = doctorWalletService.selectByDoctorId(getToken());
+        //查询结果为空
+        if (doctorWallet == null ){
+            return  queryEmptyResponse();
+        }
+        //查询结果不为空
+        else {
+            return querySuccessResponse(doctorWallet.getWalletBalance());
+        }
+    }
 }

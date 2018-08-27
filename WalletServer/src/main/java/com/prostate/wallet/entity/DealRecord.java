@@ -1,5 +1,7 @@
 package com.prostate.wallet.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,7 +9,8 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class DealRecord {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class DealRecord extends BaseEntity {
     private String id;
 
     private String walletId;
@@ -26,6 +29,7 @@ public class DealRecord {
 
     private String remark;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
 }
