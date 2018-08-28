@@ -20,7 +20,7 @@ public class DocketController extends BaseController {
 
 
     /**
-     * 添加 患者标签
+     * APP 自定义添加 患者标签
      *
      * @param docketName
      * @return
@@ -40,7 +40,7 @@ public class DocketController extends BaseController {
     }
 
     /**
-     * 添加 价格标签
+     * APP 自定义添加 价格标签
      *
      * @param docketName
      * @return
@@ -60,7 +60,7 @@ public class DocketController extends BaseController {
     }
 
     /**
-     * 添加 问诊标签
+     * APP 自定义添加 问诊类型标签
      *
      * @param docketName
      * @return
@@ -132,6 +132,24 @@ public class DocketController extends BaseController {
         }
         return querySuccessResponse(docketList);
     }
+
+    /**
+     * APP 删除自定义 标签
+     *
+     * @return
+     */
+    @PostMapping(value = "deleteCustomDocket")
+    public Map deleteCustomDocket(String id) {
+        Docket docket = new Docket();
+        docket.setId(id);
+        docket.setDocketStatus(DocketConstant.DISABLE);
+        int i = docketService.falseDeleteById(docket);
+        if (i > 0) {
+            return insertSuccseeResponse();
+        }
+        return insertFailedResponse();
+    }
+
 
 
 }

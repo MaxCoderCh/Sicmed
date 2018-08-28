@@ -42,4 +42,9 @@ public class DocketServiceImpl implements DocketService {
     public int deleteById(String id) {
         return docketWriteMapper.deleteById(id);
     }
+
+    @Override
+    public int falseDeleteById(Docket docket) {
+        return docketWriteMapper.falseDeleteById(docket);
+    }
 }
