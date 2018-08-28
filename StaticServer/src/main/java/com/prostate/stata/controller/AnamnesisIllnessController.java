@@ -1,7 +1,6 @@
 package com.prostate.stata.controller;
 
 
-import com.prostate.stata.entity.AnamnesisEatingDrug;
 import com.prostate.stata.entity.AnamnesisIllness;
 import com.prostate.stata.service.AnamnesisIllnessService;
 import com.prostate.stata.util.SpellUtils;
@@ -28,9 +27,13 @@ public class AnamnesisIllnessController extends BaseController {
     }
 
 
+    /**
+     * WeChat 模糊查询病史类疾病
+     *
+     * @return
+     */
     @PostMapping(value = "search")
     public Map search(String spellName) {
-        log.info("#########模糊查询病史类疾病########");
         //参数校验
         if (spellName == null || "".equals(spellName)) {
             return emptyParamResponse();

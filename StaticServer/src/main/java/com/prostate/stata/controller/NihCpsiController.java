@@ -5,7 +5,7 @@ import com.prostate.stata.entity.NihCpsi;
 import com.prostate.stata.service.NihCpsiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +20,10 @@ public class NihCpsiController extends BaseController {
     @Autowired
     private NihCpsiService nihCpsiService;
 
-    @PostMapping(value = "getAll")
+    /**
+     * WeChat 查询NIH-CPSI评估项列表
+     */
+    @GetMapping(value = "getAll")
     public Map getAll() {
         log.info("##########查询NIH-CPSI评估项列表###########");
         NihCpsi nihCpsi = new NihCpsi();

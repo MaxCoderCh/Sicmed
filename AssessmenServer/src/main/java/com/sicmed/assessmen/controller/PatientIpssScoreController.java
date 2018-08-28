@@ -8,6 +8,7 @@ import com.sicmed.assessmen.service.PatientIpssScoreService;
 import com.sicmed.assessmen.util.DateUtils;
 import com.sicmed.assessmen.util.IpssScoreUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,21 +30,18 @@ public class PatientIpssScoreController extends BaseController {
     private RedisSerive redisSerive;
 
     /**
-     * 添加IPSS评估结果
+     * WeChat 添加IPSS评估结果
      *
      * @param patientIpssScore
-     * @param token
      * @return
      */
     @PostMapping(value = "add")
-    public Map add(PatientIpssScore patientIpssScore, String token) {
-        log.info("#########前列腺症状评分（IPSS）结果添加############生活质量指数评分（QOL)结果添加############");
+    public Map add(PatientIpssScore patientIpssScore) {
         //参数校验
         if (patientIpssScore == null) {
             return emptyParamResponse();
         }
-        Doctor doctor = redisSerive.getDoctor(token);
-        patientIpssScore.setCreateDoctor(doctor.getId());
+        patientIpssScore.setCreateDoctor(getToken());
 
         List<Integer> scoreList = IpssScoreUtils.getScores(patientIpssScore.getAnswer());
         String caution = IpssScoreUtils.checkDegree(scoreList);
@@ -93,16 +91,15 @@ public class PatientIpssScoreController extends BaseController {
     }
 
     /**
-     * 根据ID查询一条IPSS评估记录
+     * WeChat根据ID查询一条IPSS评估记录
      *
      * @param ipssScoreId
      * @return
      */
     @PostMapping(value = "getById")
     public Map getById(String ipssScoreId) {
-        log.info("########查询一条前列腺症状评分（IPSS）结果添加############生活质量指数评分（QOL)结果############");
         //参数校验
-        if (ipssScoreId == null) {
+        if (StringUtils.isBlank(ipssScoreId)) {
 
             return emptyParamResponse();
         }

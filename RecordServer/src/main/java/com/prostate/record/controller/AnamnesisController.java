@@ -109,7 +109,12 @@ public class AnamnesisController extends BaseController {
         return insertSuccseeResponse();
     }
 
-    /****************************微信端接口 ***************************/
+    /**
+     * WeChat 删除 病史标签
+     * @param id
+     * @param patientId
+     * @return
+     */
     @PostMapping(value = "delete")
     public Map deleteAnamnesis(String id,String patientId) {
         if (id == null || "".equals(id)) {

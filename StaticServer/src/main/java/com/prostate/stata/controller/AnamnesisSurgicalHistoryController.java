@@ -1,6 +1,5 @@
 package com.prostate.stata.controller;
 
-import com.prostate.stata.entity.AnamnesisIllness;
 import com.prostate.stata.entity.AnamnesisSurgicalHistory;
 import com.prostate.stata.service.AnamnesisSurgicalHistoryService;
 import com.prostate.stata.util.SpellUtils;
@@ -22,9 +21,13 @@ public class AnamnesisSurgicalHistoryController extends BaseController{
     @Autowired
     private AnamnesisSurgicalHistoryService anamnesisSurgicalHistoryService;
 
+    /**
+     * WeChat 模糊查询手术史
+     *
+     * @return
+     */
     @PostMapping(value = "search")
     public Map search(String spellName) {
-        log.info("#########模糊查询手术史类疾病########");
         //参数校验
         if (spellName == null || "".equals(spellName)) {
             return emptyParamResponse();

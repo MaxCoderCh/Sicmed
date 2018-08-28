@@ -29,20 +29,18 @@ public class PatientNihCpsiScoreController extends BaseController {
     private RedisSerive redisSerive;
 
     /**
-     * 慢性前列腺炎症状评分添加
+     * WeChat 慢性前列腺炎症状评分添加
      *
      * @param patientNihNpsiScore
-     * @param token
      * @return
      */
     @RequestMapping(value = "add")
-    public Map add(PatientNihCpsiScore patientNihNpsiScore, String token) {
+    public Map add(PatientNihCpsiScore patientNihNpsiScore) {
         //参数校验
         if (patientNihNpsiScore == null) {
             return emptyParamResponse();
         }
-        Doctor doctor = redisSerive.getDoctor(token);
-        patientNihNpsiScore.setCreateDoctor(doctor.getId());
+        patientNihNpsiScore.setCreateDoctor(getToken());
 
         List<Integer> scoreList = NihCpsiScoreUtils.getScores(patientNihNpsiScore.getAnswer());
         String caution = NihCpsiScoreUtils.checkDegree(scoreList);
@@ -94,14 +92,13 @@ public class PatientNihCpsiScoreController extends BaseController {
     }
 
     /**
-     * 根据ID查询一条NIH-NPSI评估记录
+     * WeChat 根据ID查询一条NIH-NPSI评估记录
      *
      * @param nihCpsiScoreId
      * @return
      */
     @PostMapping(value = "getById")
     public Map getById(String nihCpsiScoreId) {
-        log.info("########查询一条性前列腺炎症状评分（NIH-CPSI）结果############");
         //参数校验
         if (nihCpsiScoreId == null) {
 

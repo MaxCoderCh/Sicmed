@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,14 +63,15 @@ public class PatientAssessmentController extends BaseController {
          return queryEmptyResponse();
     }
 
-    /********************************************************/
-    @PostMapping(value = "findByWechatToken")
-    public Map findByWechatToken(String token){
-        log.info("############微信端根据患者查询 所有评估结果列表############");
-        WechatUser wechatUser = redisSerive.getWechatUser(token);
+    /**
+     * WeChat 根据 token 查询 所有评估结果列表
+     * @return
+     */
+    @GetMapping(value = "findByWechatToken")
+    public Map findByWechatToken(){
 
         PatientAssessment patientAssessment =new PatientAssessment();
-        patientAssessment.setId(wechatUser.getId());
+        patientAssessment.setId(getToken());
 
         List<PatientAssessment> patientAssessmentList =  assessmentService.selectByPatientId(patientAssessment);
         if(patientAssessmentList!=null&&patientAssessmentList.size()>0){
@@ -82,13 +82,12 @@ public class PatientAssessmentController extends BaseController {
 
 
     /**
-     * 查询最近的 一条评估记录
+     * WeChat 查询最近的 一条评估记录
      * @param patientId
      * @return
      */
     @PostMapping(value = "getLastByPatientId")
     public Map getLastByPatientId(String patientId){
-        log.info("############根据患者查询 查询最近的 一条评估记录############");
         //参数校验
         if(patientId==null||"".equals(patientId)){
             return emptyParamResponse();

@@ -105,12 +105,12 @@
     </springProfile>
 
     <!-- 生产环境. -->
-    <springProfile name="test,prod">
-        <logger name="com.prostate.doctor.controller" level="INFO" additivity="false">
-            <appender-ref ref="fileInfoLog"/>
-            <appender-ref ref="fileErrorLog"/>
-        </logger>
-    </springProfile>
+    <!--<springProfile name="test,prod">-->
+        <!--<logger name="com.prostate.doctor.controller" level="INFO" additivity="false">-->
+            <!--<appender-ref ref="fileInfoLog"/>-->
+            <!--<appender-ref ref="fileErrorLog"/>-->
+        <!--</logger>-->
+    <!--</springProfile>-->
 
     <root level="INFO">
         <!--<appender-ref ref="consoleLog"/>-->

@@ -25,7 +25,7 @@ public class AnamnesisAllergyDrugController extends BaseController {
     private AnamnesisAllergyDrugService anamnesisAllergyDrugService;
 
     /**
-     * 模糊查询过敏药物
+     * WeChat 模糊查询过敏药物
      *
      * @return
      */

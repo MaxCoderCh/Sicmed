@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,63 +34,34 @@ public class WeChatLoginController extends BaseController {
 
 
     /**
-     * 微信授权登陆接口
-     *
-     * @param request
-     * @return
-     */
-//    @PostMapping(value = "login")
-    public Map login(HttpServletRequest request) {
-
-        Map<String, Object> resultMap = new LinkedHashMap<>();
-        WeChatUser wechatUser = wechatUserService.selectById("3fd5b817800c11e8a09b68cc6e5c9c74");
-        String token = request.getSession().getId();
-        JSONObject.toJSONString(wechatUser);
-        redisSerive.insert(token, JSONObject.toJSONString(wechatUser));
-        resultMap.put("code", 20000);
-        resultMap.put("msg", "登陆成功");
-        resultMap.put("result", token);
-
-        System.out.println(redisSerive.get(token));
-        return resultMap;
-
-    }
-
-    /**
      * 微信端获取用户信息
      *
-     * @param token
      * @return
      */
-    @PostMapping(value = "getUserInfo")
-    public Map getPatientDetailByToken(String token) {
-        WeChatUser wechatUser = redisSerive.getWechatUser(token);
+    @GetMapping(value = "getUserInfo")
+    public Map getPatientDetailByToken() {
+        WeChatUser wechatUser = redisSerive.getWechatUser();
         return querySuccessResponse(wechatUser);
     }
 
     /**
      * 微信端 获取 医患关系 绑定 二维码 (过期时间5分钟)
      *
-     * @param token
      * @return
      */
-    @PostMapping(value = "getQRCode")
-    public Map getQRCode(String token) {
+    @GetMapping(value = "getQRCode")
+    public Map getQRCode() {
 
-        WeChatUser wechatUser = redisSerive.getWechatUser(token);
+        String cacheId = RandomStringUtils.randomNumeric(6);
 
-        String userId = wechatUser.getId();
-        if (userId != null && userId.length() == 32) {
-            String cacheId = RandomStringUtils.randomNumeric(6);
-            redisSerive.insert(cacheId, wechatUser.getId(), 60 * 5);
-            return querySuccessResponse(cacheId);
-        }
-        return queryEmptyResponse();
+        redisSerive.insert(cacheId, getToken(), 60 * 5);
+
+        return querySuccessResponse(cacheId);
     }
 
 
     @RequestMapping(value = "oauth")
-    public Map redirect(String code, HttpServletRequest request) {
+    public Map redirect(String code) {
 
         if (code == null || "".equals(code)) {
             return emptyParamResponse();
@@ -122,7 +94,7 @@ public class WeChatLoginController extends BaseController {
         log.info(wechatUser.toString());
         wechatUserService.insertSelective(wechatUser);
         //shiro 登陆授权
-        String token = request.getSession().getId();
+        String token = wechatUser.getId();
         JSONObject.toJSONString(wechatUser);
         redisSerive.insert(token, JSONObject.toJSONString(wechatUser));
         return insertSuccseeResponse(token);

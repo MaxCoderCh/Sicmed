@@ -2,7 +2,10 @@ package com.prostate.record.controller;
 
 import com.prostate.record.beans.PatientAnamnesisBean;
 import com.prostate.record.cache.redis.RedisSerive;
-import com.prostate.record.entity.*;
+import com.prostate.record.entity.Anamnesis;
+import com.prostate.record.entity.ParamEntiey;
+import com.prostate.record.entity.Patient;
+import com.prostate.record.entity.UserPatient;
 import com.prostate.record.service.AnamnesisService;
 import com.prostate.record.service.PatientAnamnesisService;
 import com.prostate.record.service.PatientService;
@@ -154,9 +157,8 @@ public class PatientAnamnesisController extends BaseController {
     }
 
 
-    /********************************微信端 接口**************************************/
     /**
-     * 修改 患者 信息 病历 信息
+     * WeChat 修改 患者 信息 病历 信息
      *
      * @param patient
      * @param paramEntiey
@@ -261,16 +263,15 @@ public class PatientAnamnesisController extends BaseController {
 
 
     /**
-     * 微信 用户查询 病历信息
+     * WeChat 用户查询 病历信息
      *
-     * @param token
      * @return
      */
-    @PostMapping(value = "selete")
-    public Map seletePatient(String token) {
+    @GetMapping(value = "selete")
+    public Map seletePatient() {
 
         //查询
-        PatientAnamnesisBean patientAnamnesisBean = patientAnamnesisService.getHealthRrecord(token);
+        PatientAnamnesisBean patientAnamnesisBean = patientAnamnesisService.getHealthRrecord(getToken());
 
         //查询结果校验
         if (patientAnamnesisBean != null) {
@@ -280,7 +281,7 @@ public class PatientAnamnesisController extends BaseController {
     }
 
     /**
-     * 微信 用户查询 病历信息
+     * WeChat 根据患者ID查询病历信息
      *
      * @return
      */
@@ -301,22 +302,21 @@ public class PatientAnamnesisController extends BaseController {
         return queryEmptyResponse();
     }
     /**
-     * 同时  创建 患者 和 患者病历
+     * WeChat 同时  创建 患者 和 患者病历
      *
      * @param patient
      * @param paramEntiey
-     * @param token
      * @return
      */
     @PostMapping(value = "weChatAdd")
-    public Map weChatAdd(Patient patient, ParamEntiey paramEntiey, String token) {
+    public Map weChatAdd(Patient patient, ParamEntiey paramEntiey) {
 
         if (patient.getPatientName() == null || "".equals(patient.getPatientName())) {
             return emptyParamResponse();
         }
 
-        patient.setId(token);
-        patient.setCreateDoctor(token);
+        patient.setId(getToken());
+        patient.setCreateDoctor(getToken());
         patient.setPatientNumber("PRA" + System.currentTimeMillis());
         patient.setPatientAge(IdCardUtil.getAgeByIdCard(patient.getPatientCard()));
 

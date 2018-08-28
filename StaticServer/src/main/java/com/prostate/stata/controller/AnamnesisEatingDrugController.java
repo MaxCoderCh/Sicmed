@@ -1,7 +1,6 @@
 package com.prostate.stata.controller;
 
 
-import com.prostate.stata.entity.AnamnesisAllergyDrug;
 import com.prostate.stata.entity.AnamnesisEatingDrug;
 import com.prostate.stata.service.AnamnesisEatingDrugService;
 import com.prostate.stata.util.SpellUtils;
@@ -26,13 +25,12 @@ public class AnamnesisEatingDrugController extends BaseController {
 
 
     /**
-     * 模糊查询正在服用的药物
+     * WeChat 模糊查询正在服用的药物
      *
      * @return
      */
     @PostMapping(value = "search")
     public Map search(String spellName) {
-        log.info("#########模糊查询正在服用的药物########");
         //参数校验
         if (spellName == null || "".equals(spellName)) {
             return emptyParamResponse();

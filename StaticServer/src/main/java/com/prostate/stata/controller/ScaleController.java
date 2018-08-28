@@ -5,7 +5,7 @@ import com.prostate.stata.entity.*;
 import com.prostate.stata.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,7 +45,11 @@ public class ScaleController extends BaseController {
         this.scaleUrineRoutineService = scaleUrineRoutineService;
     }
 
-    @PostMapping(value = "getAll")
+    /**
+     * WeChat 查询评估量表
+     * @return
+     */
+    @GetMapping(value = "getAll")
     public Map getAll() {
         log.info("##########SCALE###########");
         Scale scale = new Scale();
@@ -60,10 +64,10 @@ public class ScaleController extends BaseController {
 
 
     /**
-     * 获取血常规量表
+     * WeChat 获取血常规量表
      * @return
      */
-    @PostMapping(value = "getBloodRoutine")
+    @GetMapping(value = "getBloodRoutine")
     public Map getBloodRoutine(){
         log.info("##########查询血常规量表项###########");
         List<ScaleBloodRoutineBean> scaleBloodRoutineBeanList =  scaleBloodRoutineService.selectByParamss();
@@ -75,10 +79,10 @@ public class ScaleController extends BaseController {
     }
 
     /**
-     * 获取前列腺指检量表
+     * WeChat 获取前列腺指检量表
      * @return
      */
-    @PostMapping(value = "getDigitalRectal")
+    @GetMapping(value = "getDigitalRectal")
     public Map getDigitalRectal(){
         ScaleDigitalRectal scaleDigitalRectal = new ScaleDigitalRectal();
         List<ScaleDigitalRectalBean> scaleDigitalRectalBeanList =  scaleDigitalRectalService.selectByParamss(scaleDigitalRectal);
@@ -90,10 +94,10 @@ public class ScaleController extends BaseController {
     }
 
     /**
-     * 获取前列腺按摩液量表
+     * WeChat 获取前列腺按摩液量表
      * @return
      */
-    @PostMapping(value = "getExpressedProstaticSecretion")
+    @GetMapping(value = "getExpressedProstaticSecretion")
     public Map getExpressedProstaticSecretion(){
         ScaleExpressedProstaticSecretion scaleExpressedProstaticSecretion = new ScaleExpressedProstaticSecretion();
         List<ScaleExpressedProstaticSecretionBean> scaleExpressedProstaticSecretionBeanList =  scaleExpressedProstaticSecretionService.selectByParamss(scaleExpressedProstaticSecretion);
@@ -105,10 +109,10 @@ public class ScaleController extends BaseController {
     }
 
     /**
-     * 获取特异性抗原量表
+     * WeChat 获取特异性抗原量表
      * @return
      */
-    @PostMapping(value = "getSpecificAntigen")
+    @GetMapping(value = "getSpecificAntigen")
     public Map getSpecificAntigen(){
         ScaleSpecificAntigen scaleSpecificAntigen = new ScaleSpecificAntigen();
         List<ScaleSpecificAntigenBean> scaleSpecificAntigenBeanList =  scaleSpecificAntigenService.selectByParamss(scaleSpecificAntigen);
@@ -120,10 +124,10 @@ public class ScaleController extends BaseController {
     }
 
     /**
-     * 获取B超量表
+     * WeChat 获取B超量表
      * @return
      */
-    @PostMapping(value = "getUltrasonographyB")
+    @GetMapping(value = "getUltrasonographyB")
     public Map getUltrasonographyB(){
         ScaleUltrasonographyB scaleUltrasonographyB = new ScaleUltrasonographyB();
         List<ScaleUltrasonographyBBean> scaleUltrasonographyBBeanList =  scaleUltrasonographyBService.selectByParamss(scaleUltrasonographyB);
@@ -135,10 +139,10 @@ public class ScaleController extends BaseController {
     }
 
     /**
-     * 获取尿流率量表
+     * WeChat 获取尿流率量表
      * @return
      */
-    @PostMapping(value = "getUrineFlowRate")
+    @GetMapping(value = "getUrineFlowRate")
     public Map getUrineFlowRate(){
         ScaleUrineFlowRate scaleUrineFlowRate = new ScaleUrineFlowRate();
         List<ScaleUrineFlowRateBean> scaleUrineFlowRateBeanList =  scaleUrineFlowRateService.selectByParamss(scaleUrineFlowRate);
@@ -150,10 +154,10 @@ public class ScaleController extends BaseController {
     }
 
     /**
-     * 获取尿常规量表
+     * WeChat 获取尿常规量表
      * @return
      */
-    @PostMapping(value = "getUrineRoutine")
+    @GetMapping(value = "getUrineRoutine")
     public Map getUrineRoutine(){
         ScaleUrineRoutine scaleUrineRoutine = new ScaleUrineRoutine();
         List<ScaleUrineRoutineBean> scaleUrineRoutineBeanList =  scaleUrineRoutineService.selectByParamss(scaleUrineRoutine);

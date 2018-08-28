@@ -3,18 +3,17 @@ package com.sicmed.assessmen.controller;
 import com.sicmed.assessmen.beans.MedicalExaminationBean;
 import com.sicmed.assessmen.cache.redis.RedisSerive;
 import com.sicmed.assessmen.entity.ProstaticMedicalExamination;
-import com.sicmed.assessmen.entity.WechatUser;
 import com.sicmed.assessmen.service.ProstaticMedicalExaminationService;
 import com.sicmed.assessmen.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import javax.ws.rs.GET;
 import java.util.*;
 
 /**
@@ -31,23 +30,19 @@ public class MedicalExaminationController extends BaseController {
     private RedisSerive redisSerive;
 
     /**
-     * 添加化验单解读结果
+     * WeChat 添加化验单解读结果
      *
      * @return
      */
     @RequestMapping(value = "add")
-    public Map add(@Valid ProstaticMedicalExamination prostaticMedicalExamination, String patientAge, String token, String prostaticMedicalExaminationId) {
+    public Map add(@Valid ProstaticMedicalExamination prostaticMedicalExamination, String patientAge, String prostaticMedicalExaminationId) {
 
         String patientId = prostaticMedicalExamination.getPatientId();
         //参数校验
-        if ((patientId == null || "".equals(patientId)) && token != null && !"".equals(token)) {
-            WechatUser wechatUser = redisSerive.getWechatUser(token);
-            prostaticMedicalExamination.setPatientId(wechatUser.getId());
-        } else if (patientId != null && !"".equals(patientId) && token != null && !"".equals(token)) {
-            prostaticMedicalExamination.setPatientId(patientId);
-        } else {
+        if (StringUtils.isBlank(patientId)) {
             return emptyParamResponse();
         }
+        prostaticMedicalExamination.setPatientId(patientId);
 
         //记录ID校验
         boolean t = StringUtils.isNotBlank(prostaticMedicalExaminationId);
@@ -132,20 +127,15 @@ public class MedicalExaminationController extends BaseController {
     }
 
     /**
-     * 根据患者Id 查询 化验单解读记录
+     * WeChat 根据患者 token 查询 化验单解读记录
      */
-    @RequestMapping(value = "getByPatientId")
-    public LinkedHashMap getByPatientId(String patientId, String token) {
+    @GetMapping(value = "getByPatientId")
+    public LinkedHashMap getByPatientId() {
 
         ProstaticMedicalExamination prostaticMedicalExamination = new ProstaticMedicalExamination();
-        if ((patientId == null || "".equals(patientId)) && token != null && !"".equals(token)) {
-            WechatUser wechatUser = redisSerive.getWechatUser(token);
-            prostaticMedicalExamination.setPatientId(wechatUser.getId());
-        } else if (patientId != null && !"".equals(patientId) && token != null && !"".equals(token)) {
-            prostaticMedicalExamination.setPatientId(patientId);
-        } else {
-            return emptyParamResponse();
-        }
+
+        prostaticMedicalExamination.setPatientId(getToken());
+
 
         List<ProstaticMedicalExamination> prostaticMedicalExaminationList = prostaticMedicalExaminationService.selectByParams(prostaticMedicalExamination);
         if (prostaticMedicalExaminationList == null || prostaticMedicalExaminationList.size() == 0) {
@@ -159,12 +149,11 @@ public class MedicalExaminationController extends BaseController {
 
 
     /**
-     * 根据患者 和日期 查询 化验单解读结果
+     * WeChat 根据患者 和日期 查询 化验单解读结果
      *
-     * @param patientId
      * @return
      */
-    @RequestMapping(value = "getByPatientAndDate")
+    @PostMapping(value = "getByPatientAndDate")
     public LinkedHashMap getByPatientAndData(String patientId, String createDate) {
         ProstaticMedicalExamination prostaticMedicalExamination = new ProstaticMedicalExamination();
 

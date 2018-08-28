@@ -1,6 +1,5 @@
 package com.prostate.stata.controller;
 
-import com.prostate.stata.entity.Nation;
 import com.prostate.stata.entity.Profession;
 import com.prostate.stata.service.ProfessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class ProfessionController extends BaseController {
      *
      * @return
      */
-    @PostMapping(value = "getAll")
+    @GetMapping(value = "getAll")
     public Map getAll() {
         //查询参数
         Profession profession = new Profession();

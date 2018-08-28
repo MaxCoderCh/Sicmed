@@ -104,20 +104,14 @@
             <appender-ref ref="SQL_CONSOLE_LOG"/>
         </logger>
     </springProfile>
-    <!-- 测试环境 -->
-    <springProfile name="test">
-        <logger name="com.prostate.record.mapper.pra.read" level="INFO" additivity="false">
-            <appender-ref ref="fileInfoLog"/>
-            <appender-ref ref="fileErrorLog"/>
-        </logger>
-    </springProfile>
+
     <!-- 生产环境 -->
-    <springProfile name="prd">
-        <logger name="com.prostate.record.mapper.pra.read" level="INFO" additivity="false">
-            <appender-ref ref="fileInfoLog"/>
-            <appender-ref ref="fileErrorLog"/>
-        </logger>
-    </springProfile>
+    <!--<springProfile name="prd">-->
+        <!--<logger name="com.prostate.record.mapper.pra.read" level="INFO" additivity="false">-->
+            <!--<appender-ref ref="fileInfoLog"/>-->
+            <!--<appender-ref ref="fileErrorLog"/>-->
+        <!--</logger>-->
+    <!--</springProfile>-->
 
     <root level="WARN">
         <!--<appender-ref ref="consoleLog"/>-->

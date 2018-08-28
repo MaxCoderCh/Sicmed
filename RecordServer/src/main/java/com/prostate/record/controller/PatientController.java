@@ -42,6 +42,12 @@ public class PatientController extends BaseController {
         this.patientService = patientService;
     }
 
+    /**
+     * WeChat 根据身份证 添加 患者
+     *
+     * @param idCardUrl
+     * @return
+     */
     @PostMapping(value = "add")
     public Map add(String idCardUrl) {
         if (StringUtils.isBlank(idCardUrl)) {
@@ -49,7 +55,7 @@ public class PatientController extends BaseController {
         }
         Map<String, Object> idCardMap = thirdServer.idCard(idCardUrl);
 
-        //添加医生个人信息
+        //
         Patient patient = new Patient();
         log.info(idCardMap.get("result").toString());
         Map<String, Object> idCardInfo = (Map<String, Object>) idCardMap.get("result");
@@ -193,15 +199,14 @@ public class PatientController extends BaseController {
 
 
     /**
-     * 修改患者信息
+     * WeChat 修改患者信息
      * @param patient
-     * @param token
      * @return
      */
     @PostMapping(value = "update")
-    public Object updatePatient(Patient patient, String token) {
-        resultMap = new LinkedHashMap<>();
-        if (patient.getId() == null || "".equals(patient.getId())) {
+    public Map updatePatient(Patient patient) {
+        //参数校验
+        if (StringUtils.isBlank(patient.getId())) {
             return emptyParamResponse();
         }
         int i = patientService.updateSelective(patient);
