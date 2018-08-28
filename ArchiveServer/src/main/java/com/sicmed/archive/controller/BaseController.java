@@ -1,6 +1,8 @@
 package com.sicmed.archive.controller;
 
 
+import com.sicmed.archive.feignService.ThirdServer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -11,6 +13,9 @@ import java.util.Map;
 public class BaseController {
 
     public Map<String, Object> resultMap;
+
+    @Autowired
+    protected ThirdServer thirdServer;
 
     public String getToken() {
 
