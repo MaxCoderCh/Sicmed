@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicmed.archive.mapper.master.MedicalReportWriteMapper">
 
+  <delete id="deleteByImgPath" parameterType="java.lang.String">
+    delete from medical_report
+    where report_url = #{imgPath,jdbcType=VARCHAR}
+  </delete>
+
   <insert id="insertSelective" parameterType="com.sicmed.archive.entity.MedicalReport">
     <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
       select replace(uuid(),'-','') from dual

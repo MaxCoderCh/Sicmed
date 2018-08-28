@@ -25,7 +25,7 @@ public class MedicalReportController extends BaseController {
     private MedicalReportService medicalReportService;
 
     /**
-     * 添加 问诊 报告
+     * WeChat 添加 问诊 报告
      * @param imgUrlArr
      * @param patientId
      * @return
@@ -48,7 +48,7 @@ public class MedicalReportController extends BaseController {
     }
 
     /**
-     * 根据分组编号 查询 档案
+     * APP WeChat 根据分组编号 查询 档案
      * @param groupNumber
      * @return
      */
@@ -67,7 +67,7 @@ public class MedicalReportController extends BaseController {
     }
 
     /**
-     * APP
+     * APP 查询 报告 列表
      */
     @GetMapping(value = "getMedicalReportList")
     public Map getMedicalReportList(String patientId) {
@@ -93,5 +93,24 @@ public class MedicalReportController extends BaseController {
             urlList.add(report.getReportUrl());
         }
         return querySuccessResponse(medicalReportGroupMap,medicalReportGroupMap.size());
+    }
+
+    /**
+     * WeChat 删除 问诊 报告
+     *
+     * @return
+     */
+    @PostMapping(value = "deleteInquiryReport")
+    public Map deleteInquiryReport(String imgPath) {
+        if (StringUtils.isNotBlank(imgPath)) {
+
+            int i = medicalReportService.deleteByImgPath(imgPath);
+            if (i >= 0) {
+                thirdServer.delete(imgPath);
+                return deleteSuccseeResponse();
+            }
+            return deleteFailedResponse();
+        }
+        return emptyParamResponse();
     }
 }

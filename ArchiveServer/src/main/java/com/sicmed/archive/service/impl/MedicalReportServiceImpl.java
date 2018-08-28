@@ -47,4 +47,9 @@ public class MedicalReportServiceImpl implements MedicalReportService {
     public List<String> selectUrlByParams(MedicalReport medicalReport) {
         return medicalReportReadMapper.selectUrlByParams(medicalReport);
     }
+
+    @Override
+    public int deleteByImgPath(String imgPath) {
+        return medicalReportWriteMapper.deleteByImgPath(imgPath);
+    }
 }

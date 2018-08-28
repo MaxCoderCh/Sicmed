@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MedicalReportService extends BaseService<MedicalReport> {
     List<String> selectUrlByParams(MedicalReport medicalReport);
+
+    int deleteByImgPath(String imgPath);
 }
