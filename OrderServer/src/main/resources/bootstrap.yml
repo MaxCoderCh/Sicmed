@@ -3,9 +3,6 @@ spring:
     name: order-server
   cloud:
     config:
-      uri: http://localhost:8880
+      uri: http://172.18.9.173:8880
       profile: dev
       label: master
-logging:
-  level:
-    root: debug

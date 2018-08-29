@@ -132,7 +132,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.prostate.OrderApplication</mainClass>
+							<mainClass>com.sicmed.GoodsApplication</mainClass>
 							<classpathPrefix>lib/</classpathPrefix>
 						</manifest>
 					</archive>

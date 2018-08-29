@@ -132,7 +132,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.sicmed.OrderApplication</mainClass>
+							<mainClass>com.sicmed.ArchiveApplication</mainClass>
 							<classpathPrefix>lib/</classpathPrefix>
 						</manifest>
 					</archive>

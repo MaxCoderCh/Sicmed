@@ -178,7 +178,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.prostate.wallet.OrderApplication</mainClass>
+							<mainClass>com.prostate.wallet.WalletApplication</mainClass>
 							<classpathPrefix>lib/</classpathPrefix>
 						</manifest>
 					</archive>

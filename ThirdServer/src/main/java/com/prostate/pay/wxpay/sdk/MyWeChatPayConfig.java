@@ -19,7 +19,7 @@ public class MyWeChatPayConfig extends WXPayConfig {
         this.mchid = mchid;
         this.key = key;
 
-        File file = new File(certPath);
+        File file = new File(Thread.currentThread().getContextClassLoader().getResource(certPath).getPath());
         InputStream certStream = new FileInputStream(file);
         this.certData = new byte[(int) file.length()];
         certStream.read(this.certData);
