@@ -74,8 +74,5 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 1600000
-logging:
-  level:
-    root: debug
 
 
