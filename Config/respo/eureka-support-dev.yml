@@ -1,9 +1,0 @@
-spring:
-  cloud:
-    discovery:
-      enabled: true
-      serviceId: eureka-server
-eureka:
-  client:
-    serviceUrl:
-      defaultZone:  http://localhost:8888/eureka/
