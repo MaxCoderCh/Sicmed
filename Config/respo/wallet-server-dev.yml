@@ -19,7 +19,7 @@ spring:
       enabled: true
       serviceId: eureka-server
     client:
-      ipAddress: 172.24.224.78
+      ipAddress: 172.18.9.173
   redis:
   #################redis基础配置#################
     database: 8

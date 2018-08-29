@@ -1,6 +1,9 @@
 package com.prostate.pay.wxpay.sdk;
 
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,10 +21,10 @@ public class MyWeChatPayConfig extends WXPayConfig {
         this.appid = appid;
         this.mchid = mchid;
         this.key = key;
+        ClassPathResource resource = new ClassPathResource("cert/200b180e881611e8a09b68cc6e5c9c74.p12");
+        InputStream certStream = resource.getInputStream();
 
-        File file = new File(Thread.currentThread().getContextClassLoader().getResource(certPath).getPath());
-        InputStream certStream = new FileInputStream(file);
-        this.certData = new byte[(int) file.length()];
+        this.certData = new byte[certStream.available()];
         certStream.read(this.certData);
         certStream.close();
 
