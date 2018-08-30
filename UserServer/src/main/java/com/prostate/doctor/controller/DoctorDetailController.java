@@ -267,7 +267,7 @@ public class DoctorDetailController extends BaseController {
      * 医生数据处理
      */
     private void doctorDetailBuilder(DoctorDetailBean doctorDetailBean) {
-        log.info(doctorDetailBean.toString());
+
         String hospitalName = staticServer.getHospitalById(doctorDetailBean.getHospitalId()).get("result").toString();
         String branchName = staticServer.getBranchById(doctorDetailBean.getBranchId()).get("result").toString();
         String titleName = staticServer.getTitleById(doctorDetailBean.getTitleId()).get("result").toString();
@@ -276,7 +276,9 @@ public class DoctorDetailController extends BaseController {
         doctorDetailBean.setBranchName(branchName);
         doctorDetailBean.setTitleName(titleName);
 
-        doctorDetailBean.setAreFans(starJson.get(doctorDetailBean.getId()) != null);
+        if (starJson != null) {
+            doctorDetailBean.setAreFans(starJson.get(doctorDetailBean.getId()) != null);
+        }
 
         doctorDetailBean.setFansCount(0);
         doctorDetailBean.setHitsCount(0);
