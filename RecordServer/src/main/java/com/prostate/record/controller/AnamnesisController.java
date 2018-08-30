@@ -110,15 +110,14 @@ public class AnamnesisController extends BaseController {
     /**
      * WeChat 删除 病史标签
      * @param id
-     * @param patientId
      * @return
      */
     @PostMapping(value = "delete")
-    public Map deleteAnamnesis(String id,String patientId) {
+    public Map deleteAnamnesis(String id) {
         if (id == null || "".equals(id)) {
             return emptyParamResponse();
         }
-        int i = anamnesisService.deleteById(id,patientId);
+        int i = anamnesisService.deleteById(id);
         if (i >= 0) {
             return deleteSuccseeResponse();
         }
