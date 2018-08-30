@@ -40,19 +40,17 @@ public class AnamnesisController extends BaseController {
     /**
      * 单独添加病史信息
      *
-     * @param token
      * @param paramEntiey
      * @return
      */
     @PostMapping(value = "addAnamnesis")
-    public Map addAnamnesis(String token, @Valid ParamEntiey paramEntiey) {
+    public Map addAnamnesis( @Valid ParamEntiey paramEntiey) {
         log.info("============患者档案既往病史添加========");
         resultMap = new LinkedHashMap<>();
         //参数校验
         if (paramEntiey == null) {
             return emptyParamResponse();
         }
-        Doctor doctor = redisSerive.getDoctor(token);
 
         //遍历添加病史项
         String patientId = paramEntiey.getPatientId();
@@ -70,7 +68,7 @@ public class AnamnesisController extends BaseController {
                 anamnesis.setPatientId(patientId);
                 anamnesis.setOrderId(anamnesisAllergyDrugId);
                 anamnesis.setAnamnesisTypeId("0007fe67fa7c4c4195018ebe7926a7c7");
-                anamnesis.setCreateDoctor(doctor.getId());
+                anamnesis.setCreateDoctor(getToken());
                 anamnesisService.insertSelective(anamnesis);
             }
         }
@@ -80,7 +78,7 @@ public class AnamnesisController extends BaseController {
                 anamnesis.setPatientId(patientId);
                 anamnesis.setOrderId(anamnesisEatingDrugId);
                 anamnesis.setAnamnesisTypeId("00163e4597b14fe787c86e22b7946790");
-                anamnesis.setCreateDoctor(doctor.getId());
+                anamnesis.setCreateDoctor(getToken());
                 anamnesisService.insertSelective(anamnesis);
 
             }
@@ -91,7 +89,7 @@ public class AnamnesisController extends BaseController {
                 anamnesis.setPatientId(patientId);
                 anamnesis.setOrderId(anamnesisIllnessId);
                 anamnesis.setAnamnesisTypeId("00106a226f04411b885e3f328acba4d7");
-                anamnesis.setCreateDoctor(doctor.getId());
+                anamnesis.setCreateDoctor(getToken());
                 anamnesisService.insertSelective(anamnesis);
 
             }
@@ -102,7 +100,7 @@ public class AnamnesisController extends BaseController {
                 anamnesis.setPatientId(patientId);
                 anamnesis.setAnamnesisRemark(otherId);
                 anamnesis.setAnamnesisTypeId("0045a520eb9d4a3f93fbef4a2e9de0cf");
-                anamnesis.setCreateDoctor(doctor.getId());
+                anamnesis.setCreateDoctor(getToken());
                 anamnesisService.insertSelective(anamnesis);
             }
         }

@@ -21,18 +21,13 @@ import java.util.Map;
 @RequestMapping(value = "healthArchive")
 public class HealthArchiveController extends BaseController {
 
-    private final PatientService patientService;
 
     private final AnamnesisService anamnesisService;
 
     private final UserPatientService userPatientService;
 
     @Autowired
-    private ThirdServer thirdServer;
-
-    @Autowired
-    public HealthArchiveController(PatientService patientService, AnamnesisService anamnesisService, UserPatientService userPatientService) {
-        this.patientService = patientService;
+    public HealthArchiveController(AnamnesisService anamnesisService, UserPatientService userPatientService) {
         this.anamnesisService = anamnesisService;
         this.userPatientService = userPatientService;
     }
