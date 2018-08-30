@@ -26,8 +26,6 @@ public class MedicalExaminationController extends BaseController {
 
     @Autowired
     private ProstaticMedicalExaminationService prostaticMedicalExaminationService;
-    @Autowired
-    private RedisSerive redisSerive;
 
     /**
      * WeChat 添加化验单解读结果
@@ -46,7 +44,6 @@ public class MedicalExaminationController extends BaseController {
         Date cds = DateUtils.stringToDate(DateUtils.getCurrentDate());
 
         prostaticMedicalExamination.setCreateTime(cds);
-//        prostaticMedicalExamination.setPatientId(patientId);
 
         ProstaticMedicalExamination checkProstaticMedicalExamination = prostaticMedicalExaminationService.selectByCreateTimeAndPatientId(prostaticMedicalExamination);
 
