@@ -34,11 +34,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Map<String, Object> allExceptionHandler(HttpServletRequest request, Exception exception) {
 
-        log.error("我报错了：{}", exception.getLocalizedMessage());
-        log.error("我报错了：{}", exception.getCause());
+//        log.error("我报错了：{}", exception.getLocalizedMessage());
+//        log.error("我报错了：{}", exception.getCause());
 //        log.error("我报错了：{}",exception.getSuppressed());
-        log.error("我报错了：{}", exception.getMessage());
-//        log.error("我报错了：{}",exception.getStackTrace());
+//        log.error("我报错了：{}", exception.getMessage());
+        log.error("我报错了：{}",exception.getStackTrace());
 
         resultMap = new LinkedHashMap<>();
         resultMap.put("code", "50000");
