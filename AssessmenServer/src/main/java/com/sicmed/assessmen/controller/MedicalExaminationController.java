@@ -37,12 +37,8 @@ public class MedicalExaminationController extends BaseController {
     @RequestMapping(value = "add")
     public Map add(@Valid ProstaticMedicalExamination prostaticMedicalExamination, String patientAge, String prostaticMedicalExaminationId) {
 
-        String patientId = prostaticMedicalExamination.getPatientId();
-        //参数校验
-        if (StringUtils.isBlank(patientId)) {
-            return emptyParamResponse();
-        }
-        prostaticMedicalExamination.setPatientId(patientId);
+
+        prostaticMedicalExamination.setPatientId(getToken());
 
         //记录ID校验
         boolean t = StringUtils.isNotBlank(prostaticMedicalExaminationId);
