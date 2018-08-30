@@ -82,12 +82,9 @@ public class WXPay {
         reqData.put("appid", config.getAppID());
         reqData.put("mch_id", config.getMchID());
         reqData.put("nonce_str", WXPayUtil.generateNonceStr());
-        if (SignType.MD5.equals(this.signType)) {
-            reqData.put("sign_type", WXPayConstants.MD5);
-        } else if (SignType.HMACSHA256.equals(this.signType)) {
-            reqData.put("sign_type", WXPayConstants.HMACSHA256);
-        }
-        reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey(), this.signType));
+        reqData.put("sign_type", WXPayConstants.MD5);
+
+        reqData.put("sign", WXPayUtil.generateSignature(reqData, config.getKey()));
         return reqData;
     }
 
@@ -100,7 +97,7 @@ public class WXPay {
      */
     public boolean isResponseSignatureValid(Map<String, String> reqData) throws Exception {
         // 返回数据的签名方式和请求中给定的签名方式是一致的
-        return WXPayUtil.isSignatureValid(reqData, this.config.getKey(), this.signType);
+        return WXPayUtil.isSignatureValid(reqData, this.config.getKey());
     }
 
     /**
