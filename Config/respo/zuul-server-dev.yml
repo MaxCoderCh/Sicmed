@@ -67,7 +67,7 @@ zuul:
       url: http://www.qlxlm.com
     api-qlxlm3:
       path: /prostaticUnion/**
-      url: http://www.qlxlm.com
+      service-id: http://www.qlxlm.com
 ribbon:
   ReadTimeout: 40000
   ConnectTimeout: 40000
