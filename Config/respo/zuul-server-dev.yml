@@ -64,10 +64,7 @@ zuul:
       service-id: statistic-server
     api-qlxlm:
       path: /
-      url: http://www.qlxlm.com
-    api-qlxlm3:
-      path: /prostaticUnion/**
-      service-id: http://www.qlxlm.com
+      url: http://139.199.97.82
 ribbon:
   ReadTimeout: 40000
   ConnectTimeout: 40000
@@ -75,6 +72,7 @@ hystrix:
   command:
     default:
       execution:
+
         timeout:
           enabled: true
         isolation:
