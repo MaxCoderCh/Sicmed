@@ -1,7 +1,7 @@
 ipAddress:
-  client: 127.0.0.1
+  client: 192.168.0.222
   redis: 127.0.0.1
-  eureka: 172.18.9.173
+  eureka: 192.168.0.222
 server:
   port: 8902
 spring:
