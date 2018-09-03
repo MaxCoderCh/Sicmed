@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicmed.assessmen.mapper.slaver.InquiryRecordReadMapper">
+    <resultMap id="BaseResultMap" type="com.sicmed.assessmen.entity.InquiryRecord">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="patient" jdbcType="VARCHAR" property="patient"/>
+        <result column="patient_archive" jdbcType="VARCHAR" property="patientArchive"/>
+        <result column="inquiry_description" jdbcType="VARCHAR" property="inquiryDescription"/>
+        <result column="inquiry_answer" jdbcType="VARCHAR" property="inquiryAnswer"/>
+        <result column="record_status" jdbcType="VARCHAR" property="recordStatus"/>
+        <result column="record_type" jdbcType="VARCHAR" property="recordType"/>
+        <result column="caution" jdbcType="VARCHAR" property="caution"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="delete_user" jdbcType="VARCHAR" property="deleteUser"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, patient, patient_archive, inquiry_description, inquiry_answer, record_status,
+        record_type, caution, create_user, create_time, update_user, update_time, delete_user,
+        delete_time, del_flag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from inquiry_record
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByArchive" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        id,inquiry_answer,record_status
+        from inquiry_record
+        where patient_archive = #{archive}
+    </select>
+</mapper>
