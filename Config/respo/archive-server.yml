@@ -1,0 +1,60 @@
+ipAddress:
+  dev:
+    client: 127.0.0.1
+    redis: 127.0.0.1
+    eureka: 172.18.9.173
+  uat:
+    client: 172.18.9.173
+    redis: 127.0.0.1
+    eureka: 172.18.9.173
+  prd:
+    client: 172.18.9.173
+    redis: 127.0.0.1
+    eureka: 172.18.9.173
+server:
+  port: 8902
+spring:
+  datasource:
+    master:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/${spring.profiles.active}_master_archive?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    slaver:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/${spring.profiles.active}_master_archive?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+  cloud:
+    discovery:
+      enabled: true
+      serviceId: eureka-server
+    client:
+      ipAddress: ${ipAddress.${spring.profiles.active}.client}
+  redis:
+  #################redis基础配置#################
+    database: 8
+    host: ${ipAddress.client}
+    password:
+    port: 6379
+    timeout: 5000
+  #################redis线程池设置#################
+    jedis:
+      pool:
+        max-idle: 500
+        min-idle: 50
+        max-active: 2000
+        max-wait: 1000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone:  http://${ipAddress.${spring.profiles.active}.client}:8888/eureka/
+  instance:
+    preferIpAddress: true
+    instance-id: ${ipAddress.${spring.profiles.active}.client}:${server.port}
+feign:
+  hystrix:
+    enabled: true
+logging:
+  level:
+    root: debug
