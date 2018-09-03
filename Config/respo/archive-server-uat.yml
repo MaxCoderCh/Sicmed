@@ -1,21 +1,21 @@
 ipAddress:
-  client: 192.168.0.222
-  redis: 192.168.0.222
-  eureka: 192.168.0.222
-  mysql: bj-cdb-0srt3yo9.sql.tencentcdb.com
+  client: 172.21.0.14
+  redis: 172.21.0.14
+  eureka: 172.21.0.14
+  mysql: 172.21.0.16
 server:
   port: 8902
 spring:
   profiles:
-    active: dev
+    active: uat
   datasource:
     master:
-      url: jdbc:mysql://${ipAddress.mysql}:63422/dev_master_archive?characterEncoding=utf-8
+      url: jdbc:mysql://${ipAddress.mysql}:3306/uat_master_archive?characterEncoding=utf-8
       username: root
       password: Qlxlm123456
       driver-class-name: com.mysql.jdbc.Driver
     slaver:
-      url: jdbc:mysql://${ipAddress.mysql}:63422/dev_master_archive?characterEncoding=utf-8
+      url: jdbc:mysql://${ipAddress.mysql}:3306/uat_master_archive?characterEncoding=utf-8
       username: root
       password: Qlxlm123456
       driver-class-name: com.mysql.jdbc.Driver
@@ -28,7 +28,7 @@ spring:
   redis:
   #################redis基础配置#################
     database: 8
-    host: ${ipAddress.client}
+    host: ${ipAddress.redis}
     password:
     port: 6379
     timeout: 5000
@@ -42,7 +42,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone:  http://${ipAddress.client}:8888/eureka/
+      defaultZone:  http://${ipAddress.eureka}:8888/eureka/
   instance:
     preferIpAddress: true
     instance-id: ${spring.cloud.client.ipAddress}:${server.port}
