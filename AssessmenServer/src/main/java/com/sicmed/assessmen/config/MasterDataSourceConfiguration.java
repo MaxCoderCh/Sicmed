@@ -14,25 +14,24 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
-
 @Configuration
-@MapperScan(basePackages = "com.sicmed.assessmen.mapper.pra.read", sqlSessionTemplateRef  = "readPraSqlSessionTemplate")
-public class ReadPraDataSourceConfiguration {
+@MapperScan(basePackages = "com.sicmed.assessmen.mapper.master", sqlSessionTemplateRef  = "masterSqlSessionTemplate")
+public class MasterDataSourceConfiguration {
 
-    @Value("${spring.datasource.readPra.driver-class-name}")
+    @Value("${spring.datasource.master.driver-class-name}")
     private String driverClassName;
 
-    @Value("${spring.datasource.readPra.url}")
+    @Value("${spring.datasource.master.url}")
     private String url;
 
-    @Value("${spring.datasource.readPra.username}")
+    @Value("${spring.datasource.master.username}")
     private String username;
 
-    @Value("${spring.datasource.readPra.password}")
+    @Value("${spring.datasource.master.password}")
     private String password;
 
 
-    @Bean(name = "readPraDataSource")
+    @Bean(name = "masterDataSource")
     public DataSource dataSource() {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setDriverClassName(this.driverClassName);
@@ -42,21 +41,21 @@ public class ReadPraDataSourceConfiguration {
         return dataSource;
     }
 
-    @Bean(name = "readPraSqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactory(@Qualifier("readPraDataSource") DataSource dataSource) throws Exception {
+    @Bean(name = "masterSqlSessionFactory")
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("masterDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/pra/read/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/master/*.xml"));
         return bean.getObject();
     }
 
-    @Bean(name = "readPraTransactionManager")
-    public DataSourceTransactionManager transactionManager(@Qualifier("readPraDataSource") DataSource dataSource) {
+    @Bean(name = "masterTransactionManager")
+    public DataSourceTransactionManager transactionManager(@Qualifier("masterDataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Bean(name = "readPraSqlSessionTemplate")
-    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("readPraSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+    @Bean(name = "masterSqlSessionTemplate")
+    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("masterSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 
