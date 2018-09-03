@@ -33,20 +33,98 @@ public class MedicalReportController extends BaseController {
     @PostMapping(value = "addInquiryReport")
     public Map addInquiryReport(String[] imgUrlArr, String patientId) {
         if (imgUrlArr != null && imgUrlArr.length > 0) {
-            String reportGroup = RandomStringUtils.randomAlphanumeric(64);
-            for (String s : imgUrlArr) {
-                MedicalReport medicalReport = new MedicalReport();
-                medicalReport.setReportUrl(s);
-                medicalReport.setPatientId(patientId);
-                medicalReport.setReportGroup(reportGroup);
-                medicalReport.setReportType(MedicalReportConstants.INQUIRY_REPORT_TYPE);
-                medicalReportService.insertSelective(medicalReport);
-            }
+
+            String reportGroup = this.addReport(imgUrlArr, patientId, MedicalReportConstants.INQUIRY_REPORT_TYPE);
+
             return insertSuccseeResponse(reportGroup);
         }
         return emptyParamResponse();
     }
 
+    /**
+     * PAD 添加 体检 报告
+     *
+     * @param imgUrlArr
+     * @param patientId
+     * @return
+     */
+    @PostMapping(value = "addCheckupReport")
+    public Map addCheckupReport(String[] imgUrlArr, String patientId) {
+        if (imgUrlArr != null && imgUrlArr.length > 0) {
+
+            String reportGroup = this.addReport(imgUrlArr, patientId, MedicalReportConstants.CHECKUP_REPORT_TYPE);
+
+            return insertSuccseeResponse(reportGroup);
+        }
+        return emptyParamResponse();
+    }
+
+    /**
+     * PAD 添加 病程记录 报告
+     *
+     * @param imgUrlArr
+     * @param patientId
+     * @return
+     */
+    @PostMapping(value = "addDiseaseReport")
+    public Map addDisease(String[] imgUrlArr, String patientId) {
+        if (imgUrlArr != null && imgUrlArr.length > 0) {
+
+            String reportGroup = this.addReport(imgUrlArr, patientId, MedicalReportConstants.DISEASE_REPORT_TYPE);
+
+            return insertSuccseeResponse(reportGroup);
+        }
+        return emptyParamResponse();
+    }
+
+    /**
+     * PAD 添加 住院 报告
+     *
+     * @param imgUrlArr
+     * @param patientId
+     * @return
+     */
+    @PostMapping(value = "addHospitalReport")
+    public Map addHospitalReport(String[] imgUrlArr, String patientId) {
+        if (imgUrlArr != null && imgUrlArr.length > 0) {
+
+            String reportGroup = this.addReport(imgUrlArr, patientId, MedicalReportConstants.HOSPITAL_REPORT_TYPE);
+
+            return insertSuccseeResponse(reportGroup);
+        }
+        return emptyParamResponse();
+    }
+
+    /**
+     * PAD 添加 住院 报告
+     *
+     * @param imgUrlArr
+     * @param patientId
+     * @return
+     */
+    @PostMapping(value = "addInspectionReport")
+    public Map addInspectionReport(String[] imgUrlArr, String patientId) {
+        if (imgUrlArr != null && imgUrlArr.length > 0) {
+
+            String reportGroup = this.addReport(imgUrlArr, patientId, MedicalReportConstants.INSPECTION_REPORT_TYPE);
+
+            return insertSuccseeResponse(reportGroup);
+        }
+        return emptyParamResponse();
+    }
+
+    private String addReport(String[] imgUrlArr, String patientId, String reportType) {
+        String reportGroup = RandomStringUtils.randomAlphanumeric(64);
+        for (String s : imgUrlArr) {
+            MedicalReport medicalReport = new MedicalReport();
+            medicalReport.setReportUrl(s);
+            medicalReport.setPatientId(patientId);
+            medicalReport.setReportGroup(reportGroup);
+            medicalReport.setReportType(reportType);
+            medicalReportService.insertSelective(medicalReport);
+        }
+        return reportGroup;
+    }
     /**
      * APP WeChat 根据分组编号 查询 档案
      * @param groupNumber
@@ -67,7 +145,7 @@ public class MedicalReportController extends BaseController {
     }
 
     /**
-     * APP 查询 报告 列表
+     * APP 查询 问诊报告 列表
      */
     @GetMapping(value = "getMedicalReportList")
     public Map getMedicalReportList(String patientId) {
@@ -76,7 +154,7 @@ public class MedicalReportController extends BaseController {
         }
         MedicalReport medicalReport = new MedicalReport();
         medicalReport.setPatientId(patientId);
-
+        medicalReport.setReportType(MedicalReportConstants.INQUIRY_REPORT_TYPE);
         Map<String, List<String>> medicalReportGroupMap = new LinkedHashMap<>();
 
         List<MedicalReport> medicalReportList = medicalReportService.selectByParams(medicalReport);
