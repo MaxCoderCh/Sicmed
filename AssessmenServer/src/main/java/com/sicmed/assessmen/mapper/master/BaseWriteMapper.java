@@ -1,4 +1,4 @@
-package com.sicmed.assessmen.mapper;
+package com.sicmed.assessmen.mapper.master;
 
 
 public interface BaseWriteMapper<E> {

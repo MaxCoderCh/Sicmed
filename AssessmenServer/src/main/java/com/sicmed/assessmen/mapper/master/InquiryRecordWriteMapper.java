@@ -1,7 +1,6 @@
-package com.sicmed.assessmen.mapper.pra.write;
+package com.sicmed.assessmen.mapper.master;
 
 import com.sicmed.assessmen.entity.InquiryRecord;
-import com.sicmed.assessmen.mapper.BaseWriteMapper;
 
 public interface InquiryRecordWriteMapper extends BaseWriteMapper<InquiryRecord> {
 

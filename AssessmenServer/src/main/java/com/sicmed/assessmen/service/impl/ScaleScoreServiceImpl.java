@@ -1,8 +1,8 @@
 package com.sicmed.assessmen.service.impl;
 
 import com.sicmed.assessmen.entity.PatientScaleScore;
-import com.sicmed.assessmen.mapper.pra.write.ScaleScoreWriteMapper;
-import com.sicmed.assessmen.mapper.pra.read.ScaleScoreReadMapper;
+import com.sicmed.assessmen.mapper.master.ScaleScoreWriteMapper;
+import com.sicmed.assessmen.mapper.slaver.ScaleScoreReadMapper;
 import com.sicmed.assessmen.service.ScaleScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

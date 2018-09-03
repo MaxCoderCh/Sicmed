@@ -1,7 +1,6 @@
-package com.sicmed.assessmen.mapper.pra.write;
+package com.sicmed.assessmen.mapper.master;
 
 import com.sicmed.assessmen.entity.PatientScaleScore;
-import com.sicmed.assessmen.mapper.BaseWriteMapper;
 
 public interface ScaleScoreWriteMapper extends BaseWriteMapper<PatientScaleScore> {
 

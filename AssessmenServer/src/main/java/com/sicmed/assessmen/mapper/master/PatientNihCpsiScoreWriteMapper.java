@@ -1,8 +1,7 @@
-package com.sicmed.assessmen.mapper.pra.write;
+package com.sicmed.assessmen.mapper.master;
 
 import com.sicmed.assessmen.beans.NihCpsiScoreBean;
 import com.sicmed.assessmen.entity.PatientNihCpsiScore;
-import com.sicmed.assessmen.mapper.BaseWriteMapper;
 
 public interface PatientNihCpsiScoreWriteMapper extends BaseWriteMapper<PatientNihCpsiScore> {
 

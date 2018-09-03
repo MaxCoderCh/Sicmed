@@ -1,4 +1,4 @@
-package com.sicmed.assessmen.mapper;
+package com.sicmed.assessmen.mapper.slaver;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package com.sicmed.assessmen.service.impl;
 
 import com.sicmed.assessmen.entity.PatientAssessment;
-import com.sicmed.assessmen.mapper.pra.write.PatientAssessmentWriteMapper;
-import com.sicmed.assessmen.mapper.pra.read.PatientAssessmentReadMapper;
+import com.sicmed.assessmen.mapper.master.PatientAssessmentWriteMapper;
+import com.sicmed.assessmen.mapper.slaver.PatientAssessmentReadMapper;
 import com.sicmed.assessmen.service.PatientAssessmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

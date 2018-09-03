@@ -2,8 +2,8 @@ package com.sicmed.assessmen.service.impl;
 
 import com.sicmed.assessmen.beans.IpssScoreBean;
 import com.sicmed.assessmen.entity.PatientIpssScore;
-import com.sicmed.assessmen.mapper.pra.write.PatientIpssScoreWriteMapper;
-import com.sicmed.assessmen.mapper.pra.read.PatientIpssScoreReadMapper;
+import com.sicmed.assessmen.mapper.master.PatientIpssScoreWriteMapper;
+import com.sicmed.assessmen.mapper.slaver.PatientIpssScoreReadMapper;
 import com.sicmed.assessmen.service.PatientIpssScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

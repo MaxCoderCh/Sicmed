@@ -2,8 +2,8 @@ package com.sicmed.assessmen.service.impl;
 
 import com.sicmed.assessmen.beans.MedicalExaminationBean;
 import com.sicmed.assessmen.entity.ProstaticMedicalExamination;
-import com.sicmed.assessmen.mapper.pra.write.ProstaticMedicalExaminationWriteMapper;
-import com.sicmed.assessmen.mapper.pra.read.ProstaticMedicalExaminationReadMapper;
+import com.sicmed.assessmen.mapper.master.ProstaticMedicalExaminationWriteMapper;
+import com.sicmed.assessmen.mapper.slaver.ProstaticMedicalExaminationReadMapper;
 import com.sicmed.assessmen.service.ProstaticMedicalExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

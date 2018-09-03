@@ -1,8 +1,8 @@
 package com.sicmed.assessmen.service.impl;
 
 import com.sicmed.assessmen.entity.InquiryRecord;
-import com.sicmed.assessmen.mapper.pra.read.InquiryRecordReadMapper;
-import com.sicmed.assessmen.mapper.pra.write.InquiryRecordWriteMapper;
+import com.sicmed.assessmen.mapper.slaver.InquiryRecordReadMapper;
+import com.sicmed.assessmen.mapper.master.InquiryRecordWriteMapper;
 import com.sicmed.assessmen.service.InquiryRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

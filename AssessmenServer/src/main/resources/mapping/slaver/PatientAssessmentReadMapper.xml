@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sicmed.assessmen.mapper.pra.read.PatientAssessmentReadMapper">
+<mapper namespace="com.sicmed.assessmen.mapper.slaver.PatientAssessmentReadMapper">
     <!-- 根据ID查询一条记录中的 所有评估结果 -->
     <resultMap id="PatientAssessmentResultMap" type="com.sicmed.assessmen.entity.PatientAssessment">
         <id column="ppncsId" jdbcType="VARCHAR" property="id"/>

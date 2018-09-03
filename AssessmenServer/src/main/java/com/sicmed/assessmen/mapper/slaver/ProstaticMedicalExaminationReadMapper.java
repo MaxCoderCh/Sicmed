@@ -1,8 +1,7 @@
-package com.sicmed.assessmen.mapper.pra.read;
+package com.sicmed.assessmen.mapper.slaver;
 
 import com.sicmed.assessmen.beans.MedicalExaminationBean;
 import com.sicmed.assessmen.entity.ProstaticMedicalExamination;
-import com.sicmed.assessmen.mapper.BaseReadMapper;
 
 import java.util.List;
 

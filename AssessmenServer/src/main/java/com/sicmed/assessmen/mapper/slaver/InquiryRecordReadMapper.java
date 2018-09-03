@@ -1,7 +1,6 @@
-package com.sicmed.assessmen.mapper.pra.read;
+package com.sicmed.assessmen.mapper.slaver;
 
 import com.sicmed.assessmen.entity.InquiryRecord;
-import com.sicmed.assessmen.mapper.BaseReadMapper;
 
 public interface InquiryRecordReadMapper extends BaseReadMapper<InquiryRecord> {
 
