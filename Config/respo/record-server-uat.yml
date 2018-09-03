@@ -7,15 +7,15 @@ server:
   port: 8802
 spring:
   profiles:
-    active: prd
+    active: uat
   datasource:
     master:
-      url: jdbc:mysql://${ipAddress.mysql}:3306/prd_master_pomr?characterEncoding=utf-8
+      url: jdbc:mysql://${ipAddress.mysql}:3306/uat_master_pomr?characterEncoding=utf-8
       username: root
       password: Qlxlm123456
       driver-class-name: com.mysql.jdbc.Driver
     slaver:
-      url: jdbc:mysql://${ipAddress.mysql}:3306/prd_master_pomr?characterEncoding=utf-8
+      url: jdbc:mysql://${ipAddress.mysql}:3306/uat_master_pomr?characterEncoding=utf-8
       username: root
       password: Qlxlm123456
       driver-class-name: com.mysql.jdbc.Driver
