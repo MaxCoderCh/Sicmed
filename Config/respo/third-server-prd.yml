@@ -1,12 +1,12 @@
 ipAddress:
-  client: 192.168.0.222
-  redis: 192.168.0.222
-  eureka: 192.168.0.222
+  client: 172.21.0.14
+  redis: 172.21.0.14
+  eureka: 172.21.0.14
 server:
   port: 8806
 spring:
   profiles:
-    active: dev
+    active: prd
   cloud:
     discovery:
       enabled: true
