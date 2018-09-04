@@ -1,26 +1,21 @@
+ipAddress:
+  client: 172.21.0.14
+  redis: 172.21.0.14
+  eureka: 172.21.0.14
+  mysql: 172.21.0.16
 server:
   port: 8803
 spring:
   profiles:
-    active: dev
+    active: prd
   datasource:
-#    master:
-#      url: jdbc:mysql://172.21.0.16:3306/prd_master_static?characterEncoding=utf-8
-#      username: root
-#      password: Qlxlm123456
-#      driver-class-name: com.mysql.jdbc.Driver
-#    slaver:
-#      url: jdbc:mysql://172.21.0.16:3306/prd_master_static?characterEncoding=utf-8
-#      username: root
-#      password: Qlxlm123456
-#      driver-class-name: com.mysql.jdbc.Driver
     master:
-      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/dev_master_static?characterEncoding=utf-8
+      url: jdbc:mysql://${ipAddress.mysql}:3306/prd_master_static?characterEncoding=utf-8
       username: root
       password: Qlxlm123456
       driver-class-name: com.mysql.jdbc.Driver
     slaver:
-      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/dev_master_static?characterEncoding=utf-8
+      url: jdbc:mysql://${ipAddress.mysql}:3306/prd_master_static?characterEncoding=utf-8
       username: root
       password: Qlxlm123456
       driver-class-name: com.mysql.jdbc.Driver
@@ -28,11 +23,12 @@ spring:
     discovery:
       enabled: true
       serviceId: eureka-server
+    client:
+      ipAddress: ${ipAddress.client}
   redis:
   #################redis基础配置#################
     database: 8
-#    host: 192.168.0.63
-    host: 127.0.0.1
+    host: ${ipAddress.client}
     password:
     port: 6379
     timeout: 5000
@@ -47,13 +43,13 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone:  http://localhost:8888/eureka/
-
+      defaultZone:  http://${ipAddress.client}:8888/eureka/
+  instance:
+      preferIpAddress: true
+      instance-id: ${spring.cloud.client.ipAddress}:${server.port}
 feign:
   hystrix:
     enabled: true
-
-# mybatis
-mybatis:
-  mapper-locations:  classpath:mapping/*/*.xml
-  type-aliases-package: com.prostate.*.entity
+logging:
+  level:
+    root: debug
