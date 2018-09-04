@@ -1,21 +1,21 @@
 ipAddress:
-  client: 192.168.0.222
-  redis: 192.168.0.222
-  eureka: 192.168.0.222
-  mysql: bj-cdb-0srt3yo9.sql.tencentcdb.com
+  client: 172.21.0.14
+  redis: 172.21.0.14
+  eureka: 172.21.0.14
+  mysql: 172.21.0.16
 server:
   port: 8801
 spring:
   profiles:
-    active: dev
+    active: uat
   datasource:
     master:
-      url: jdbc:mysql://${ipAddress.mysql}:63422/dev_master_user?characterEncoding=utf-8
+      url: jdbc:mysql://${ipAddress.mysql}:3306/uat_master_user?characterEncoding=utf-8
       username: root
       password: Qlxlm123456
       driver-class-name: com.mysql.jdbc.Driver
     slaver:
-      url: jdbc:mysql://${ipAddress.mysql}:63422/dev_master_user?characterEncoding=utf-8
+      url: jdbc:mysql://${ipAddress.mysql}:3306/uat_master_user?characterEncoding=utf-8
       username: root
       password: Qlxlm123456
       driver-class-name: com.mysql.jdbc.Driver
