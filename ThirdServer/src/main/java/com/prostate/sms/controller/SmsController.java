@@ -298,4 +298,28 @@ public class SmsController extends BaseController {
     }
 
 
+    /**
+     * 支付密码找回 短信验证码
+     *
+     */
+    @PostMapping(value = "sendPayPasswordCode")
+    public Map<String, Object> sendPayPasswordCode(@Validated({PhoneNumberView.class}) SmsParams smsParams) throws HTTPException, IOException {
+        //生成6位数字验证码
+        String numberCode = RandomStringUtils.randomNumeric(6);
+
+        //添加模版参数
+        ArrayList<String> params = new ArrayList<>();
+        params.add(numberCode);
+        params.add("5");
+
+        boolean b = smsService.singleSendByTemplate("86", smsParams.getPhoneNumber(), 186792, params);
+
+        if (b) {
+            //验证信息添加到redis缓存中
+            redisSerive.insert(numberCode, smsParams.getPhoneNumber(), 305);
+
+            return smsSendSuccess("发送成功");
+        }
+        return smsSendFailed("发送失败");
+    }
 }
