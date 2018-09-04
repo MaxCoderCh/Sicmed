@@ -4,8 +4,5 @@ spring:
   cloud:
     config:
       uri: http://192.168.0.222:8880
-      profile: dev
       label: master
-logging:
-  level:
-    root: debug
+      profile: dev
