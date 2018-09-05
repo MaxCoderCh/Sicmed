@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prostate.wallet.mapper.slaver.CashAccountReadMapper">
+    <resultMap id="BaseResultMap" type="com.prostate.wallet.entity.CashAccount">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="doctor_id" jdbcType="VARCHAR" property="doctorId"/>
+        <result column="account_type" jdbcType="VARCHAR" property="accountType"/>
+        <result column="account_number" jdbcType="VARCHAR" property="accountNumber"/>
+        <result column="account_status" jdbcType="VARCHAR" property="accountStatus"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+        <result column="delete_user" jdbcType="VARCHAR" property="deleteUser"/>
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, doctor_id, account_type, account_number, account_status, create_time, create_user,
+        update_time, update_user, delete_time, delete_user, del_flag
+    </sql>
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cash_account
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByParams" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cash_account
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="getByParams" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cash_account
+        <where>
+            del_flag = 0
+            <if test="createUser != null and createUser != ''">
+                AND create_user = #{createUser,jdbcType=VARCHAR}
+            </if>
+            <if test="accountType != null and accountType != ''">
+                AND account_type = #{accountType,jdbcType=VARCHAR}
+            </if>
+            <if test="accountStatus != null and accountStatus != ''">
+                AND account_status = #{accountStatus,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>
