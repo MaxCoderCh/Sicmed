@@ -3,6 +3,7 @@ package com.prostate.doctor.feignService;
 
 import com.prostate.doctor.feignService.impl.StatisticServerHystrix;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,4 +32,7 @@ public interface StatisticServer {
 
     @PostMapping(value = "addPatientUnFocus")
     Map<String, Object> addPatientUnFocus(@RequestParam("userId") String userId);
+
+    @GetMapping(value = "count/getDoctorCount")
+    Map<String, Object> getDoctorCount(@RequestParam("userId") String userId);
 }

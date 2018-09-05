@@ -41,4 +41,9 @@ public class StatisticServerHystrix extends BaseServerHystrix implements Statist
     public Map<String, Object> addPatientUnFocus(String userId) {
         return resultMap;
     }
+
+    @Override
+    public Map<String, Object> getDoctorCount(String userId) {
+        return resultMap;
+    }
 }
