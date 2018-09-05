@@ -44,17 +44,16 @@ public class CountController extends BaseController {
     /**
      * 根据医生ID查询 医生 统计信息
      *
-     * @param doctorId
      * @return
      */
     @GetMapping(value = "getDoctorCount")
-    public Map getDoctorCount(String doctorId) {
+    public Map getDoctorCount(String userId) {
 
-        int clickCount = clickCountDoctorService.getClickCount(doctorId);
+        int clickCount = clickCountDoctorService.getClickCount(userId);
 
-        int focusCount = focusCountDoctorService.getFocusCount(doctorId);
+        int focusCount = focusCountDoctorService.getFocusCount(userId);
 
-        int inquiryCount = inquiryCountDoctorService.getInquiryCount(doctorId);
+        int inquiryCount = inquiryCountDoctorService.getInquiryCount(userId);
 
 
         Map<String, String> countMap = new HashMap<>();
