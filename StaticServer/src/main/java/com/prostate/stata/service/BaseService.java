@@ -1,6 +1,5 @@
 package com.prostate.stata.service;
 
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

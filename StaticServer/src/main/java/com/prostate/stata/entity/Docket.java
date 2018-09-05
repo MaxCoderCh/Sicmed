@@ -1,17 +1,19 @@
 package com.prostate.stata.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 
 import java.util.Date;
 
-@Setter
-@Getter
+@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Docket extends BaseEntity{
 
     private String id;
 
     private String docketName;
+
+    private String docketValue;
 
     private String docketType;
 

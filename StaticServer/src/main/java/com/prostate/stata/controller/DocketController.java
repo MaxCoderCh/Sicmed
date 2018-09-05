@@ -3,7 +3,9 @@ package com.prostate.stata.controller;
 import com.prostate.stata.entity.Docket;
 import com.prostate.stata.entity.DocketConstant;
 import com.prostate.stata.service.DocketService;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
+@Setter
 @RestController
 @RequestMapping(value = "docket")
 public class DocketController extends BaseController {
@@ -29,12 +32,13 @@ public class DocketController extends BaseController {
     public Map addPatientDocket(String docketName) {
         Docket docket = new Docket();
         docket.setDocketName(docketName);
+        docket.setDocketValue(docketName);
         docket.setDocketType(DocketConstant.DOCKET_PATIENT);
-        docket.setDocketStatus(DocketConstant.USABLE);
         docket.setCreateUser(getToken());
+
         int i = docketService.insertSelective(docket);
         if (i > 0) {
-            return insertSuccseeResponse();
+            return insertSuccseeResponse(docket);
         }
         return insertFailedResponse();
     }
@@ -46,15 +50,16 @@ public class DocketController extends BaseController {
      * @return
      */
     @PostMapping(value = "addPriceDocket")
-    public Map addPriceDocket(String docketName) {
+    public Map addPriceDocket(String docketName, String docketValue) {
         Docket docket = new Docket();
         docket.setDocketName(docketName);
+        docket.setDocketValue(docketValue);
         docket.setDocketType(DocketConstant.DOCKET_PRICE);
-        docket.setDocketStatus(DocketConstant.USABLE);
         docket.setCreateUser(getToken());
+
         int i = docketService.insertSelective(docket);
         if (i > 0) {
-            return insertSuccseeResponse();
+            return insertSuccseeResponse(docket);
         }
         return insertFailedResponse();
     }
@@ -69,12 +74,13 @@ public class DocketController extends BaseController {
     public Map addInquiryDocket(String docketName) {
         Docket docket = new Docket();
         docket.setDocketName(docketName);
+        docket.setDocketValue(docketName);
         docket.setDocketType(DocketConstant.DOCKET_INQUIRY);
-        docket.setDocketStatus(DocketConstant.USABLE);
         docket.setCreateUser(getToken());
+
         int i = docketService.insertSelective(docket);
         if (i > 0) {
-            return insertSuccseeResponse();
+            return insertSuccseeResponse(docket);
         }
         return insertFailedResponse();
     }
@@ -84,7 +90,7 @@ public class DocketController extends BaseController {
      *
      * @return
      */
-    @PostMapping(value = "getPatientDocketList")
+    @GetMapping(value = "getPatientDocketList")
     public Map getPatientDocketList() {
         Docket docket = new Docket();
         docket.setDocketType(DocketConstant.DOCKET_PATIENT);
@@ -102,7 +108,7 @@ public class DocketController extends BaseController {
      *
      * @return
      */
-    @PostMapping(value = "getPriceDocketList")
+    @GetMapping(value = "getPriceDocketList")
     public Map getPriceDocketList() {
         Docket docket = new Docket();
         docket.setDocketType(DocketConstant.DOCKET_PRICE);
@@ -120,7 +126,7 @@ public class DocketController extends BaseController {
      *
      * @return
      */
-    @PostMapping(value = "getInquiryDocketList")
+    @GetMapping(value = "getInquiryDocketList")
     public Map getInquiryDocketList() {
         Docket docket = new Docket();
         docket.setDocketType(DocketConstant.DOCKET_INQUIRY);
@@ -142,14 +148,14 @@ public class DocketController extends BaseController {
     public Map deleteCustomDocket(String id) {
         Docket docket = new Docket();
         docket.setId(id);
+        docket.setCreateUser(getToken());
         docket.setDocketStatus(DocketConstant.DISABLE);
-        int i = docketService.falseDeleteById(docket);
+        int i = docketService.logicDelete(docket);
         if (i > 0) {
             return insertSuccseeResponse();
         }
         return insertFailedResponse();
     }
-
 
 
 }

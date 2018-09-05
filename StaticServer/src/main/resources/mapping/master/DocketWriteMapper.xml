@@ -8,6 +8,9 @@
   </delete>
 
   <insert id="insertSelective" parameterType="com.prostate.stata.entity.Docket">
+    <selectKey keyProperty="id" resultType="string" order="BEFORE">
+      select replace(uuid(), '-', '') as id from dual
+    </selectKey>
     insert into base_docket
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -15,6 +18,9 @@
       </if>
       <if test="docketName != null">
         docket_name,
+      </if>
+      <if test="docketValue != null">
+        docket_value,
       </if>
       <if test="docketType != null">
         docket_type,
@@ -36,6 +42,9 @@
       <if test="docketName != null">
         #{docketName,jdbcType=VARCHAR},
       </if>
+      <if test="docketValue != null">
+        #{docketValue,jdbcType=VARCHAR},
+      </if>
       <if test="docketType != null">
         #{docketType,jdbcType=VARCHAR},
       </if>
@@ -50,11 +59,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.stata.entity.Docket">
+  <update id="updateSelective" parameterType="com.prostate.stata.entity.Docket">
     update base_docket
     <set>
       <if test="docketName != null">
         docket_name = #{docketName,jdbcType=VARCHAR},
+      </if>
+      <if test="docketValue != null">
+        docket_value = #{docketValue,jdbcType=VARCHAR},
       </if>
       <if test="docketType != null">
         docket_type = #{docketType,jdbcType=VARCHAR},
@@ -72,12 +84,16 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
-  <update id="falseDeleteById" parameterType="com.prostate.stata.entity.Docket">
+  <update id="logicDelete" parameterType="com.prostate.stata.entity.Docket">
     update base_docket
     <set>
-      docket_status = #{docketStatus,jdbcType=VARCHAR},
+      docket_status = #{docketStatus,jdbcType=VARCHAR}
+
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    <where>
+      id = #{id,jdbcType=VARCHAR}
+      AND  create_user = #{createUser,jdbcType=VARCHAR}
+    </where>
   </update>
 
 </mapper>
