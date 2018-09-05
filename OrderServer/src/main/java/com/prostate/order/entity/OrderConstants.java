@@ -19,4 +19,10 @@ public class OrderConstants {
     public final static String VIDEO_TURN_TYPE = "VIDEO_TURN_TYPE";   //视频转诊订单
 
 
+    //提现订单 状态
+    public final static String IS_ACCEPTED = "IS_ACCEPTED"; //已受理
+    public final static String NO_ACCEPTED = "NO_ACCEPTED"; //未受理
+    //提现订单 类型
+    public final static String CASH_TYPE = "CASH_TYPE";   //提现订单
+
 }
