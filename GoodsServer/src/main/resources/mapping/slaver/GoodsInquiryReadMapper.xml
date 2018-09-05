@@ -47,6 +47,26 @@
     </where>
   </select>
 
+  <select id="getPriceInquiryPictureByParams" parameterType="com.sicmed.goods.entity.GoodsInquiry" resultType="java.lang.String">
+    select
+    goods_price
+    from goods_inquiry
+    <where>
+      del_flag = 0
+      <if test="doctor != null and doctor != ''">
+        AND doctor = #{doctor,jdbcType=VARCHAR}
+      </if>
+      <if test="goodsStatus != null and goodsStatus != ''">
+        AND goods_status = #{goodsStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="goodsType != null and goodsType != ''">
+        AND goods_type = #{goodsType,jdbcType=VARCHAR}
+      </if>
+      <if test="goodsPrice != null and goodsPrice != ''">
+        AND goods_price = #{goodsPrice,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
   <select id="selectCount" parameterType="com.sicmed.goods.entity.GoodsInquiry" resultType="java.lang.Integer">
     select
     count(*)

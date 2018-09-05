@@ -63,6 +63,11 @@ public class GoodsInquiryController extends BaseController {
         if (goodsInquiryList == null || goodsInquiryList.isEmpty()) {
             return queryEmptyResponse();
         }
+        for (GoodsInquiry inquiry : goodsInquiryList) {
+            StringBuffer stringBuffer = new StringBuffer(inquiry.getGoodsPrice());
+            stringBuffer.insert(stringBuffer.length() - 2, ".");
+            inquiry.setGoodsPrice(stringBuffer.toString());
+        }
         return querySuccessResponse(goodsInquiryList);
     }
 
@@ -94,5 +99,24 @@ public class GoodsInquiryController extends BaseController {
         int goodsCount = goodsInquiryService.selectCount(goodsInquiry);
 
         return querySuccessResponse(goodsCount);
+    }
+
+
+    /**
+     * 查询已选图文问诊价格
+     */
+    @GetMapping(value = "getPriceInquiryPictureByParams")
+    public Map getPriceInquiryPictureByParams() {
+
+        GoodsInquiry goodsInquiry = new GoodsInquiry();
+        goodsInquiry.setDoctor(getToken());
+        goodsInquiry.setGoodsType(GoodsConstants.GOODS_INQUIRY_PICTURE);
+        goodsInquiry.setGoodsStatus(GoodsConstants.USABLE);
+        String goodsPrice = goodsInquiryService.getPriceInquiryPictureByParams(goodsInquiry);
+
+        if (StringUtils.isBlank(goodsPrice)) {
+            return queryEmptyResponse();
+        }
+        return querySuccessResponse(goodsPrice);
     }
 }

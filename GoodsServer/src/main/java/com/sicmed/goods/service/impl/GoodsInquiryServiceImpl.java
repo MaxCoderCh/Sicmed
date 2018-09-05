@@ -51,4 +51,9 @@ public class GoodsInquiryServiceImpl implements GoodsInquiryService {
     public int ban(GoodsInquiry goodsInquiry) {
         return goodsInquiryWriteMapper.ban(goodsInquiry);
     }
+
+    @Override
+    public String getPriceInquiryPictureByParams(GoodsInquiry goodsInquiry) {
+        return goodsInquiryReadMapper.getPriceInquiryPictureByParams(goodsInquiry);
+    }
 }

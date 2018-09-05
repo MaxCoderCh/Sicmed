@@ -6,4 +6,6 @@ public interface GoodsInquiryService extends BaseService<GoodsInquiry> {
     int selectCount(GoodsInquiry goodsInquiry);
 
     int ban(GoodsInquiry goodsInquiry);
+
+    String getPriceInquiryPictureByParams(GoodsInquiry goodsInquiry);
 }
