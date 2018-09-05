@@ -92,6 +92,9 @@
         <logger name="com.prostate" level="info" additivity="false">
             <appender-ref ref="SQL_CONSOLE_LOG"/>
         </logger>
+        <logger name="com.prostate.wallet.controller" level="info" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
     </springProfile>
     <!-- 生产环境. -->
     <springProfile name="test,prod">

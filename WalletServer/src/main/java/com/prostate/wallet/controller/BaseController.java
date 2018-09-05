@@ -1,6 +1,8 @@
 package com.prostate.wallet.controller;
 
 
+import com.prostate.wallet.cache.redis.RedisSerive;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -19,6 +21,8 @@ public class BaseController {
         return request.getHeader("token");
     }
 
+    @Autowired
+    protected RedisSerive redisSerive;
     /**
      * 参数为空返回值
      * @return

@@ -26,6 +26,12 @@ public class ProviderController extends BaseController{
     @Autowired
     private OrderServer orderServer;
 
+    /**
+     *
+     * @param orderId
+     * @return
+     * @throws Exception
+     */
     @PostMapping(value = "addOrderIncome")
     public String addOrderIncome(String orderId) throws Exception {
         //查询订单 信息

@@ -55,7 +55,7 @@ public class PaymentSignServiceImpl implements PaymentSignService {
 
     @Override
     public PaymentSign selectById(String id) {
-        return null;
+        return paymentSignReadMapper.selectById(id);
     }
 
     @Override
