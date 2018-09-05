@@ -29,11 +29,11 @@ public class DoctorDetailBean {
 
     private String doctorStrong; //擅长
 
-    private int fansCount; //粉丝数量
+    private String fansCount; //粉丝数量
 
-    private int patientCount; //诊疗患者数量
+    private String patientCount; //诊疗患者数量
 
-    private int hitsCount; //点击量
+    private String hitsCount; //点击量
 
     private int picturePrice; //图文问诊费用
 

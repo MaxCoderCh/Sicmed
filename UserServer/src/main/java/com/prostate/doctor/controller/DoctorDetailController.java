@@ -279,10 +279,11 @@ public class DoctorDetailController extends BaseController {
         if (starJson != null) {
             doctorDetailBean.setAreFans(starJson.get(doctorDetailBean.getId()) != null);
         }
-
-        doctorDetailBean.setFansCount(0);
-        doctorDetailBean.setHitsCount(0);
-        doctorDetailBean.setPatientCount(0);
+        Map<String, Object> resultMap = statisticServer.getDoctorCount(doctorDetailBean.getId());
+        Map<String, String> countMap = (Map<String, String>) resultMap.get("result");
+        doctorDetailBean.setFansCount(countMap.get("focusCount"));
+        doctorDetailBean.setHitsCount(countMap.get("clickCount"));
+        doctorDetailBean.setPatientCount(countMap.get("inquiryCount"));
 
         doctorDetailBean.setPicturePrice(0);
         doctorDetailBean.setPhonePrice(0);
