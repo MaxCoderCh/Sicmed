@@ -47,4 +47,10 @@ public class RedisSerive {
         ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
         return jsonUtil.jsonStrToWechatUser(valueOperations.get(key));
     }
+
+    public String getSmsCode(String key) {
+        ValueOperations<String,String> valueOperations = stringRedisTemplate.opsForValue();
+        String val = valueOperations.get(key);
+        return val;
+    }
 }
