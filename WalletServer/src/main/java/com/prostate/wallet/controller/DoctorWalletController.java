@@ -118,10 +118,10 @@ public class DoctorWalletController  extends BaseController {
         //查询结果为空
         if (doctorWallet == null ){
             return  queryEmptyResponse();
-        }
-        //查询结果不为空
-        else {
-            return querySuccessResponse(doctorWallet.getWalletBalance());
+        } else {
+            StringBuffer stringBuffer = new StringBuffer(doctorWallet.getWalletBalance());
+            stringBuffer.insert(stringBuffer.length() - 2, ".");
+            return querySuccessResponse(stringBuffer.toString());
         }
     }
 }
