@@ -3,6 +3,7 @@ package com.sicmed.statistic.controller;
 
 import com.sicmed.statistic.entity.Statistic;
 import com.sicmed.statistic.entity.StatisticConstant;
+import com.sicmed.statistic.feignService.OrderServer;
 import com.sicmed.statistic.service.StatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +21,21 @@ public class StatisticController extends BaseController {
     @Autowired
     private StatisticService statisticService;
 
+    @Autowired
+    private OrderServer orderServer;
+
     @PostMapping(value = "addTotleIncome")
-    public Map addTotleIncome(String userId) {
+    public Map addTotleIncome(String orderId) {
+
+        //查询订单 信息
+        Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
+        Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
+
+        String doctorId = orderMap.get("doctor").toString();
+        String orderPriceStr = orderMap.get("orderPrice").toString();
+
         Statistic statistic = new Statistic();
-        statistic.setUserId(userId);
+        statistic.setUserId(doctorId);
         statistic.setStatisticType(StatisticConstant.INCOME_STATISTIC);
         statistic.setStatisticStatus(StatisticConstant.USABLE);
 
@@ -34,7 +46,7 @@ public class StatisticController extends BaseController {
             statisticService.updateSelective(oldStatistic);
             value = Integer.parseInt(oldStatistic.getStatisticValue());
         }
-        value++;
+        value = value + Integer.parseInt(orderPriceStr);
         statistic.setStatisticValue(String.valueOf(value));
         statistic.setStatisticName(StatisticConstant.DOCTOR_INCOME);
 
