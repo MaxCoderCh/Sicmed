@@ -1,5 +1,5 @@
 ipAddress:
-  client: 172.21.0.14
+  client: 172.21.0.9
   redis: 172.21.0.14
   eureka: 172.21.0.14
   mysql: 172.21.0.16
