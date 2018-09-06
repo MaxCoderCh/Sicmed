@@ -90,7 +90,8 @@ public class InquiryRecordController extends BaseController {
             walletServer.addOrderIncome(orderId);
             //调用档案服务 建立医生 患者关系
             recordServer.addUserPatientByOrder(orderId);
-
+            //调用统计服务
+            statisticServer.addTotleIncome(orderId);
             return insertSuccseeResponse();
         }
         return insertFailedResponse();
