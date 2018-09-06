@@ -12,27 +12,27 @@ import java.util.Map;
 @FeignClient(value = "statistic-server", fallback = StatisticServerHystrix.class)
 public interface StatisticServer {
 
-    @PostMapping(value = "inquiryCount/addOrderSuccess")
+    @PostMapping(value = "statistic/addOrderSuccess")
     Map<String, Object> addOrderSuccess(@RequestParam("userId") String userId);
 
-    @PostMapping(value = "focusCount/addDoctorFocus")
+    @PostMapping(value = "statistic/addDoctorFocus")
     Map<String, Object> addDoctorFocus(@RequestParam("userId") String userId);
 
-    @PostMapping(value = "focusCount/addPatientFocus")
+    @PostMapping(value = "statistic/addPatientFocus")
     Map<String, Object> addPatientFocus(@RequestParam("userId") String userId);
 
-    @PostMapping(value = "clickCount/addDoctorClick")
+    @PostMapping(value = "statistic/addDoctorClick")
     Map<String, Object> addDoctorClick(@RequestParam("userId") String userId);
 
-    @PostMapping(value = "clickCount/addPatientClick")
+    @PostMapping(value = "statistic/addPatientClick")
     Map<String, Object> addPatientClick(@RequestParam("userId") String userId);
 
-    @PostMapping(value = "addDoctorUnFocus")
+    @PostMapping(value = "statistic/addDoctorUnFocus")
     Map<String, Object> addDoctorUnFocus(@RequestParam("userId") String userId);
 
-    @PostMapping(value = "addPatientUnFocus")
+    @PostMapping(value = "statistic/addPatientUnFocus")
     Map<String, Object> addPatientUnFocus(@RequestParam("userId") String userId);
 
-    @GetMapping(value = "count/getDoctorCount")
+    @GetMapping(value = "statistic/getDoctorCount")
     Map<String, Object> getDoctorCount(@RequestParam("userId") String userId);
 }
