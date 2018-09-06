@@ -41,14 +41,14 @@ public class ProviderController extends BaseController{
         String doctorId = orderMap.get("doctor").toString();
         String orderPriceStr = orderMap.get("orderPrice").toString();
 
-        Double orderPrice = Double.parseDouble(orderPriceStr);
+        int orderPrice = Integer.parseInt(orderPriceStr);
         //获取 医生钱包
         DoctorWallet doctorWallet = doctorWalletService.selectByDoctorId(doctorId);
 
         String walletBalanceStr = doctorWallet.getWalletBalance();
-        Double walletBalance = Double.parseDouble(walletBalanceStr);
+        int walletBalance = Integer.parseInt(walletBalanceStr);
 
-        Double newWalletBalance = orderPrice + walletBalance;
+        int newWalletBalance = orderPrice + walletBalance;
         String newWalletBalanceStr = String.valueOf(newWalletBalance);
 
         //添加 收支明细
@@ -71,6 +71,57 @@ public class ProviderController extends BaseController{
         //修改 钱包余额
         doctorWallet.setWalletBalance(newWalletBalanceStr);
          i = doctorWalletService.updateSelective(doctorWallet);
+        if (i<=0){
+            throw new Exception("医生余额修改失败");
+        }
+        return "SUCCESS";
+    }
+
+
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    @PostMapping(value = "cashOrder")
+    public String cashOrder(String orderId) throws Exception {
+        //查询订单 信息
+        Map<String, Object> orderResultMap = orderServer.getOrderCash(orderId);
+        Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
+
+        String doctorId = orderMap.get("createUser").toString();
+        String orderPriceStr = orderMap.get("orderPrice").toString();
+
+        int orderPrice = Integer.parseInt(orderPriceStr);
+        //获取 医生钱包
+        DoctorWallet doctorWallet = doctorWalletService.selectByDoctorId(doctorId);
+
+        String walletBalanceStr = doctorWallet.getWalletBalance();
+        int walletBalance = Integer.parseInt(walletBalanceStr);
+
+        int newWalletBalance = walletBalance - orderPrice;
+        String newWalletBalanceStr = String.valueOf(newWalletBalance);
+
+        //添加 收支明细
+        DealRecord dealRecord = new DealRecord();
+        dealRecord.setOrderId(orderId);
+        int i = dealRecordService.checkByOrder(dealRecord);
+        if (i > 0) {
+            throw new Exception("交易记录已存在");
+        }
+
+        dealRecord.setOrderId(orderId);
+        dealRecord.setWalletId(doctorWallet.getId());
+        dealRecord.setSerialNumber(RandomStringUtils.randomNumeric(24));
+        dealRecord.setDealAmount(orderMap.get("orderPrice").toString());
+        dealRecord.setDealType(DealRecordConstant.EXPEND_TYPE);
+        dealRecord.setPaymentType("微信支付");
+        dealRecord.setWalletBalance(newWalletBalanceStr);
+        dealRecord.setRemark("交易备注");
+        dealRecordService.insertSelective(dealRecord);
+        //修改 钱包余额
+        doctorWallet.setWalletBalance(newWalletBalanceStr);
+        i = doctorWalletService.updateSelective(doctorWallet);
         if (i<=0){
             throw new Exception("医生余额修改失败");
         }

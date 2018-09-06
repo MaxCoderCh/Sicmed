@@ -32,6 +32,11 @@ public class DealRecordController extends BaseController {
         if (dealRecordList == null || dealRecordList.isEmpty()) {
             return queryEmptyResponse();
         }
+        for (DealRecord record : dealRecordList) {
+            StringBuffer stringBuffer = new StringBuffer(record.getDealAmount());
+            stringBuffer.insert(stringBuffer.length() - 2, ".");
+            record.setDealAmount(stringBuffer.toString());
+        }
         return querySuccessResponse(dealRecordList);
 
     }

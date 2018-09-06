@@ -13,4 +13,7 @@ public interface OrderServer {
 
     @PostMapping(value = "order/inquiry/getOrder")
     Map<String,Object> getOrder(@RequestParam("orderId") String orderId);
+
+    @PostMapping(value = "order/cash/getOrderCash")
+    Map<String,Object> getOrderCash(@RequestParam("orderId") String orderId);
 }

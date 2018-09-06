@@ -12,4 +12,9 @@ public class OrderServerHystrix extends BaseServerHystrix implements OrderServer
     public Map getOrder(String orderId) {
         return BaseServerHystrix.resultMap;
     }
+
+    @Override
+    public Map<String, Object> getOrderCash(String orderId) {
+        return resultMap;
+    }
 }

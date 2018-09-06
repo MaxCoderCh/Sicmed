@@ -2,6 +2,8 @@ package com.prostate.order.controller;
 
 import com.prostate.order.entity.OrderCash;
 import com.prostate.order.entity.OrderConstants;
+import com.prostate.order.entity.OrderInquiry;
+import com.prostate.order.feignService.WalletServer;
 import com.prostate.order.service.OrderCashService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,8 @@ public class OrderCashController extends BaseController {
     @Autowired
     private OrderCashService orderCashService;
 
+    @Autowired
+    private WalletServer walletServer;
     /**
      * 添加 提现 订单
      */
@@ -34,10 +38,22 @@ public class OrderCashController extends BaseController {
 
         int i = orderCashService.insertSelective(orderCash);
         if (i > 0) {
+            walletServer.cashOrder(orderCash.getId());
             return insertSuccseeResponse();
         }
         return insertFailedResponse();
     }
+    /**
+     * 2.查询提现订单
+     */
+    @PostMapping(value = "getOrderCash")
+    public Map getOrderCash(String orderId) {
 
+        OrderCash orderCash = orderCashService.selectById(orderId);
+        if (orderCash == null) {
+            return queryEmptyResponse();
+        }
+        return querySuccessResponse(orderCash);
+    }
 
 }
