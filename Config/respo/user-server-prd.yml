@@ -1,8 +1,8 @@
 ipAddress:
-  client: 172.21.0.14
-  redis: 172.21.0.14
-  eureka: 172.21.0.14
-  mysql: 172.21.0.16
+  client: 172.21.0.9
+  redis: 172.21.0.9
+  eureka: 172.21.0.9
+  mysql: 172.21.0.9
 server:
   port: 8801
 spring:
