@@ -2,7 +2,7 @@ ipAddress:
   client: 172.21.0.9
   redis: 172.21.0.9
   eureka: 172.21.0.9
-  mysql: 172.21.0.9
+  mysql: 172.21.0.16
 server:
   port: 8801
 spring:
@@ -49,21 +49,6 @@ eureka:
 feign:
   hystrix:
     enabled: true
-ribbon:
-  ReadTimeout: 40000
-  ConnectTimeout: 40000
-hystrix:
-  command:
-    default:
-      execution:
-        timeout:
-          enabled: true
-        isolation:
-          thread:
-            timeoutInMilliseconds: 40000
-  threadpool:
-      default:
-        coreSize: 10
 logging:
   level:
     root: debug
