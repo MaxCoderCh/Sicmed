@@ -46,4 +46,9 @@ public class WechatUserServiceImpl implements WechatUserService {
     public WeChatUser selectByOpenid(String openid) {
         return wechatUserReadMapper.selectByOpenid(openid);
     }
+
+    @Override
+    public int insertSelectiveById(WeChatUser wechatUser) {
+        return wechatUserWriteMapper.insertSelectiveById(wechatUser);
+    }
 }

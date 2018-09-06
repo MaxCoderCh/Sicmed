@@ -9,7 +9,6 @@
     <result column="head_img_url" jdbcType="VARCHAR" property="headImgUrl" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
-
   <insert id="insertSelective" parameterType="com.prostate.doctor.entity.WeChatUser">
     <selectKey keyProperty="id" resultType="string" order="BEFORE">
       select replace(uuid(), '-', '') as id from dual

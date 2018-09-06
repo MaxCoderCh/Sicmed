@@ -4,4 +4,5 @@ import com.prostate.doctor.entity.WeChatUser;
 
 public interface WechatUserWriteMapper extends BaseWriteMapper<WeChatUser>{
 
+    int insertSelectiveById(WeChatUser wechatUser);
 }

@@ -5,6 +5,7 @@ import com.prostate.doctor.cache.redis.RedisSerive;
 import com.prostate.doctor.entity.WeChatUser;
 import com.prostate.doctor.service.WeChatOauthService;
 import com.prostate.doctor.service.WechatUserService;
+import com.prostate.doctor.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -98,6 +97,28 @@ public class WeChatLoginController extends BaseController {
         JSONObject.toJSONString(wechatUser);
         redisSerive.insert(token, JSONObject.toJSONString(wechatUser));
         return insertSuccseeResponse(token);
+
+    }
+
+    @PostMapping(value = "appAdd")
+    public Map appAdd(String jsonStr) {
+
+        Map<String, Object> wechatUserInfoMap = (Map<String, Object>) JsonUtils.jsonToObj(jsonStr);
+
+        //保存用户信息
+        String openid = wechatUserInfoMap.get("openid").toString();
+        WeChatUser wechatUser = wechatUserService.selectByOpenid(openid);
+        if (wechatUser != null) {
+            return insertSuccseeResponse(wechatUser);
+        }
+        wechatUser = new WeChatUser();
+        wechatUser.setOpenid(openid);
+        String nickname = filterEmoji(wechatUserInfoMap.get("nickname").toString());
+        wechatUser.setNickName(nickname);
+        wechatUser.setId(getToken());
+        wechatUser.setHeadImgUrl(wechatUserInfoMap.get("headimgurl").toString());
+        wechatUserService.insertSelectiveById(wechatUser);
+        return insertSuccseeResponse(wechatUser);
 
     }
 
