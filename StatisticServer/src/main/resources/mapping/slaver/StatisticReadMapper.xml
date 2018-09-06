@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicmed.statistic.mapper.slaver.StatisticReadMapper">
+    <resultMap id="BaseResultMap" type="com.sicmed.statistic.entity.Statistic">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="statistic_name" jdbcType="VARCHAR" property="statisticName"/>
+        <result column="statistic_value" jdbcType="VARCHAR" property="statisticValue"/>
+        <result column="statistic_type" jdbcType="VARCHAR" property="statisticType"/>
+        <result column="statistic_status" jdbcType="VARCHAR" property="statisticStatus"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, statistic_name, statistic_value, statistic_type, statistic_status, create_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from statistic
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="getByParam" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from statistic
+        <where>
+            <if test="userId != null and userId != ''">
+                AND user_id = #{userId,jdbcType=VARCHAR}
+            </if>
+            <if test="statisticName != null and statisticName != ''">
+                AND statistic_name = #{statisticName,jdbcType=VARCHAR}
+            </if>
+            <if test="statisticValue != null and statisticValue != ''">
+                AND statistic_value = #{statisticValue,jdbcType=VARCHAR}
+            </if>
+            <if test="statisticType != null and statisticType != ''">
+                AND statistic_type = #{statisticType,jdbcType=VARCHAR}
+            </if>
+            <if test="statisticStatus != null and statisticStatus != ''">
+                AND statistic_status = #{statisticStatus,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+</mapper>

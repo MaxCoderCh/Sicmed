@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicmed.statistic.mapper.master.StatisticWriteMapper">
+  <insert id="insertSelective" parameterType="com.sicmed.statistic.entity.Statistic">
+    <selectKey keyProperty="id" resultType="java.lang.String"
+               order="BEFORE">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into statistic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="statisticName != null">
+        statistic_name,
+      </if>
+      <if test="statisticValue != null">
+        statistic_value,
+      </if>
+      <if test="statisticType != null">
+        statistic_type,
+      </if>
+      <if test="statisticStatus != null">
+        statistic_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticName != null">
+        #{statisticName,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticValue != null">
+        #{statisticValue,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticType != null">
+        #{statisticType,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticStatus != null">
+        #{statisticStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="com.sicmed.statistic.entity.Statistic">
+    update statistic
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticName != null">
+        statistic_name = #{statisticName,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticValue != null">
+        statistic_value = #{statisticValue,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticType != null">
+        statistic_type = #{statisticType,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticStatus != null">
+        statistic_status = #{statisticStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
