@@ -9,12 +9,12 @@ spring:
   profiles:
     active: prd
   datasource:
-    writeWallet:
+    master:
       url: jdbc:mysql://${ipAddress.mysql}:3306/prd_master_wallet?characterEncoding=utf-8
       username: root
       password: Qlxlm123456
       driver-class-name: com.mysql.jdbc.Driver
-    readWallet:
+    slaver:
       url: jdbc:mysql://${ipAddress.mysql}:3306/prd_master_wallet?characterEncoding=utf-8
       username: root
       password: Qlxlm123456
