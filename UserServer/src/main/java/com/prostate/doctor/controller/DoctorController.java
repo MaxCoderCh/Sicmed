@@ -156,6 +156,7 @@ public class DoctorController extends BaseController {
 
         int i = doctorService.updateSelective(doctor);
         if (i > 0) {
+            redisSerive.remove(doctor.getId());
             return updateSuccseeResponse("密码重置成功");
         }
         return updateFailedResponse("密码重置失败");
@@ -191,7 +192,8 @@ public class DoctorController extends BaseController {
 
         int i = doctorService.updateSelective(doctor);
         if (i > 0) {
-            redisSerive.insert(doctor.getId(), jsonUtil.objectToJsonStr(doctor));
+//            redisSerive.insert(doctor.getId(), jsonUtil.objectToJsonStr(doctor));
+            redisSerive.remove(doctor.getId());
             return updatePasswordSuccessResponse("密码重置成功");
         }
         return updatePasswordFailedResponse("密码重置失败");
