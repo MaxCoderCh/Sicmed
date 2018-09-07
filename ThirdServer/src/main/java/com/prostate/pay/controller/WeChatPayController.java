@@ -81,7 +81,7 @@ public class WeChatPayController extends BaseController {
         data.put("out_trade_no", orderId);
         data.put("fee_type", "CNY");
         data.put("total_fee", orderMap.get("orderPrice").toString());
-        data.put("notify_url", "http://www.yilaiyiwang.com/api-order/order/notify/paymentSuccess");
+        data.put("notify_url", "http://www.qlxlm.com/api-order/order/notify/paymentSuccess");
         data.put("trade_type", "JSAPI");
         data.put("product_id", orderId);
         data.put("device_info", "WEB");
