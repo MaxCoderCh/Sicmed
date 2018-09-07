@@ -162,5 +162,12 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <update id="updateOrderSuccess" parameterType="java.lang.String">
+    update order_inquiry
+    <set>
+      order_status = 'TO_BE_ACCEPTED',
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
 
 </mapper>
