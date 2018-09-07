@@ -86,6 +86,7 @@
             <pattern>%date{HH:mm:ss} %boldCyan(%logger{0}) %highlight(%boldGreen(%msg%n))</pattern>
         </encoder>
     </appender>
+    <!-- 开发环境-->
     <springProfile name="dev">
         <logger name="com.sicmed" level="DEBUG" additivity="false">
             <appender-ref ref="SQL_CONSOLE_LOG"/>
@@ -95,6 +96,15 @@
         </logger>
     </springProfile>
 
+    <!-- 生产环境-->
+    <springProfile name="prd">
+        <logger name="com.sicmed" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+        <logger name="com.sicmed.statistic.mapper" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+    </springProfile>
     <!-- 生产环境. -->
     <springProfile name="test,prod">
         <logger name="com.prostate.statistic.controller" level="INFO" additivity="false">
