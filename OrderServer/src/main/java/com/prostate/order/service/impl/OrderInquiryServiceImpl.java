@@ -52,4 +52,9 @@ public class OrderInquiryServiceImpl implements OrderInquiryService {
     public int falseDeleteById(String orderId) {
         return orderInquiryWriteMapper.falseDeleteById(orderId);
     }
+
+    @Override
+    public int updateOrderSuccess(String orderId) {
+        return orderInquiryWriteMapper.updateOrderSuccess(orderId);
+    }
 }

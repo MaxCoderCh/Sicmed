@@ -43,7 +43,7 @@ public class OrderInquiryController extends BaseController {
     public Map createOrder(String doctorId, String patientId, String goodsId, String orderDescription, String patientArchive, String orderPrice) {
 
         OrderInquiry orderInquiry = new OrderInquiry();
-
+        int orderPriceInt = Integer.parseInt(orderPrice.replace(".",""));
         orderInquiry.setDoctor(doctorId);
         orderInquiry.setPatient(patientId);
         orderInquiry.setBuyer(getToken());
@@ -55,7 +55,7 @@ public class OrderInquiryController extends BaseController {
         orderInquiry.setOrderDescription(orderDescription);
         orderInquiry.setPatientArchive(patientArchive);
         orderInquiry.setOrderNumber("ORDER_NUMBER");
-        orderInquiry.setOrderPrice(orderPrice);
+        orderInquiry.setOrderPrice(String.valueOf(orderPriceInt));
 
         //调用insert 服务 向数据库插入数据
         int result = orderInquiryService.insertSelective(orderInquiry);

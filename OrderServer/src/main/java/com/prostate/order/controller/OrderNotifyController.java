@@ -53,13 +53,31 @@ public class OrderNotifyController extends BaseController {
             String out_trade_no;
             String return_code;
             log.info(resultMap.toString());
+//            {transaction_id=4200000203201809072829110107,
+//                    nonce_str=3mRoFi21uWw1zFLoRUKQztGOBAjIF18x,
+//                    bank_type=CFT,
+//                    openid=oCL2t0fFzCzpvL3WCLy3W1_ggn6w,
+//                    sign=7F1C8604A64FEF1A27762948369CD837,
+//                    fee_type=CNY,
+//                    mch_id=1504779411,
+//                    cash_fee=1,
+//                    device_info=WEB,
+//                    out_trade_no=43c132f4b27211e8a09b68cc6e5c9c74,
+//                    appid=wx879a26e37acadb20,
+//                    total_fee=1,
+//                    trade_type=JSAPI,
+//                    result_code=SUCCESS,
+//                    time_end=20180907154812,
+//                    is_subscribe=Y,
+//                    return_code=SUCCESS
+//            }
 
             out_trade_no = resultMap.get("out_trade_no");
             return_code = resultMap.get("return_code");
 
-            request.setAttribute("out_trade_no", out_trade_no);
-            //通知微信.异步确认成功.必写.不然微信会一直通知后台.八次之后就认为交易失败了. response.getWriter().write(RequestHandler.setXML("SUCCESS", ""));
+            //通知微信.异步确认成功.必写.不然微信会一直通知后台.八次之后就认为交易失败了. response.getWriter().master(RequestHandler.setXML("SUCCESS", ""));
             if (return_code.equals("SUCCESS")) {
+                orderInquiryService.updateOrderSuccess(out_trade_no);
                 //支付成功的业务逻辑
                 return "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                         + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";

@@ -84,6 +84,15 @@
             <pattern>%date{HH:mm:ss} %boldCyan(%logger{0}) %highlight(%boldGreen(%msg%n))</pattern>
         </encoder>
     </appender>
+    <!-- 生产环境. 多个使用逗号隔开. -->
+    <springProfile name="prd">
+        <logger name="com.prostate.order.mapper" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+        <logger name="com.prostate" level="info" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+    </springProfile>
     <!-- 开发环境. 多个使用逗号隔开. -->
     <springProfile name="dev">
         <logger name="com.prostate.order.mapper" level="DEBUG" additivity="false">
