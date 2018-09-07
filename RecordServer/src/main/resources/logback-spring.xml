@@ -106,12 +106,24 @@
     </springProfile>
 
     <!-- 生产环境 -->
-    <!--<springProfile name="prd">-->
-        <!--<logger name="com.prostate.record.mapper.pra.read" level="INFO" additivity="false">-->
-            <!--<appender-ref ref="fileInfoLog"/>-->
-            <!--<appender-ref ref="fileErrorLog"/>-->
-        <!--</logger>-->
-    <!--</springProfile>-->
+    <!-- 开发环境. 多个使用逗号隔开. -->
+    <springProfile name="prd">
+        <logger name="com.prostate.record.aspect" level="INFO" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+        <logger name="com.prostate.record.controller" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+        <logger name="com.prostate.record.service" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+        <logger name="com.prostate.record.mapper" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+        <logger name="com.prostate" level="info" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+    </springProfile>
 
     <root level="WARN">
         <!--<appender-ref ref="consoleLog"/>-->
