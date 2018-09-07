@@ -14,27 +14,27 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 
-
 /**
+ * 读操作数据源
  */
 @Configuration
-@MapperScan(basePackages = {"com.prostate.wallet.mapper.master"}, sqlSessionTemplateRef  = "writePraSqlSessionTemplate")
-public class WritePraDataSourceConfiguration {
+@MapperScan(basePackages = {"com.prostate.wallet.mapper.slaver"}, sqlSessionTemplateRef  = "slaverSqlSessionTemplate")
+public class SlaverDataSourceConfiguration {
 
-    @Value("${spring.datasource.writeWallet.driver-class-name}")
+    @Value("${spring.datasource.slaver.driver-class-name}")
     private String driverClassName;
 
-    @Value("${spring.datasource.writeWallet.url}")
+    @Value("${spring.datasource.slaver.url}")
     private String url;
 
-    @Value("${spring.datasource.writeWallet.username}")
+    @Value("${spring.datasource.slaver.username}")
     private String username;
 
-    @Value("${spring.datasource.writeWallet.password}")
+    @Value("${spring.datasource.slaver.password}")
     private String password;
 
 
-    @Bean(name = "writePraDataSource")
+    @Bean(name = "slaverDataSource")
     public DataSource dataSource() {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setDriverClassName(this.driverClassName);
@@ -44,21 +44,21 @@ public class WritePraDataSourceConfiguration {
         return dataSource;
     }
 
-    @Bean(name = "writePraSqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactory(@Qualifier("writePraDataSource") DataSource dataSource) throws Exception {
+    @Bean(name = "slaverSqlSessionFactory")
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("slaverDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
-        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/master/*.xml"));
+        bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapping/slaver/*.xml"));
         return bean.getObject();
     }
 
-    @Bean(name = "writePraTransactionManager")
-    public DataSourceTransactionManager transactionManager(@Qualifier("writePraDataSource") DataSource dataSource) {
+    @Bean(name = "slaverTransactionManager")
+    public DataSourceTransactionManager transactionManager(@Qualifier("slaverDataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Bean(name = "writePraSqlSessionTemplate")
-    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("writePraSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+    @Bean(name = "slaverSqlSessionTemplate")
+    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("slaverSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 

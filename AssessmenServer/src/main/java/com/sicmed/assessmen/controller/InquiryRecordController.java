@@ -92,6 +92,7 @@ public class InquiryRecordController extends BaseController {
             recordServer.addUserPatientByOrder(orderId);
             //调用统计服务
             statisticServer.addTotleIncome(orderId);
+
             return insertSuccseeResponse();
         }
         return insertFailedResponse();
