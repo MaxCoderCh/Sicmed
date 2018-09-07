@@ -85,10 +85,24 @@
     </appender>
 
     <!-- 生产环境. -->
-    <springProfile name="test,prod">
-        <logger name="com.prostate.record.controller" level="INFO" additivity="false">
-            <appender-ref ref="fileInfoLog"/>
-            <appender-ref ref="fileErrorLog"/>
+    <springProfile name="prd">
+        <logger name="com.prostate.common.aspect" level="INFO" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+        <logger name="com.prostate.cos" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+        <logger name="com.prostate.ocr" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+        <logger name="com.prostate.sms" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+        <logger name="com.prostate.pay" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
+        </logger>
+        <logger name="com.prostate" level="info" additivity="false">
+            <appender-ref ref="SQL_CONSOLE_LOG"/>
         </logger>
     </springProfile>
     <!-- 开发环境 -->
