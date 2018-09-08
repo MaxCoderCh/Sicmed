@@ -6,6 +6,7 @@ import com.prostate.wallet.entity.DoctorWallet;
 import com.prostate.wallet.feignService.OrderServer;
 import com.prostate.wallet.service.DealRecordService;
 import com.prostate.wallet.service.DoctorWalletService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "provider")
 public class ProviderController extends BaseController{
@@ -36,15 +38,18 @@ public class ProviderController extends BaseController{
     public String addOrderIncome(String orderId) throws Exception {
         //查询订单 信息
         Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
+        log.error(orderResultMap.toString());
         Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
-
+        log.error(orderMap.toString());
         String doctorId = orderMap.get("doctor").toString();
         String orderPriceStr = orderMap.get("orderPrice").toString();
 
         int orderPrice = Integer.parseInt(orderPriceStr);
         //获取 医生钱包
         DoctorWallet doctorWallet = doctorWalletService.selectByDoctorId(doctorId);
-
+        if (doctorWallet==null){
+            doctorWallet = doctorWalletService.create(doctorId);
+        }
         String walletBalanceStr = doctorWallet.getWalletBalance();
         int walletBalance = Integer.parseInt(walletBalanceStr);
 
@@ -95,7 +100,9 @@ public class ProviderController extends BaseController{
         int orderPrice = Integer.parseInt(orderPriceStr);
         //获取 医生钱包
         DoctorWallet doctorWallet = doctorWalletService.selectByDoctorId(doctorId);
-
+        if (doctorWallet==null){
+            doctorWallet = doctorWalletService.create(doctorId);
+        }
         String walletBalanceStr = doctorWallet.getWalletBalance();
         int walletBalance = Integer.parseInt(walletBalanceStr);
 
