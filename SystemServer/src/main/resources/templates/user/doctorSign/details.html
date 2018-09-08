@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${doctorSign.id}"  type="hidden">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">医生：</label>
+                            <div class="col-sm-8">
+                                <input id="doctorId" name="doctorId" th:value="${doctorSign.doctorId}" class="form-control" type="text" type="hidden">
+                                <input id="doctorId2" name="doctorId2" th:value="${doctorId}" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">医院：</label>
+                            <div class="col-sm-8">
+                                <input id="hospitalId" name="hospitalId" th:value="${doctorSign.hospitalId}" class="form-control" type="text" type="hidden">
+                                <input id="hospitalId2" name="hospitalId2" th:value="${hospitalId}" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">科室：</label>
+                            <div class="col-sm-8">
+                                <input id="branchId" name="branchId" th:value="${doctorSign.branchId}" class="form-control" type="text"  type="hidden">
+                                <input id="branchId2" name="branchId2" th:value="${branchId}" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">职称：</label>
+                            <div class="col-sm-8">
+                                <input id="titleId" name="titleId" th:value="${doctorSign.titleId}" class="form-control" type="text" type="hidden">
+                                <input id="titleId2" name="titleId2" th:value="${titleId}" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">身份证正面照：</label>
+                            <div class="col-sm-8">
+
+                                <img id="idCardFront" name="idCardFront" th:src="${doctorSign.idCardFront}" style="width: 600px">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">身份证反面照片：</label>
+                            <div class="col-sm-8">
+                                <img id="idCardContrary" name="idCardContrary" th:src="${doctorSign.idCardContrary}" style="width: 600px">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">医师执业证正面照片：</label>
+                            <div class="col-sm-8">
+                                <img id="doctorCardFront" name="doctorCardFront" th:src="${doctorSign.doctorCardFront}" style="width: 600px">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">医师执业证反面照片：</label>
+                            <div class="col-sm-8">
+                                <img id="doctorCardContrary" name="doctorCardContrary" th:src="${doctorSign.doctorCardContrary}" style="width: 600px">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">手持工牌照片：</label>
+                            <div class="col-sm-8">
+                                <!--<input id="workCard" name="workCard" th:value="${doctorSign.workCard}" class="form-control" type="text">-->
+                                <img  id="workCard" name="workCard" th:src="${doctorSign.workCard}" style="width: 600px">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">认证状态：</label>
+                            <div class="col-sm-8">
+                                <input id="approveStatus" name="approveStatus" th:value="${doctorSign.approveStatus}" class="form-control" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3" style="text-align: center">
+                                <button class="btn btn-primary btn-lg" onclick="pass();">同意</button>
+                                <button  class="btn btn-danger btn-lg"  onclick="refuse();">拒绝</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/user/doctorSign/details.js"></script>
+</body>
+</html>

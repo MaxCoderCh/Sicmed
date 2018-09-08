@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.slaver.AnamnesisTypeReadMapper">
+
+
+	<sql id="Base_Column_List">
+		 id AS id, anamnesis_type_name AS  anamnesisTypeName, anamnesis_type_number AS  anamnesisTypeNumber,
+		 order_weight  AS orderWeight, create_user  AS createUser, create_time  AS createTime,
+		 update_user  AS updateUser, update_time AS updateTime, delete_user AS deleteUser, delete_time AS deleteTime, del_flag AS delFlag
+	</sql>
+
+
+	<select id="get" resultType="com.prostate.base.domain.AnamnesisTypeDO">
+		select <include refid="Base_Column_List" /> from base_anamnesis_type where id = #{value}
+	</select>
+
+
+	<resultMap id="BaseResultMap" type="com.prostate.base.domain.AnamnesisTypeDO">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="anamnesis_type_name" jdbcType="VARCHAR" property="anamnesisTypeName" />
+		<result column="anamnesis_type_number" jdbcType="VARCHAR" property="anamnesisTypeNumber" />
+		<result column="order_weight" jdbcType="INTEGER" property="orderWeight" />
+		<result column="create_user" jdbcType="VARCHAR" property="createUser" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+		<result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+		<result column="del_flag" jdbcType="CHAR" property="delFlag" />
+	</resultMap>
+
+	<select id="list" resultType="com.prostate.base.domain.AnamnesisTypeDO">
+		select <include refid="Base_Column_List" />
+		from base_anamnesis_type
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="anamnesisTypeName != null and anamnesisTypeName != ''"> and anamnesis_type_name LIKE CONCAT(CONCAT('%', #{anamnesisTypeName}), '%')</if>
+		  		  <if test="anamnesisTypeNumber != null and anamnesisTypeNumber != ''"> and anamnesis_type_number = #{anamnesisTypeNumber} </if>
+		  		  <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  and del_flag = '0'
+		 </where>
+
+        <choose>
+            <when test="orderWeight != null and orderWeight.trim() != ''">
+                order by order_weight
+            </when>
+			<otherwise>
+                order by order_weight asc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="listByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from base_anamnesis_type
+		where del_flag = '0'
+		AND anamnesis_type_name = #{anamnesisTypeName,jdbcType=VARCHAR}
+	</select>
+	<select id="listByNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from base_anamnesis_type
+		where del_flag = '0'
+		AND anamnesis_type_number = #{anamnesisTypeNumber,jdbcType=VARCHAR}
+	</select>
+
+
+	
+ 	<select id="count" resultType="int">
+		select count(*) from base_anamnesis_type
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="anamnesisTypeName != null and anamnesisTypeName != ''"> and  anamnesis_type_name LIKE CONCAT(CONCAT('%', #{anamnesisTypeName}), '%') </if>
+		  		  <if test="anamnesisTypeNumber != null and anamnesisTypeNumber != ''"> and anamnesis_type_number = #{anamnesisTypeNumber} </if>
+		  		  <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+		  		  <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+		  		   and del_flag = '0'
+		  		</where>
+	</select>
+	 
+
+
+</mapper>

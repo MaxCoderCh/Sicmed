@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.master.NationWriteMapper">
+
+	 
+	<insert id="save" parameterType="com.prostate.base.domain.NationDO">
+		<selectKey keyProperty="id" resultType="string" order="BEFORE">
+			select replace(uuid(), '-', '') as id from dual
+		</selectKey>
+		insert into base_nation
+		(
+			`id`, 
+			`nation_name`, 
+			`nation_number`, 
+			`order_weight`, 
+			`create_user`, 
+			`create_time`, 
+			`update_user`, 
+			`update_time`, 
+			`delete_user`, 
+			`delete_time`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{nationName}, 
+			#{nationNumber}, 
+			#{orderWeight}, 
+			#{createUser}, 
+			#{createTime}, 
+			#{updateUser}, 
+			#{updateTime}, 
+			#{deleteUser}, 
+			#{deleteTime}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.prostate.base.domain.NationDO">
+		update base_nation 
+		<set>
+			<if test="nationName != null">`nation_name` = #{nationName}, </if>
+			<if test="nationNumber != null">`nation_number` = #{nationNumber}, </if>
+			<if test="orderWeight != null">`order_weight` = #{orderWeight}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateUser != null">`update_user` = #{updateUser}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="deleteUser != null">`delete_user` = #{deleteUser}, </if>
+			<if test="deleteTime != null">`delete_time` = #{deleteTime}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+
+	<!--<update id="batchUpdate" >-->
+		<!--update base_nation-->
+		<!--<set>-->
+		  <!--`del_flag` = '1'-->
+		<!--</set>-->
+		<!--where id  in-->
+		<!--<foreach item="id" collection="array" open="(" separator="," close=")">-->
+			<!--#{id}-->
+		<!--</foreach>-->
+	<!--</update>-->
+
+
+
+	<delete id="remove">
+		delete from base_nation where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from base_nation where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

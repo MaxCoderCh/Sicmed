@@ -1,0 +1,83 @@
+prostate:
+  uploadPath: /var/uploaded_files/
+logging:
+  level:
+    root: error
+    com.prostate: info
+spring:
+  datasource:
+    readSys:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/dev_master_system?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    readBase:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/prd_master_static?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    writeSys:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/dev_master_system?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    writeBase:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/prd_master_static?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    activiti:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/dev_master_system?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    blog:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/dev_master_system?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    common:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/dev_master_system?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    oa:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/dev_master_system?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    readUser:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/prd_master_user?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    writeUser:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/prd_master_user?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    readPra:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/prd_master_statistic?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    writePra:
+      url: jdbc:mysql://bj-cdb-0srt3yo9.sql.tencentcdb.com:63422/prd_master_statistic?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+  redis:
+      host: localhost
+      port: 6379
+      password:
+      # 连接超时时间（毫秒）
+      timeout: 10000
+      pool:
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 10
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 100
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.master.AnamnesisEatingDrugWriteMapper">
+
+
+	 
+	<insert id="save" parameterType="com.prostate.base.domain.AnamnesisEatingDrugDO">
+		<selectKey keyProperty="id" resultType="string" order="BEFORE">
+			select replace(uuid(), '-', '') as id from dual
+		</selectKey>
+		insert into base_anamnesis_eating_drug
+		(
+			`id`, 
+			`eating_drug_name`, 
+			`spell_name`, 
+			`eating_drug_number`, 
+			`order_weight`, 
+			`create_name`, 
+			`create_time`, 
+			`update_name`, 
+			`update_time`, 
+			`delete_name`, 
+			`delete_time`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{eatingDrugName}, 
+			#{spellName}, 
+			#{eatingDrugNumber}, 
+			#{orderWeight}, 
+			#{createName}, 
+			#{createTime}, 
+			#{updateName}, 
+			#{updateTime}, 
+			#{deleteName}, 
+			#{deleteTime}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.prostate.base.domain.AnamnesisEatingDrugDO">
+		update base_anamnesis_eating_drug 
+		<set>
+			<if test="eatingDrugName != null">`eating_drug_name` = #{eatingDrugName}, </if>
+			<if test="spellName != null">`spell_name` = #{spellName}, </if>
+			<if test="eatingDrugNumber != null">`eating_drug_number` = #{eatingDrugNumber}, </if>
+			<if test="orderWeight != null">`order_weight` = #{orderWeight}, </if>
+			<if test="createName != null">`create_name` = #{createName}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateName != null">`update_name` = #{updateName}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="deleteName != null">`delete_name` = #{deleteName}, </if>
+			<if test="deleteTime != null">`delete_time` = #{deleteTime}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag} </if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from base_anamnesis_eating_drug where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from base_anamnesis_eating_drug where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

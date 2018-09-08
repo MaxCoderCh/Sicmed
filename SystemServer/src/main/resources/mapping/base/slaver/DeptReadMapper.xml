@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.slaver.BranchReadMapper">
+
+
+
+	<sql id="Base_Column_List">
+		 id  AS id,
+			 parent_branch_id  AS parentBranchId,
+			 branch_name  AS branchName,
+			 branch_grade  AS branchGrade,
+			 branch_inform  AS branchInform,
+			 branch_weight  AS branchWeight,
+			 order_weight  AS orderWeight,
+			 create_user  AS createUser,
+			 create_time  AS createTime,
+			 update_user  AS updateUser,
+			 update_time  AS updateTime,
+			 delete_user  AS deleteUser,
+			 delete_time  AS deleteTime,
+			 del_flag AS delFlag
+	</sql>
+
+	
+	
+	<select id="get" resultType="com.prostate.base.domain.BranchDO">
+		select <include refid="Base_Column_List" />from base_branch where id = #{value} and del_flag = '0'
+	</select>
+
+	<select id="getByNumber" resultType="com.prostate.base.domain.BranchDO">
+		select <include refid="Base_Column_List" />from base_branch where branch_number = #{value} and del_flag = '0'
+	</select>
+
+	<select id="getByName" resultType="com.prostate.base.domain.BranchDO">
+		select<include refid="Base_Column_List" />from base_branch where branch_name = #{value} and del_flag = '0'
+	</select>
+
+
+	<select id="list" resultType="com.prostate.base.domain.BranchDO">
+		select<include refid="Base_Column_List" />from base_branch
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="parentBranchId != null and parentBranchId != ''"> and parent_branch_id = #{parentBranchId} </if>
+		  		  <if test="branchName != null and branchName != ''"> and branch_name = #{branchName} </if>
+		  		  <if test="branchGrade != null and branchGrade != ''"> and branch_grade = #{branchGrade} </if>
+		  		  <if test="branchInform != null and branchInform != ''"> and branch_inform = #{branchInform} </if>
+		  		  <if test="branchWeight != null and branchWeight != ''"> and branch_weight = #{branchWeight} </if>
+		  		  <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+		  		  <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+		  		  and del_flag = '0'
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by order_weight
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from base_branch
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="parentBranchId != null and parentBranchId != ''"> and parent_branch_id = #{parentBranchId} </if>
+		  		  <if test="branchName != null and branchName != ''"> and branch_name = #{branchName} </if>
+		  		  <if test="branchGrade != null and branchGrade != ''"> and branch_grade = #{branchGrade} </if>
+		  		  <if test="branchInform != null and branchInform != ''"> and branch_inform = #{branchInform} </if>
+		  		  <if test="branchWeight != null and branchWeight != ''"> and branch_weight = #{branchWeight} </if>
+		  		  <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+		  		  <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+		  		  and del_flag = '0'
+		  		</where>
+	</select>
+	 
+
+
+	<select id="getTree" resultType="com.prostate.base.domain.BranchDO">
+		select <include refid="Base_Column_List" /> from base_branch
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="parentBranchId != null and parentBranchId != ''"> and parent_branch_id = #{parentBranchId} </if>
+			<if test="branchName != null and branchName != ''"> and branch_name = #{branchName} </if>
+			and (branch_grade = '1' or branch_grade = '0')
+			<if test="branchInform != null and branchInform != ''"> and branch_inform = #{branchInform} </if>
+			<if test="branchWeight != null and branchWeight != ''"> and branch_weight = #{branchWeight} </if>
+			<if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+			<if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+			<if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+			<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+			<if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+			<if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+			and del_flag ='0'
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by order_weight
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+</mapper>

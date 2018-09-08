@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.slaver.CityReadMapper">
+
+
+	<sql id="Base_Column_List">
+		 id  AS  id, parent_city_id  AS parentCityId ,city_name  AS  cityName,city_type  AS cityType ,order_weight AS  orderWeight,
+		 create_user  AS  createUser,create_time  AS  createTime,city_weight  AS  cityWeight,update_user AS  updateUser,
+		 update_time  AS  updateTime,delete_user  AS  deleteUser,delete_time  AS  deleteTime,del_flag  AS  delFlag
+		
+	</sql>
+	
+	
+	<select id="get" resultType="com.prostate.base.domain.CityDO">
+		select <include refid="Base_Column_List" />from base_city where id = #{value} AND del_flag = '0'
+	</select>
+
+	<select id="getParent" resultType="com.prostate.base.domain.CityDO">
+		SELECT
+		p.id AS  id,
+		p.parent_city_id   AS parentCityId ,
+		p.city_name   AS  cityName,
+		p.city_type   AS cityType ,
+		p.order_weight AS  orderWeight ,
+		p.create_user  AS  createUser,
+		p.create_time   AS  createTime,
+		p.city_weight   AS  cityWeight,
+		p.update_user AS  updateUser ,
+		p.update_time  AS  updateTime,
+		 p.delete_user  AS  deleteUser,
+		 p.delete_time  AS  deleteTime,
+		 p.del_flag  AS  delFlag
+		FROM base_city p,base_city s WHERE  s.id = #{value} and p.id = s.parent_city_id AND p.del_flag = '0'
+	</select>
+
+	<!--新增根据父id查询子的信息-->
+	<select id="getChild" resultType="com.prostate.base.domain.CityDO">
+		select <include refid="Base_Column_List" /> from base_city
+		<where>
+			<if test="parentCityId != null and parentCityId != ''"> and parent_city_id = #{parentCityId} </if>
+			and del_flag = '0'
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by order_weight
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<!--&lt;!&ndash;根据区县id查询所有的信息&ndash;&gt;-->
+	<!--<select id="getDetails" resultType="com.prostate.base.vo.CityVO">-->
+	<!--p.city_name provinceName,p.`id` provinceId,c.city_name cityName,c.`id` cityId,q.city_name countyName,q.id  countyId-->
+	<!--FROM base_city p,base_city c,base_city q-->
+	<!--WHERE q.`parent_city_id` = c.`id` AND c.`parent_city_id` = p.`id` AND q.`id` = #{value} AND q.del_flag = '0'-->
+	<!--</select>-->
+
+	<select id="list" resultType="com.prostate.base.domain.CityDO">
+		select <include refid="Base_Column_List" /> from base_city
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="parentCityId != null and parentCityId != ''"> and parent_city_id = #{parentCityId} </if>
+			<if test="cityName != null and cityName != ''"> and city_name = #{cityName} </if>
+			<if test="cityType != null and cityType != ''"> and city_type = #{cityType} </if>
+			<if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+			<if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+			<if test="cityWeight != null and cityWeight != ''"> and city_weight = #{cityWeight} </if>
+			<if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+			<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+			<if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+			<if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+			and del_flag = '0'
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by order_weight
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from base_city
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="parentCityId != null and parentCityId != ''"> and parent_city_id = #{parentCityId} </if>
+			<if test="cityName != null and cityName != ''"> and city_name = #{cityName} </if>
+			<if test="cityType != null and cityType != ''"> and city_type = #{cityType} </if>
+			<if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+			<if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+			<if test="cityWeight != null and cityWeight != ''"> and city_weight = #{cityWeight} </if>
+			<if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+			<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+			<if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+			<if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+			and del_flag = '0'
+		</where>
+	</select>
+
+	<!--查找树形结构的-->
+	<select id="getTree" resultType="com.prostate.base.domain.CityDO">
+		select <include refid="Base_Column_List" /> from base_city
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="parentCityId != null and parentCityId != ''"> and parent_city_id = #{parentCityId} </if>
+			<if test="cityName != null and cityName != ''"> and city_name = #{cityName} </if>
+			and (city_type = '1' or city_type = '2'or city_type = '0')
+			<if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+			<if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+			<if test="cityWeight != null and cityWeight != ''"> and city_weight = #{cityWeight} </if>
+			<if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+			<if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+			<if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+			<if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+			AND  del_flag = '0'
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by order_weight
+			</when>
+			<otherwise>
+				order by order_weight desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+
+</mapper>

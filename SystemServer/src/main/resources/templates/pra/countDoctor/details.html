@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header">
+
+</head>
+<body class="gray-bg">
+	<!--保存医生id的一个隐藏域-->
+	<div>
+		<input id="doctorId" name="doctorId" th:value="${doctorId}"  type="hidden">
+	</div>
+	<div>
+		<ul class="nav nav-tabs">
+			<li role="presentation" class="active"><a onclick="weekDetails();">最近7天</a></li>
+			<li role="presentation"><a onclick="moothDetails();">最近30天</a></li>
+			<li role="presentation"><a onclick="yearDetails();">最近一年</a></li>
+		</ul>
+	</div>
+	<div id="test" style="width: 90%;height:80%;"></div>
+
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/pra/countDoctor/details.js"></script>
+	<!--引入百度EChart-->
+	<script type="text/javascript" src="/js/echarts.js"></script>
+</body>
+</html>

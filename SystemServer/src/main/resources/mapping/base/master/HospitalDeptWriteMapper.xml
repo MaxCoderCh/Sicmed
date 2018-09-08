@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.master.HospitalDeptWriteMapper">
+
+
+	 
+	<insert id="save" parameterType="com.prostate.base.domain.HospitalDeptDO">
+		<selectKey keyProperty="id" resultType="string" order="BEFORE">
+			select replace(uuid(), '-', '') as id from dual
+		</selectKey>
+		insert into base_hospital_dept
+		(
+			`id`, 
+			`hospital_id`, 
+			`dept_id`, 
+			`dept_inform`, 
+			`dept_weight`, 
+			`activation_flag`, 
+			`order_weight`, 
+			`create_user`, 
+			`create_time`, 
+			`update_user`, 
+			`update_time`, 
+			`delete_user`, 
+			`delete_time`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{hospitalId}, 
+			#{deptId}, 
+			#{deptInform}, 
+			#{deptWeight}, 
+			#{activationFlag}, 
+			#{orderWeight}, 
+			#{createUser}, 
+			#{createTime}, 
+			#{updateUser}, 
+			#{updateTime}, 
+			#{deleteUser}, 
+			#{deleteTime}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.prostate.base.domain.HospitalDeptDO">
+		update base_hospital_dept 
+		<set>
+			<if test="hospitalId != null">`hospital_id` = #{hospitalId}, </if>
+			<if test="deptId != null">`dept_id` = #{deptId}, </if>
+			<if test="deptInform != null">`dept_inform` = #{deptInform}, </if>
+			<if test="deptWeight != null">`dept_weight` = #{deptWeight}, </if>
+			<if test="activationFlag != null">`activation_flag` = #{activationFlag}, </if>
+			<if test="orderWeight != null">`order_weight` = #{orderWeight}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateUser != null">`update_user` = #{updateUser}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="deleteUser != null">`delete_user` = #{deleteUser}, </if>
+			<if test="deleteTime != null">`delete_time` = #{deleteTime}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from base_hospital_dept where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from base_hospital_dept where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

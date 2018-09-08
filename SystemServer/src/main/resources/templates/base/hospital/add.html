@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">医院名称：</label>
+								<div class="col-sm-8">
+									<input id="hospitalName" name="hospitalName" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">医院编号：</label>
+								<div class="col-sm-8">
+									<input id="hospitalNumber" name="hospitalNumber" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">医院别名：</label>
+								<div class="col-sm-8">
+									<input id="hospitalAlias" name="hospitalAlias" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">医院信息简介：</label>
+								<div class="col-sm-8">
+									<input id="hospitalInform" name="hospitalInform" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">医院等级：</label>
+								<div class="col-sm-8">
+									<input id="hospitalGrade" name="hospitalGrade" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">权重排序用：</label>
+								<div class="col-sm-8">
+									<input id="hospitalWeight" name="hospitalWeight" class="form-control" type="text">
+								</div>
+							</div>
+							<div class="form-group" >
+								<label class="col-sm-3 control-label">医院类型：</label>
+								<div class="col-sm-8"  >
+									<input id="typeId" name="typeId" class="form-control" type="text">
+
+									<!--<select id="typeId" name="typeId" class="form-control">-->
+										<!--<option>-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;选择医院类型-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
+									<!--</select>-->
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">医院所在城市：</label>
+								<div class="col-sm-8">
+									<input id="cityId" name="cityId" class="form-control" type="text">
+								</div>
+								<!--<div class="col-sm-3" onclick="loadCity();">-->
+									<!--<select id="cityId2" name="cityId2" class="form-control ">-->
+										<!--<option>选择省份</option>-->
+									<!--</select>-->
+								<!--</div>-->
+								<!--<div class="col-sm-3" onclick="loadCounty();">-->
+									<!--<select id="cityId1" name="cityId1" class="form-control">-->
+										<!--<option>选择地市</option>-->
+									<!--</select>-->
+								<!--</div>-->
+								<!--<div class="col-sm-2">-->
+									<!--<select id="cityId" name="cityId" class="form-control">-->
+										<!--<option>选择区县</option>-->
+									<!--</select>-->
+								<!--</div>-->
+
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">医院激活标记：</label>
+								<div class="col-sm-8">
+									<input id="activationFlag" name="activationFlag" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">排序：</label>
+								<div class="col-sm-8">
+									<input id="orderWeight" name="orderWeight" class="form-control" type="text">
+								</div>
+							</div>
+
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/base/hospital/add.js">
+	</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.system.mapper.master.RoleWriteMapper">
+
+
+
+	<insert id="save" parameterType="com.prostate.system.domain.RoleDO"
+		useGeneratedKeys="true" keyProperty="roleId">
+		insert into sys_role
+		(
+		`role_name`,
+		`role_sign`,
+		`remark`,
+		`user_id_create`,
+		`gmt_create`,
+		`gmt_modified`
+		)
+		values
+		(
+		#{roleName},
+		#{roleSign},
+		#{remark},
+		#{userIdCreate},
+		#{gmtCreate},
+		#{gmtModified}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.prostate.system.domain.RoleDO">
+		update sys_role
+		<set>
+			<if test="roleName != null">`role_name` = #{roleName}, </if>
+			<if test="roleSign != null">`role_sign` = #{roleSign}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+			<if test="gmtModified != null">`gmt_modified` = #{gmtModified}</if>
+		</set>
+		where role_id = #{roleId}
+	</update>
+
+	<delete id="remove">
+		delete from sys_role where role_id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from sys_role where role_id in
+		<foreach item="roleId" collection="array" open="(" separator=","
+			close=")">
+			#{roleId}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns  ">
+							<button shiro:hasPermission="base:city:add" type="button" class="btn  btn-primary" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+						</div>
+					</div>
+					<div>
+						<div class="columns pull-left ">
+							<label>当前位置：</label>
+						</div>
+						<div class="columns pull-left ">
+							<ol class="breadcrumb" id="daohang">
+								<li><a onclick="myReLoad(null);">中国</a></li>
+								<li><a href="#">Library</a></li>
+								<li class="active">Data</li>
+							</ol>
+						</div>
+						<table id="exampleTable" data-mobile-responsive="true" class="table table-striped table-bordered" style="text-align: center">
+							<tr>
+								<td>城市</td>
+								<td>排序</td>
+								<td>操作</td>
+							</tr>
+							<tbody id="mycity">
+							<tr>
+								<td colspan="3" style="text-align: center">暂无数据</td>
+							</tr>
+							</tbody>
+
+						</table>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--shiro控制bootstraptable行内按钮看见性 来自prostate的创新方案 -->
+		<div>
+			<script type="text/javascript">
+				var s_edit_h = 'hidden';
+				var s_remove_h = 'hidden';
+				var s_resetPwd_h = 'hidden';
+			</script>
+		</div>
+		<div shiro:hasPermission="base:city:edit">
+			<script type="text/javascript">
+				s_edit_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="base:city:remove">
+			<script type="text/javascript">
+				var s_remove_h = '';
+			</script>
+		</div>
+		<div shiro:hasPermission="base:city:resetPwd">
+			<script type="text/javascript">
+				var s_resetPwd_h = '';
+			</script>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/base/city/city.js"></script>
+</body>
+</html>

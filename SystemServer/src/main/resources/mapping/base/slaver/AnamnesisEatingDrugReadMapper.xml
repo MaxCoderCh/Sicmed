@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.slaver.AnamnesisEatingDrugReadMapper">
+
+
+	<sql id="Base_Column_List">
+		 id AS id, eating_drug_name  AS eatingDrugName, spell_name  AS spellName, eating_drug_number  AS eatingDrugNumber, order_weight  AS orderWeight,
+		 create_name  AS createName, create_time  AS createTime, update_name  AS updateName,
+		 update_time  AS updateTime, delete_name AS  deleteName, delete_time  AS deleteTime, del_flag  AS delFlag
+	</sql>
+
+
+	<select id="get" resultType="com.prostate.base.domain.AnamnesisEatingDrugDO">
+		select <include refid="Base_Column_List" />
+			from base_anamnesis_eating_drug where id = #{value} and del_flag = '0'
+	</select>
+
+	<select id="getByName" resultType="com.prostate.base.domain.AnamnesisEatingDrugDO">
+		select <include refid="Base_Column_List" />
+		from base_anamnesis_eating_drug where eating_drug_name = #{value} and del_flag = '0'
+	</select>
+
+	<select id="getByNumber" resultType="com.prostate.base.domain.AnamnesisEatingDrugDO">
+		select <include refid="Base_Column_List" />
+		from base_anamnesis_eating_drug where eating_drug_number = #{value} and del_flag = '0'
+	</select>
+
+	<select id="list" resultType="com.prostate.base.domain.AnamnesisEatingDrugDO">
+		select <include refid="Base_Column_List" /> from base_anamnesis_eating_drug
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="eatingDrugName != null and eatingDrugName != ''"> and eating_drug_name LIKE CONCAT(CONCAT('%', #{eatingDrugName}), '%')</if>
+
+			<!--<if test="eatingDrugName != null and eatingDrugName != ''"> and eating_drug_name = #{eatingDrugName} </if>-->
+		  		  <if test="spellName != null and spellName != ''"> and spell_name = #{spellName} </if>
+		  		  <if test="eatingDrugNumber != null and eatingDrugNumber != ''"> and eating_drug_number = #{eatingDrugNumber} </if>
+		  		  <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+		  		  <if test="createName != null and createName != ''"> and create_name = #{createName} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateName != null and updateName != ''"> and update_name = #{updateName} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="deleteName != null and deleteName != ''"> and delete_name = #{deleteName} </if>
+		  		  <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+		  		  and del_flag = '0'
+		  		</where>
+        <choose>
+            <!--<when test="sort != null and sort.trim() != ''">-->
+                <!--order by ${sort} ${order}-->
+            <!--</when>-->
+			<otherwise>
+                order by order_weight ASC
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from base_anamnesis_eating_drug
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+			 <if test="eatingDrugName != null and eatingDrugName != ''"> and eating_drug_name LIKE CONCAT(CONCAT('%', #{eatingDrugName}), '%')</if>
+
+			 <!--<if test="eatingDrugName != null and eatingDrugName != ''"> and eating_drug_name = #{eatingDrugName} </if>-->
+		  		  <if test="spellName != null and spellName != ''"> and spell_name = #{spellName} </if>
+		  		  <if test="eatingDrugNumber != null and eatingDrugNumber != ''"> and eating_drug_number = #{eatingDrugNumber} </if>
+		  		  <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+		  		  <if test="createName != null and createName != ''"> and create_name = #{createName} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateName != null and updateName != ''"> and update_name = #{updateName} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="deleteName != null and deleteName != ''"> and delete_name = #{deleteName} </if>
+		  		  <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+		  		   and del_flag = '0'
+		  		</where>
+	</select>
+	 
+
+</mapper>

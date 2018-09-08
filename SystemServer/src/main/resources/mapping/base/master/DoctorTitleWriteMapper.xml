@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.master.DoctorTitleWriteMapper">
+
+
+	 
+	<insert id="save" parameterType="com.prostate.base.domain.DoctorTitleDO">
+		<selectKey keyProperty="id" resultType="string" order="BEFORE">
+			select replace(uuid(), '-', '') as id from dual
+		</selectKey>
+		insert into base_doctor_title
+		(
+			`id`, 
+			`doctor_title_number`, 
+			`doctor_title_name`, 
+			`order_weight`, 
+			`create_user`, 
+			`create_time`, 
+			`update_user`, 
+			`update_time`, 
+			`delete_user`, 
+			`delete_time`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{doctorTitleNumber}, 
+			#{doctorTitleName}, 
+			#{orderWeight}, 
+			#{createUser}, 
+			#{createTime}, 
+			#{updateUser}, 
+			#{updateTime}, 
+			#{deleteUser}, 
+			#{deleteTime}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.prostate.base.domain.DoctorTitleDO">
+		update base_doctor_title 
+		<set>
+			<if test="doctorTitleNumber != null">`doctor_title_number` = #{doctorTitleNumber}, </if>
+			<if test="doctorTitleName != null">`doctor_title_name` = #{doctorTitleName}, </if>
+			<if test="orderWeight != null">`order_weight` = #{orderWeight}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateUser != null">`update_user` = #{updateUser}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="deleteUser != null">`delete_user` = #{deleteUser}, </if>
+			<if test="deleteTime != null">`delete_time` = #{deleteTime}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from base_doctor_title where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from base_doctor_title where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

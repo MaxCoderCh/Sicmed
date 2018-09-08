@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox-content">
+					<div id="jsTree"></div>
+				</div>
+				<div class="form-group ">
+					<div class="col-sm-12 col-sm-offset-12">
+						<button type="submit" onclick="loadScale()" class="btn btn-primary">提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include :: footer"></div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			getTreeData()
+		});
+		function getTreeData() {
+			$.ajax({
+				type : "GET",
+				url : "/base/scaleManager/tree",
+				success : function(tree) {
+					loadTree(tree);
+				}
+			});
+		}
+		function loadTree(tree) {
+			$('#jsTree').jstree({
+				'core' : {
+					'data' : tree
+				},
+				"plugins" : [ ]
+			});
+			$('#jsTree').jstree().open_all();
+
+            /*$('#jsTree').jstree({
+                "core" : {
+                    "animation" : 0,
+                    "themes" : { "dots": true,"icons":true ,"stripes":false},
+                    "check_callback" : true,
+                    "multiple" : false,
+                    'data' : tree
+                },
+                "types" : {
+                    "#" : { "max_children" : 5,
+                        "max_depth" : 11 ,
+                    },
+                    "default" : {
+                        "icon" : "false",
+                        "valid_children" : ["default","text"]
+                    },
+                    "text" : {
+                        "icon" : "false",
+                        "valid_children" : []
+                    }
+                },
+                "plugins" : [ "state", "types", "wholerow" ]
+            });
+            $('#jsTree').jstree().open_all();*/
+
+		}
+		function loadScale(){
+			var userNames,userIds;
+			var ref = $('#jsTree').jstree(true); // 获得整个树
+			ids = ref.get_selected();
+			users = ref.get_selected('true');
+			var txt="";
+			for(var user in users){
+				//if(users[user].state.mType=="user"){
+					txt=txt+users[user].text;
+				//}
+			}
+			parent.loadScale(ids,txt);
+			var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+			parent.layer.close(index);
+		}
+	</script>
+</body>
+</html>

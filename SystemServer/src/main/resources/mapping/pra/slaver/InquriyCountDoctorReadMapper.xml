@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.pra.mapper.slaver.InquriyCountDoctorReadMapper">
+
+	<sql id="Base_Column_List">
+		  id  AS id,
+			  doctor_id   AS doctorId,
+			  inquiry_status  AS  inquiryStatus,
+			  create_time   AS createTime
+	</sql>
+	<select id="get" resultType="com.prostate.pra.entity.InquriyCountDoctorDO">
+		select <include refid="Base_Column_List" /> from inquiry_count_doctor where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.prostate.pra.entity.InquriyCountDoctorDO">
+		select <include refid="Base_Column_List" /> from inquiry_count_doctor
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="doctorId != null and doctorId != ''"> and doctor_id = #{doctorId} </if>
+		  		  <if test="inquiryStatus != null and inquiryStatus != ''"> and inquiry_status = #{inquiryStatus} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<!--根据医生id统计数据-->
+	<select id="countByDoctorId" resultType="int">
+		select count(*) from inquiry_count_doctor WHERE doctor_id = #{doctorId}
+	</select>
+
+	<!--按天数统计数据=======小于号要转义-->
+	<select id="countEverDay" resultType="int">
+		SELECT COUNT(*) FROM inquiry_count_doctor
+			WHERE TO_DAYS( NOW( ) ) - TO_DAYS( create_time) = #{days}
+			AND doctor_id = #{doctorId}
+	</select>
+
+	<!--按月份统计数据=======小于号要转义-->
+	<select id="countThisYear" resultType="int">
+		SELECT COUNT(*) FROM inquiry_count_doctor
+		WHERE PERIOD_DIFF( DATE_FORMAT( NOW( ) , '%Y%m' ) , DATE_FORMAT( create_time, '%Y%m' ) ) =#{mooths}
+		AND doctor_id = #{doctorId}
+	</select>
+
+
+ 	<select id="count" resultType="int">
+		select count(*) from inquiry_count_doctor
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="doctorId != null and doctorId != ''"> and doctor_id = #{doctorId} </if>
+		  		  <if test="inquiryStatus != null and inquiryStatus != ''"> and inquiry_status = #{inquiryStatus} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.prostate.pra.entity.InquriyCountDoctorDO">
+		insert into inquiry_count_doctor
+		(
+			`id`, 
+			`doctor_id`, 
+			`inquiry_status`, 
+			`create_time`
+		)
+		values
+		(
+			#{id}, 
+			#{doctorId}, 
+			#{inquiryStatus}, 
+			#{createTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.prostate.pra.entity.InquriyCountDoctorDO">
+		update inquiry_count_doctor 
+		<set>
+			<if test="doctorId != null">`doctor_id` = #{doctorId}, </if>
+			<if test="inquiryStatus != null">`inquiry_status` = #{inquiryStatus}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from inquiry_count_doctor where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from inquiry_count_doctor where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

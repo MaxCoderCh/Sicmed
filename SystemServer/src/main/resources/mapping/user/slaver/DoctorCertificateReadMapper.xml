@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.user.mapper.slaver.DoctorSingReadMapper">
+
+	<sql id="Base_Column_List">
+		 id  AS  id,
+		 doctor_id  AS  doctorId,
+		 hospital_id  AS  hospitalId,
+		 branch_id  AS  branchId,
+		 title_id  AS  titleId,
+		 id_card_front  AS  idCardFront,
+		 id_card_contrary  AS  idCardContrary,
+		 doctor_card_front  AS  doctorCardFront,
+		 doctor_card_contrary  AS  doctorCardContrary,
+		 work_card  AS  workCard,
+		 approve_status  AS  approveStatus,
+		 create_time  AS  createTime,
+		 create_user  AS  createUser,
+		 update_time  AS  updateTime,
+		 update_user  AS  updateUser,
+		 delete_time  AS  deleteTime,
+		 delete_user  AS  deleteUser,
+		 del_flag  AS delFlag
+	</sql>
+
+	<select id="get" resultType="com.prostate.user.entity.DoctorSignDO">
+		select <include refid="Base_Column_List" /> from doctor_sign where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.prostate.user.entity.DoctorSignDO">
+		select <include refid="Base_Column_List" /> from doctor_sign
+        <where>  
+
+		approve_status = 'AUTHENTICATION_PROGRESS'
+
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by create_time desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from doctor_sign
+		 <where>  
+
+		 approve_status ='AUTHENTICATION_PROGRESS'
+		  		</where>
+	</select>
+	 
+
+
+</mapper>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.slaver.NihCpsiManagerReadMapper">
+
+
+   
+    
+    
+    <resultMap id="BaseResultMap" type="com.prostate.base.domain.NihCpsiDO">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+        <result column="nih_cpsi_title" jdbcType="VARCHAR" property="nihCpsiTitle" />
+        <result column="nih_cpsi_score" jdbcType="VARCHAR" property="nihCpsiScore" />
+        <result column="nih_cpsi_type" jdbcType="VARCHAR" property="nihCpsiType" />
+        <result column="nih_cpsi_weight" jdbcType="INTEGER" property="nihCpsiWeight" />
+        <result column="order_weight" jdbcType="INTEGER" property="orderWeight" />
+        <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+        <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id AS  id,
+        parent_id AS  parentId,
+        nih_cpsi_title AS  nihCpsiTitle,
+        nih_cpsi_score AS  nihCpsiScore,
+        nih_cpsi_type AS  nihCpsiType,
+        nih_cpsi_weight AS  nihCpsiWeight,
+        order_weight AS  orderWeight,
+        create_user AS  createUser,
+        create_time AS  createTime,
+        delete_user AS  deleteUser,
+        delete_time AS  deleteTime,
+        del_flag AS delFlag
+    </sql>
+
+    <select id="get" resultType="com.prostate.base.domain.NihCpsiDO">
+        select <include refid="Base_Column_List"/> from base_nih_cpsi where id = #{value}
+        AND del_flag='0'
+    </select>
+
+    <select id="list" resultType="com.prostate.base.domain.NihCpsiDO">
+        select <include refid="Base_Column_List"/> from base_nih_cpsi
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+            <if test="nihCpsiTitle != null and nihCpsiTitle != ''"> and nih_cpsi_title = #{nihCpsiTitle} </if>
+            <if test="nihCpsiScore != null and nihCpsiScore != ''"> and nih_cpsi_score = #{nihCpsiScore} </if>
+            <if test="nihCpsiType != null and nihCpsiType != ''"> and nih_cpsi_type = #{nihCpsiType} </if>
+            <if test="nihCpsiWeight != null and nihCpsiWeight != ''"> and nih_cpsi_weight = #{nihCpsiWeight} </if>
+            <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+            <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+            <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+            AND del_flag='0'
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by order_weight ASC
+            </when>
+            <otherwise>
+                order by order_weight ASC
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="getTree" resultType="com.prostate.base.domain.NihCpsiDO">
+        select <include refid="Base_Column_List"/> from base_nih_cpsi
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+            <if test="nihCpsiTitle != null and nihCpsiTitle != ''"> and nih_cpsi_title = #{nihCpsiTitle} </if>
+            <if test="nihCpsiScore != null and nihCpsiScore != ''"> and nih_cpsi_score = #{nihCpsiScore} </if>
+            and (nih_cpsi_type='a' OR nih_cpsi_type='c' OR nih_cpsi_type='b' OR nih_cpsi_type='1')
+            <if test="nihCpsiWeight != null and nihCpsiWeight != ''"> and nih_cpsi_weight = #{nihCpsiWeight} </if>
+            <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+            <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+            <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+            AND del_flag='0'
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by order_weight ASC
+            </when>
+            <otherwise>
+                order by order_weight ASC
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from base_nih_cpsi
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+            <if test="nihCpsiTitle != null and nihCpsiTitle != ''"> and nih_cpsi_title = #{nihCpsiTitle} </if>
+            <if test="nihCpsiScore != null and nihCpsiScore != ''"> and nih_cpsi_score = #{nihCpsiScore} </if>
+            <if test="nihCpsiType != null and nihCpsiType != ''"> and nih_cpsi_type = #{nihCpsiType} </if>
+            <if test="nihCpsiWeight != null and nihCpsiWeight != ''"> and nih_cpsi_weight = #{nihCpsiWeight} </if>
+            <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+            <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+            <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+            <if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+            <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+            AND del_flag='0'
+        </where>
+    </select>
+
+  
+</mapper>

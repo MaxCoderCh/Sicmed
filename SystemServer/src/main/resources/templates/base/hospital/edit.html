@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${hospital.id}" type="hidden">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">医院名称：</label>
+                            <div class="col-sm-8">
+                                <input id="hospitalName" name="hospitalName" th:value="${hospital.hospitalName}"
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">医院别名：</label>
+                            <div class="col-sm-8">
+                                <input id="hospitalAlias" name="hospitalAlias" th:value="${hospital.hospitalAlias}"
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">医院信息简介：</label>
+                            <div class="col-sm-8">
+                                <input id="hospitalInform" name="hospitalInform" th:value="${hospital.hospitalInform}"
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">医院等级：</label>
+                            <div class="col-sm-8">
+                                <input id="hospitalGrade" name="hospitalGrade" th:value="${hospital.hospitalGrade}"
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">权重排序用：</label>
+                            <div class="col-sm-8">
+                                <input id="hospitalWeight" name="hospitalWeight" th:value="${hospital.hospitalWeight}"
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">医院类型ID：</label>
+                            <div class="col-sm-8">
+                                <input id="typeId" name="typeId" th:value="${hospital.typeId}"
+                                       class="form-control" type="text">
+
+
+                                <!--<select id="typeId" name="typeId" class="form-control">-->
+                                    <!--<option th:value="${hospital.typeId}"></option>-->
+                                <!--</select>-->
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" onclick="">医院所在城市：</label>
+                            <div class="col-sm-8">
+                            <input id="cityId" name="cityId" th:value="${hospital.cityId}"
+                                   class="form-control" type="text">
+                            </div>
+                            <!--<div class="col-sm-3" onclick="updateCity();">-->
+                                <!--<select id="cityId2" name="cityId2" class="form-control ">-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--<div class="col-sm-3" onclick="updateCounty();">-->
+                                <!--<select id="cityId1" name="cityId1" class="form-control">-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--<div class="col-sm-2">-->
+                                <!--<select id="cityId" name="cityId" class="form-control">-->
+                                    <!--<option th:value="${hospital.cityId}"></option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">医院激活标记：</label>
+                            <div class="col-sm-8">
+                                <input id="activationFlag" name="activationFlag" th:value="${hospital.activationFlag}"
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">排序：</label>
+                            <div class="col-sm-8">
+                                <input id="orderWeight" name="orderWeight" th:value="${hospital.orderWeight}"
+                                       class="form-control" type="text">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button type="submit" class="btn btn-primary">提交</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/base/hospital/edit.js">
+</script>
+</body>
+</html>

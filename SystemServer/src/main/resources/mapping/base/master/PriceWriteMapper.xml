@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.master.PriceWriteMapper">
+
+
+	 
+	<insert id="save" parameterType="com.prostate.base.domain.PriceDO">
+		<selectKey keyProperty="id" resultType="string" order="BEFORE">
+			select replace(uuid(), '-', '') as id from dual
+		</selectKey>
+		insert into lable_price
+		(
+			`id`, 
+			`lable_name`, 
+			`create_time`, 
+			`create_user`
+		)
+		values
+		(
+			#{id}, 
+			#{lableName}, 
+			#{createTime}, 
+			#{createUser}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.prostate.base.domain.PriceDO">
+		update lable_price
+		<set>
+			<if test="lableName != null">`lable_name` = #{lableName}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from lable_price where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from lable_price where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

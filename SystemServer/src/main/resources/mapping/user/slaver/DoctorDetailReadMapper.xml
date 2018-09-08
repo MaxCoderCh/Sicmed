@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.user.mapper.slaver.DoctorDetailsReadMapper">
+
+	<sql id="Base_Column_List">
+			  id AS id,
+			  doctor_id AS doctorId,
+			  doctor_name AS doctorName,
+			  doctor_age AS doctorAge,
+			  doctor_sex AS doctorSex,
+			  doctor_address AS doctorAddress,
+			  doctor_card_number AS doctorCardNumber,
+			  hospital_id AS hospitalId,
+			  branch_id AS branchId,
+			  title_id AS titleId,
+			  head_img AS headImg,
+			  doctor_resume AS doctorResume,
+			  doctor_strong AS doctorStrong,
+			  lable_inquiry AS lableInquiry,
+			  create_time AS createTime,
+			  create_user AS createUser,
+			  update_time AS updateTime,
+			  delete_time AS deleteTime,
+			  update_user AS updateUser,
+			  delete_user AS deleteUser,
+			  del_flag  AS delFlag
+	</sql>
+	<select id="get" resultType="com.prostate.user.entity.DoctorDetailDO">
+		select  <include refid="Base_Column_List" />  from doctor_detail where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.prostate.user.entity.DoctorDetailDO">
+		select  <include refid="Base_Column_List" /> from doctor_detail
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="doctorId != null and doctorId != ''"> and doctor_id = #{doctorId} </if>
+		  		  <if test="doctorName != null and doctorName != ''"> and doctor_name = #{doctorName} </if>
+		  		  <if test="doctorAge != null and doctorAge != ''"> and doctor_age = #{doctorAge} </if>
+		  		  <if test="doctorSex != null and doctorSex != ''"> and doctor_sex = #{doctorSex} </if>
+		  		  <if test="doctorAddress != null and doctorAddress != ''"> and doctor_address = #{doctorAddress} </if>
+		  		  <if test="doctorCardNumber != null and doctorCardNumber != ''"> and doctor_card_number = #{doctorCardNumber} </if>
+		  		  <if test="hospitalId != null and hospitalId != ''"> and hospital_id = #{hospitalId} </if>
+		  		  <if test="branchId != null and branchId != ''"> and branch_id = #{branchId} </if>
+		  		  <if test="titleId != null and titleId != ''"> and title_id = #{titleId} </if>
+		  		  <if test="headImg != null and headImg != ''"> and head_img = #{headImg} </if>
+		  		  <if test="doctorResume != null and doctorResume != ''"> and doctor_resume = #{doctorResume} </if>
+		  		  <if test="doctorStrong != null and doctorStrong != ''"> and doctor_strong = #{doctorStrong} </if>
+		  		  <if test="lableInquiry != null and lableInquiry != ''"> and lable_inquiry = #{lableInquiry} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+		  		  <if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+		  		  <if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from doctor_detail
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="doctorId != null and doctorId != ''"> and doctor_id = #{doctorId} </if>
+		  		  <if test="doctorName != null and doctorName != ''"> and doctor_name = #{doctorName} </if>
+		  		  <if test="doctorAge != null and doctorAge != ''"> and doctor_age = #{doctorAge} </if>
+		  		  <if test="doctorSex != null and doctorSex != ''"> and doctor_sex = #{doctorSex} </if>
+		  		  <if test="doctorAddress != null and doctorAddress != ''"> and doctor_address = #{doctorAddress} </if>
+		  		  <if test="doctorCardNumber != null and doctorCardNumber != ''"> and doctor_card_number = #{doctorCardNumber} </if>
+		  		  <if test="hospitalId != null and hospitalId != ''"> and hospital_id = #{hospitalId} </if>
+		  		  <if test="branchId != null and branchId != ''"> and branch_id = #{branchId} </if>
+		  		  <if test="titleId != null and titleId != ''"> and title_id = #{titleId} </if>
+		  		  <if test="headImg != null and headImg != ''"> and head_img = #{headImg} </if>
+		  		  <if test="doctorResume != null and doctorResume != ''"> and doctor_resume = #{doctorResume} </if>
+		  		  <if test="doctorStrong != null and doctorStrong != ''"> and doctor_strong = #{doctorStrong} </if>
+		  		  <if test="lableInquiry != null and lableInquiry != ''"> and lable_inquiry = #{lableInquiry} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+		  		  <if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+		  		  <if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+		  		  <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.prostate.user.entity.DoctorDetailDO">
+		insert into doctor_detail
+		(
+			`id`, 
+			`doctor_id`, 
+			`doctor_name`, 
+			`doctor_age`, 
+			`doctor_sex`, 
+			`doctor_address`, 
+			`doctor_card_number`, 
+			`hospital_id`, 
+			`branch_id`, 
+			`title_id`, 
+			`head_img`, 
+			`doctor_resume`, 
+			`doctor_strong`, 
+			`lable_inquiry`, 
+			`create_time`, 
+			`create_user`, 
+			`update_time`, 
+			`delete_time`, 
+			`update_user`, 
+			`delete_user`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{doctorId}, 
+			#{doctorName}, 
+			#{doctorAge}, 
+			#{doctorSex}, 
+			#{doctorAddress}, 
+			#{doctorCardNumber}, 
+			#{hospitalId}, 
+			#{branchId}, 
+			#{titleId}, 
+			#{headImg}, 
+			#{doctorResume}, 
+			#{doctorStrong}, 
+			#{lableInquiry}, 
+			#{createTime}, 
+			#{createUser}, 
+			#{updateTime}, 
+			#{deleteTime}, 
+			#{updateUser}, 
+			#{deleteUser}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.prostate.user.entity.DoctorDetailDO">
+		update doctor_detail 
+		<set>
+			<if test="doctorId != null">`doctor_id` = #{doctorId}, </if>
+			<if test="doctorName != null">`doctor_name` = #{doctorName}, </if>
+			<if test="doctorAge != null">`doctor_age` = #{doctorAge}, </if>
+			<if test="doctorSex != null">`doctor_sex` = #{doctorSex}, </if>
+			<if test="doctorAddress != null">`doctor_address` = #{doctorAddress}, </if>
+			<if test="doctorCardNumber != null">`doctor_card_number` = #{doctorCardNumber}, </if>
+			<if test="hospitalId != null">`hospital_id` = #{hospitalId}, </if>
+			<if test="branchId != null">`branch_id` = #{branchId}, </if>
+			<if test="titleId != null">`title_id` = #{titleId}, </if>
+			<if test="headImg != null">`head_img` = #{headImg}, </if>
+			<if test="doctorResume != null">`doctor_resume` = #{doctorResume}, </if>
+			<if test="doctorStrong != null">`doctor_strong` = #{doctorStrong}, </if>
+			<if test="lableInquiry != null">`lable_inquiry` = #{lableInquiry}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="deleteTime != null">`delete_time` = #{deleteTime}, </if>
+			<if test="updateUser != null">`update_user` = #{updateUser}, </if>
+			<if test="deleteUser != null">`delete_user` = #{deleteUser}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from doctor_detail where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from doctor_detail where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

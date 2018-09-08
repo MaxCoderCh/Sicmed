@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">医生用户ID doctor_user：</label>
+								<div class="col-sm-8">
+									<input id="doctorId" name="doctorId" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">医院ID：</label>
+								<div class="col-sm-8">
+									<input id="hospitalId" name="hospitalId" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">科室ID：</label>
+								<div class="col-sm-8">
+									<input id="branchId" name="branchId" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">职称ID：</label>
+								<div class="col-sm-8">
+									<input id="titleId" name="titleId" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">身份证正面照地址：</label>
+								<div class="col-sm-8">
+									<input id="idCardFront" name="idCardFront" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">身份证反面照片地址：</label>
+								<div class="col-sm-8">
+									<input id="idCardContrary" name="idCardContrary" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">医师执业证 正面照片地址：</label>
+								<div class="col-sm-8">
+									<input id="doctorCardFront" name="doctorCardFront" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">医师执业证反面照片地址：</label>
+								<div class="col-sm-8">
+									<input id="doctorCardContrary" name="doctorCardContrary" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">手持工牌照片地址：</label>
+								<div class="col-sm-8">
+									<input id="workCard" name="workCard" class="form-control" type="text">
+								</div>
+							</div>
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">认证状态 0:认证失败  1:认证成功  2:认证中 ：</label>
+								<div class="col-sm-8">
+									<input id="approveStatus" name="approveStatus" class="form-control" type="text">
+								</div>
+							</div>
+
+																					<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/user/doctorSign/add.js">
+	</script>
+</body>
+</html>

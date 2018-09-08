@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.master.AnamnesisAllergyDrugWriteMapper">
+
+
+	 
+	<insert id="save" parameterType="com.prostate.base.domain.AnamnesisAllergyDrugDO">
+		<selectKey keyProperty="id" resultType="string" order="BEFORE">
+			select replace(uuid(), '-', '') as id from dual
+		</selectKey>
+		insert into base_anamnesis_allergy_drug
+		(
+			`id`, 
+			`allergy_drug_name`, 
+			`spell_name`, 
+			`allergy_drug_number`, 
+			`order_weight`, 
+			`create_user`, 
+			`create_time`, 
+			`update_user`, 
+			`update_time`, 
+			`delete_user`, 
+			`delete_time`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{allergyDrugName}, 
+			#{spellName}, 
+			#{allergyDrugNumber}, 
+			#{orderWeight}, 
+			#{createUser}, 
+			#{createTime}, 
+			#{updateUser}, 
+			#{updateTime}, 
+			#{deleteUser}, 
+			#{deleteTime}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.prostate.base.domain.AnamnesisAllergyDrugDO">
+		update base_anamnesis_allergy_drug 
+		<set>
+			<if test="allergyDrugName != null">`allergy_drug_name` = #{allergyDrugName}, </if>
+			<if test="spellName != null">`spell_name` = #{spellName}, </if>
+			<if test="allergyDrugNumber != null">`allergy_drug_number` = #{allergyDrugNumber}, </if>
+			<if test="orderWeight != null">`order_weight` = #{orderWeight}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateUser != null">`update_user` = #{updateUser}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="deleteUser != null">`delete_user` = #{deleteUser}, </if>
+			<if test="deleteTime != null">`delete_time` = #{deleteTime}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from base_anamnesis_allergy_drug where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from base_anamnesis_allergy_drug where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

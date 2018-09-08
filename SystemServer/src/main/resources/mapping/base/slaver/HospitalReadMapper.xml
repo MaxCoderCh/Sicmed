@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.slaver.HospitalReadMapper">
+
+
+	<!--<resultMap id="hospitalMap" type="com.prostate.base.domain.HospitalDO">-->
+		<!--<id column="id"  property="id"></id>-->
+		<!--<result property="hospitalName" column="hospital_name"></result>-->
+		<!--<result property="hospitalNumber" column="hospital_number"></result>-->
+		<!--<result property="hospitalAlias" column="hospital_alias"></result>-->
+		<!--<result property="hospitalInform" column="hospital_inform"></result>-->
+		<!--<result property="hospitalGrade" column="hospital_grade"></result>-->
+		<!--<result property="hospitalWeight" column="hospital_weight"></result>-->
+		<!--<result property="typeId" column="type_id"></result>-->
+		<!--<result property="cityId" column="city_id"></result>-->
+		<!--<result property="activationFlag" column="activation_flag"></result>-->
+		<!--<result property="orderWeight" column="order_weight"></result>-->
+		<!--<result property="createUser" column="create_user"></result>-->
+		<!--<result property="createTime" column="create_time"></result>-->
+		<!--<result property="updateUser" column="update_user"></result>-->
+		<!--<result property="updateTime" column="update_time"></result>-->
+		<!--<result property="deleteUser" column="delete_user"></result>-->
+		<!--<result property="deleteTime" column="delete_time"></result>-->
+		<!--<result property="delFlag" column="del_flag"></result>-->
+		<!--<collection property="hospitalType" column="type_id"-->
+					<!--select="com.prostate.base.mapper.HospitalTypeReadMapper.get"-->
+					<!--javaType="com.prostate.base.domain.HospitalTypeDO"></collection>-->
+		<!--<collection property="hospitalAddress" column="city_id"-->
+					<!--select="com.prostate.base.mapper.CityDao.get"-->
+					<!--javaType="com.prostate.base.domain.CityDO"></collection>-->
+	<!--</resultMap>-->
+
+
+	<sql id="Base_Column_List">
+			id  AS id,
+			hospital_name  AS hospitalName,
+			hospital_alias  AS hospitalAlias,
+			hospital_inform  AS hospitalInform,
+			hospital_grade  AS hospitalGrade,
+			hospital_weight  AS hospitalWeight,
+			type_id  AS typeId,
+			city_id  AS cityId,
+			activation_flag  AS activationFlag,
+			order_weight  AS orderWeight,
+			create_user  AS createUser,
+			create_time  AS createTime,
+			update_user  AS updateUser,
+			update_time  AS updateTime,
+			delete_user  AS deleteUser,
+			delete_time  AS deleteTime,
+			del_flag AS  delFlag
+	</sql>
+	
+	
+	
+	<select id="get" resultType="com.prostate.base.domain.HospitalDO">
+		select <include refid="Base_Column_List" /> from base_hospital where id = #{value} and del_flag = '0'
+	</select>
+
+
+	<select id="getByName" resultType="com.prostate.base.domain.HospitalDO">
+		select <include refid="Base_Column_List" /> from base_hospital where hospital_name = #{value} and del_flag = '0'
+	</select>
+
+	<!--<select id="getByNumber" resultType="com.prostate.base.domain.HospitalDO">-->
+		<!--select <include refid="Base_Column_List" /> from base_hospital where hospital_number = #{value} and del_flag = '0'-->
+	<!--</select>-->
+
+
+	<select id="list" resultType="com.prostate.base.domain.HospitalDO">
+		select <include refid="Base_Column_List" />  from base_hospital
+        <where>
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="hospitalName != null and hospitalName != ''"> and hospital_name LIKE CONCAT(CONCAT('%', #{hospitalName}), '%')</if>
+
+			<!--<if test="hospitalName != null and hospitalName != ''"> and hospital_name = #{hospitalName} </if>-->
+		  		  <!--<if test="hospitalNumber != null and hospitalNumber != ''"> and hospital_number = #{hospitalNumber} </if>-->
+		  		  <if test="hospitalAlias != null and hospitalAlias != ''"> and hospital_alias = #{hospitalAlias} </if>
+		  		  <if test="hospitalInform != null and hospitalInform != ''"> and hospital_inform = #{hospitalInform} </if>
+		  		  <if test="hospitalGrade != null and hospitalGrade != ''"> and hospital_grade = #{hospitalGrade} </if>
+		  		  <if test="hospitalWeight != null and hospitalWeight != ''"> and hospital_weight = #{hospitalWeight} </if>
+		  		  <if test="typeId != null and typeId != ''"> and type_id = #{typeId} </if>
+		  		  <if test="cityId != null and cityId != ''"> and city_id = #{cityId} </if>
+		  		  <if test="activationFlag != null and activationFlag != ''"> and activation_flag = #{activationFlag} </if>
+		  		  <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+		  		  <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+		  		  and del_flag = '0'
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by order_weight
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from base_hospital
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+			 <if test="hospitalName != null and hospitalName != ''"> and hospital_name LIKE CONCAT(CONCAT('%', #{hospitalName}), '%')</if>
+
+			 <!--<if test="hospitalName != null and hospitalName != ''"> and hospital_name = #{hospitalName} </if>-->
+		  		  <!--<if test="hospitalNumber != null and hospitalNumber != ''"> and hospital_number = #{hospitalNumber} </if>-->
+		  		  <if test="hospitalAlias != null and hospitalAlias != ''"> and hospital_alias = #{hospitalAlias} </if>
+		  		  <if test="hospitalInform != null and hospitalInform != ''"> and hospital_inform = #{hospitalInform} </if>
+		  		  <if test="hospitalGrade != null and hospitalGrade != ''"> and hospital_grade = #{hospitalGrade} </if>
+		  		  <if test="hospitalWeight != null and hospitalWeight != ''"> and hospital_weight = #{hospitalWeight} </if>
+		  		  <if test="typeId != null and typeId != ''"> and type_id = #{typeId} </if>
+		  		  <if test="cityId != null and cityId != ''"> and city_id = #{cityId} </if>
+		  		  <if test="activationFlag != null and activationFlag != ''"> and activation_flag = #{activationFlag} </if>
+		  		  <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateUser != null and updateUser != ''"> and update_user = #{updateUser} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+		  		  <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+		  		  and del_flag = '0'
+		  		</where>
+	</select>
+	 
+	
+</mapper>

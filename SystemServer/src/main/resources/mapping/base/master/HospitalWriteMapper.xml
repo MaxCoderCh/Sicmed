@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.master.HospitalWriteMapper">
+
+
+	<!--<resultMap id="hospitalMap" type="com.prostate.base.domain.HospitalDO">-->
+		<!--<id column="id"  property="id"></id>-->
+		<!--<result property="hospitalName" column="hospital_name"></result>-->
+		<!--<result property="hospitalNumber" column="hospital_number"></result>-->
+		<!--<result property="hospitalAlias" column="hospital_alias"></result>-->
+		<!--<result property="hospitalInform" column="hospital_inform"></result>-->
+		<!--<result property="hospitalGrade" column="hospital_grade"></result>-->
+		<!--<result property="hospitalWeight" column="hospital_weight"></result>-->
+		<!--<result property="typeId" column="type_id"></result>-->
+		<!--<result property="cityId" column="city_id"></result>-->
+		<!--<result property="activationFlag" column="activation_flag"></result>-->
+		<!--<result property="orderWeight" column="order_weight"></result>-->
+		<!--<result property="createUser" column="create_user"></result>-->
+		<!--<result property="createTime" column="create_time"></result>-->
+		<!--<result property="updateUser" column="update_user"></result>-->
+		<!--<result property="updateTime" column="update_time"></result>-->
+		<!--<result property="deleteUser" column="delete_user"></result>-->
+		<!--<result property="deleteTime" column="delete_time"></result>-->
+		<!--<result property="delFlag" column="del_flag"></result>-->
+		<!--<collection property="hospitalType" column="type_id"-->
+					<!--select="com.prostate.base.mapper.HospitalTypeReadMapper.get"-->
+					<!--javaType="com.prostate.base.domain.HospitalTypeDO"></collection>-->
+		<!--<collection property="hospitalAddress" column="city_id"-->
+					<!--select="com.prostate.base.mapper.CityDao.get"-->
+					<!--javaType="com.prostate.base.domain.CityDO"></collection>-->
+	<!--</resultMap>-->
+
+
+
+	 
+	<insert id="save" parameterType="com.prostate.base.domain.HospitalDO">
+		<selectKey keyProperty="id" resultType="string" order="BEFORE">
+			select replace(uuid(), '-', '') as id from dual
+		</selectKey>
+		insert into base_hospital
+		(
+			`id`, 
+			`hospital_name`, 
+			`hospital_alias`,
+			`hospital_inform`, 
+			`hospital_grade`, 
+			`hospital_weight`, 
+			`type_id`, 
+			`city_id`, 
+			`activation_flag`, 
+			`order_weight`, 
+			`create_user`, 
+			`create_time`, 
+			`update_user`, 
+			`update_time`, 
+			`delete_user`, 
+			`delete_time`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{hospitalName}, 
+			#{hospitalAlias},
+			#{hospitalInform}, 
+			#{hospitalGrade}, 
+			#{hospitalWeight}, 
+			#{typeId}, 
+			#{cityId}, 
+			#{activationFlag}, 
+			#{orderWeight}, 
+			#{createUser}, 
+			#{createTime}, 
+			#{updateUser}, 
+			#{updateTime}, 
+			#{deleteUser}, 
+			#{deleteTime}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.prostate.base.domain.HospitalDO">
+		update base_hospital 
+		<set>
+			<if test="hospitalName != null">`hospital_name` = #{hospitalName}, </if>
+			<if test="hospitalAlias != null">`hospital_alias` = #{hospitalAlias}, </if>
+			<if test="hospitalInform != null">`hospital_inform` = #{hospitalInform}, </if>
+			<if test="hospitalGrade != null">`hospital_grade` = #{hospitalGrade}, </if>
+			<if test="hospitalWeight != null">`hospital_weight` = #{hospitalWeight}, </if>
+			<if test="typeId != null">`type_id` = #{typeId}, </if>
+			<if test="cityId != null">`city_id` = #{cityId}, </if>
+			<if test="activationFlag != null">`activation_flag` = #{activationFlag}, </if>
+			<if test="orderWeight != null">`order_weight` = #{orderWeight}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateUser != null">`update_user` = #{updateUser}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="deleteUser != null">`delete_user` = #{deleteUser}, </if>
+			<if test="deleteTime != null">`delete_time` = #{deleteTime}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from base_hospital where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from base_hospital where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

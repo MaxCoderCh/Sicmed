@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.master.ScaleManagerWriteMapper">
+
+	<resultMap id="BaseResultMap" type="com.prostate.base.domain.ScaleDO">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+		<result column="scale_title" jdbcType="VARCHAR" property="scaleTitle" />
+		<result column="scale_score" jdbcType="VARCHAR" property="scaleScore" />
+		<result column="scale_type" jdbcType="CHAR" property="scaleType" />
+		<result column="scale_weight" jdbcType="INTEGER" property="scaleWeight" />
+		<result column="order_weight" jdbcType="INTEGER" property="orderWeight" />
+		<result column="create_user" jdbcType="VARCHAR" property="createUser" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+		<result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+		<result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, parent_id, scale_title, scale_score, scale_type, scale_weight, order_weight,
+		create_user, create_time
+	</sql>
+
+
+
+
+
+	<insert id="save" parameterType="com.prostate.base.domain.ScaleDO">
+		<selectKey keyProperty="id" resultType="string" order="BEFORE">
+			select replace(uuid(), '-', '') as id from dual
+		</selectKey>
+		insert into base_scale
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="parentId != null">
+				parent_id,
+			</if>
+			<if test="scaleTitle != null">
+				scale_title,
+			</if>
+			<if test="scaleScore != null">
+				scale_score,
+			</if>
+			<if test="scaleType != null">
+				scale_type,
+			</if>
+			<if test="scaleWeight != null">
+				scale_weight,
+			</if>
+			<if test="orderWeight != null">
+				order_weight,
+			</if>
+			<if test="createUser != null">
+				create_user,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="deleteUser != null">
+				delete_user,
+			</if>
+			<if test="deleteTime != null">
+				delete_time,
+			</if>
+			<if test="delFlag != null">
+				del_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=VARCHAR},
+			</if>
+			<if test="scaleTitle != null">
+				#{scaleTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="scaleScore != null">
+				#{scaleScore,jdbcType=VARCHAR},
+			</if>
+			<if test="scaleType != null">
+				#{scaleType,jdbcType=CHAR},
+			</if>
+			<if test="scaleWeight != null">
+				#{scaleWeight,jdbcType=INTEGER},
+			</if>
+			<if test="orderWeight != null">
+				#{orderWeight,jdbcType=INTEGER},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deleteUser != null">
+				#{deleteUser,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteTime != null">
+				#{deleteTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="delFlag != null">
+				#{delFlag,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.prostate.base.domain.ScaleDO">
+		update base_scale
+		<set>
+			<if test="parentId != null">`parent_id` = #{parentId}, </if>
+			<if test="scaleTitle != null">`scale_title` = #{scaleTitle}, </if>
+			<if test="scaleScore != null">`scale_score` = #{scaleScore}, </if>
+			<if test="scaleType != null">`scale_type` = #{scaleType}, </if>
+			<if test="scaleWeight != null">`scale_weight` = #{scaleWeight}, </if>
+			<if test="orderWeight != null">`order_weight` = #{orderWeight}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="deleteUser != null">`delete_user` = #{deleteUser}, </if>
+			<if test="deleteTime != null">`delete_time` = #{deleteTime}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="remove">
+		delete from base_scale where id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from base_scale where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

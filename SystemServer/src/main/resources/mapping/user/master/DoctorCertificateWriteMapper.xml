@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.user.mapper.master.DoctorSingWriteMapper">
+
+
+	 
+	<insert id="save" parameterType="com.prostate.user.entity.DoctorSignDO">
+		<selectKey keyProperty="id" resultType="string" order="BEFORE">
+			select replace(uuid(), '-', '') as id from dual
+		</selectKey>
+		insert into doctor_sign
+		(
+			`id`, 
+			`doctor_id`, 
+			`hospital_id`, 
+			`branch_id`, 
+			`title_id`, 
+			`id_card_front`, 
+			`id_card_contrary`, 
+			`doctor_card_front`, 
+			`doctor_card_contrary`, 
+			`work_card`, 
+			`approve_status`, 
+			`create_time`, 
+			`create_user`, 
+			`update_time`, 
+			`update_user`, 
+			`delete_time`, 
+			`delete_user`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{doctorId}, 
+			#{hospitalId}, 
+			#{branchId}, 
+			#{titleId}, 
+			#{idCardFront}, 
+			#{idCardContrary}, 
+			#{doctorCardFront}, 
+			#{doctorCardContrary}, 
+			#{workCard}, 
+			#{approveStatus}, 
+			#{createTime}, 
+			#{createUser}, 
+			#{updateTime}, 
+			#{updateUser}, 
+			#{deleteTime}, 
+			#{deleteUser}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.prostate.user.entity.DoctorSignDO">
+		update doctor_sign 
+		<set>
+			<if test="doctorId != null">`doctor_id` = #{doctorId}, </if>
+			<if test="hospitalId != null">`hospital_id` = #{hospitalId}, </if>
+			<if test="branchId != null">`branch_id` = #{branchId}, </if>
+			<if test="titleId != null">`title_id` = #{titleId}, </if>
+			<if test="idCardFront != null">`id_card_front` = #{idCardFront}, </if>
+			<if test="idCardContrary != null">`id_card_contrary` = #{idCardContrary}, </if>
+			<if test="doctorCardFront != null">`doctor_card_front` = #{doctorCardFront}, </if>
+			<if test="doctorCardContrary != null">`doctor_card_contrary` = #{doctorCardContrary}, </if>
+			<if test="workCard != null">`work_card` = #{workCard}, </if>
+			<if test="approveStatus != null">`approve_status` = #{approveStatus}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="updateUser != null">`update_user` = #{updateUser}, </if>
+			<if test="deleteTime != null">`delete_time` = #{deleteTime}, </if>
+			<if test="deleteUser != null">`delete_user` = #{deleteUser}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from doctor_sign where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from doctor_sign where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

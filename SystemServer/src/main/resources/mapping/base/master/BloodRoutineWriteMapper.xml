@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.master.BloodRoutineWriteMapper">
+
+
+	 
+	<insert id="save" parameterType="com.prostate.base.domain.BloodRoutineDO">
+		<selectKey keyProperty="id" resultType="string" order="BEFORE">
+			select replace(uuid(), '-', '') as id from dual
+		</selectKey>
+		insert into scale_blood_routine
+		(
+			`id`, 
+			`parent_id`, 
+			`scale_title`, 
+			`scale_score`, 
+			`scale_type`, 
+			`scale_weight`, 
+			`order_weight`, 
+			`create_user`, 
+			`create_time`, 
+			`delete_user`, 
+			`delete_time`, 
+			`del_flag`
+		)
+		values
+		(
+			#{id}, 
+			#{parentId}, 
+			#{scaleTitle}, 
+			#{scaleScore}, 
+			#{scaleType}, 
+			#{scaleWeight}, 
+			#{orderWeight}, 
+			#{createUser}, 
+			#{createTime}, 
+			#{deleteUser}, 
+			#{deleteTime}, 
+			#{delFlag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.prostate.base.domain.BloodRoutineDO">
+		update scale_blood_routine 
+		<set>
+			<if test="parentId != null">`parent_id` = #{parentId}, </if>
+			<if test="scaleTitle != null">`scale_title` = #{scaleTitle}, </if>
+			<if test="scaleScore != null">`scale_score` = #{scaleScore}, </if>
+			<if test="scaleType != null">`scale_type` = #{scaleType}, </if>
+			<if test="scaleWeight != null">`scale_weight` = #{scaleWeight}, </if>
+			<if test="orderWeight != null">`order_weight` = #{orderWeight}, </if>
+			<if test="createUser != null">`create_user` = #{createUser}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="deleteUser != null">`delete_user` = #{deleteUser}, </if>
+			<if test="deleteTime != null">`delete_time` = #{deleteTime}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from scale_blood_routine where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from scale_blood_routine where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="getTree" resultType="com.prostate.base.domain.BloodRoutineDO">
+		select `id`,`parent_id`,`scale_title`,`scale_score`,`scale_type`,`scale_weight`,`order_weight`,`create_user`,`create_time`,`delete_user`,`delete_time`,`del_flag` from scale_blood_routine
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+			<if test="scaleTitle != null and scaleTitle != ''"> and scale_title = #{scaleTitle} </if>
+			<if test="scaleScore != null and scaleScore != ''"> and scale_score = #{scaleScore} </if>
+			and (scale_type = '1' or dept_grade = '0')
+			<if test="scaleWeight != null and scaleWeight != ''"> and scale_weight = #{scaleWeight} </if>
+			<if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+			<if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+			<if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+			<if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+			and del_flag = '0'
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by order_weight
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+</mapper>

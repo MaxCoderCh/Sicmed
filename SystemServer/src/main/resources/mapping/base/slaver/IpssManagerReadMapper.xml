@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mapping.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.prostate.base.mapper.slaver.IpssManagerReadMapper">
+
+	<resultMap id="BaseResultMap" type="com.prostate.base.domain.IpssDO">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+		<result column="ipss_title" jdbcType="VARCHAR" property="ipssTitle" />
+		<result column="ipss_score" jdbcType="VARCHAR" property="ipssScore" />
+		<result column="ipss_type" jdbcType="VARCHAR" property="ipssType" />
+		<result column="ipss_weight" jdbcType="INTEGER" property="ipssWeight" />
+		<result column="order_weight" jdbcType="INTEGER" property="orderWeight" />
+		<result column="create_user" jdbcType="VARCHAR" property="createUser" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+		<result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+		<result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id  AS  id,
+		parent_id  AS parentId ,
+		ipss_title  AS ipssTitle ,
+	  ipss_score  AS  ipssScore,
+	  ipss_type  AS  ipssType,
+	  ipss_weight  AS  ipssWeight,
+	  order_weight  AS  orderWeight,
+	  create_user  AS  createUser,
+	  create_time  AS createTime ,
+	  delete_user  AS  deleteUser,
+	  delete_time  AS  deleteTime,
+	  del_flag AS  delFlag
+	</sql>
+
+
+	<select id="get" resultType="com.prostate.base.domain.IpssDO">
+		select  <include refid="Base_Column_List"/> from base_ipss where id = #{value}
+		AND del_flag='0'
+	</select>
+
+	<select id="list" resultType="com.prostate.base.domain.IpssDO">
+		select <include refid="Base_Column_List"/> from base_ipss
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+		  		  <if test="ipssTitle != null and ipssTitle != ''"> and ipss_title = #{ipssTitle} </if>
+		  		  <if test="ipssScore != null and ipssScore != ''"> and ipss_score = #{ipssScore} </if>
+		  		  <if test="ipssType != null and ipssType != ''"> and ipss_type = #{ipssType} </if>
+		  		  <if test="ipssWeight != null and ipssWeight != ''"> and ipss_weight = #{ipssWeight} </if>
+		  		  <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+		  		  <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+				AND del_flag='0'
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by order_weight ASC
+            </when>
+			<otherwise>
+                order by order_weight ASC
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="getTree" resultType="com.prostate.base.domain.IpssDO">
+		select <include refid="Base_Column_List"/> from base_ipss
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+			<if test="ipssTitle != null and ipssTitle != ''"> and ipss_title = #{ipssTitle} </if>
+			<if test="ipssScore != null and ipssScore != ''"> and ipss_score = #{ipssScore} </if>
+			and (ipss_type ='1' OR ipss_type ='a' OR ipss_type ='b')
+			<if test="ipssWeight != null and ipssWeight != ''"> and ipss_weight = #{ipssWeight} </if>
+			<if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+			<if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+			<if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+			<if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+			<if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+			AND del_flag='0'
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by order_weight ASC
+			</when>
+			<otherwise>
+				order by order_weight ASC
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from base_ipss
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+		  		  <if test="ipssTitle != null and ipssTitle != ''"> and ipss_title = #{ipssTitle} </if>
+		  		  <if test="ipssScore != null and ipssScore != ''"> and ipss_score = #{ipssScore} </if>
+		  		  <if test="ipssType != null and ipssType != ''"> and ipss_type = #{ipssType} </if>
+		  		  <if test="ipssWeight != null and ipssWeight != ''"> and ipss_weight = #{ipssWeight} </if>
+		  		  <if test="orderWeight != null and orderWeight != ''"> and order_weight = #{orderWeight} </if>
+		  		  <if test="createUser != null and createUser != ''"> and create_user = #{createUser} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="deleteUser != null and deleteUser != ''"> and delete_user = #{deleteUser} </if>
+		  		  <if test="deleteTime != null and deleteTime != ''"> and delete_time = #{deleteTime} </if>
+			 AND del_flag='0'
+		  		</where>
+	</select>
+	 
+	
+
+</mapper>
