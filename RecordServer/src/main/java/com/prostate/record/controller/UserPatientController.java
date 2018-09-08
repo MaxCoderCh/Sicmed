@@ -3,6 +3,7 @@ package com.prostate.record.controller;
 import com.prostate.record.beans.WeChatPatientBean;
 import com.prostate.record.entity.UserPatient;
 import com.prostate.record.feignService.OrderServer;
+import com.prostate.record.feignService.StatisticServer;
 import com.prostate.record.service.PatientService;
 import com.prostate.record.service.UserPatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class UserPatientController extends BaseController {
 
     @Autowired
     private OrderServer orderServer;
+
+    @Autowired
+    private StatisticServer statisticServer;
     /**
      * 添加医生 患者 关系
      *
@@ -142,7 +146,8 @@ public class UserPatientController extends BaseController {
         //插入对象 赋值
         UserPatient userPatient = new UserPatient();
 
-        userPatient.setUserId(orderMap.get("doctor").toString());
+        String userId = orderMap.get("doctor").toString();
+        userPatient.setUserId(userId);
         userPatient.setPatientId(orderMap.get("patient").toString());
         String orderType = orderMap.get("orderType").toString();
         if ("".equals(orderType)) {
@@ -153,11 +158,12 @@ public class UserPatientController extends BaseController {
         //重复记录校验
         int i = userPatientService.selectCountByParams(userPatient);
         if (i > 0) {
-            return "ERROR";
+            return "SUCCESS";
         }
         //添加记录
         i = userPatientService.insertSelective(userPatient);
         if (i > 0) {
+            statisticServer.addOrderSuccess(userId);
             return "SUCCESS";
         }
         return "ERROR";
