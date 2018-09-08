@@ -6,6 +6,7 @@ import com.sicmed.assessmen.feignService.OrderServer;
 import com.sicmed.assessmen.feignService.RecordServer;
 import com.sicmed.assessmen.feignService.WalletServer;
 import com.sicmed.assessmen.service.InquiryRecordService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "record/inquiry")
 public class InquiryRecordController extends BaseController {
@@ -85,14 +87,17 @@ public class InquiryRecordController extends BaseController {
         }
         if (i > 0) {
             //调用订单服务 修改 订单状态
-            orderServer.orderDoneSuccess(orderId);
+            String orderServerMap = orderServer.orderDoneSuccess(orderId);
             //调用钱包服务 订单收益 存入医生零钱
-            walletServer.addOrderIncome(orderId);
+            Map walletServerMap = walletServer.addOrderIncome(orderId);
             //调用档案服务 建立医生 患者关系
-            recordServer.addUserPatientByOrder(orderId);
+            String recordServerMap = recordServer.addUserPatientByOrder(orderId);
             //调用统计服务
-            statisticServer.addTotleIncome(orderId);
-
+            Map statisticServerMap = statisticServer.addTotleIncome(orderId);
+            log.info("orderServerMap:"+orderServerMap);
+            log.info("walletServerMap:"+walletServerMap);
+            log.info("recordServerMap:"+recordServerMap);
+            log.info("statisticServerMap:"+statisticServerMap);
             return insertSuccseeResponse();
         }
         return insertFailedResponse();
