@@ -5,6 +5,7 @@ import com.sicmed.statistic.entity.Statistic;
 import com.sicmed.statistic.entity.StatisticConstant;
 import com.sicmed.statistic.feignService.OrderServer;
 import com.sicmed.statistic.service.StatisticService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -64,13 +65,27 @@ public class StatisticController extends BaseController {
         statistic.setStatisticStatus(StatisticConstant.USABLE);
         statistic = statisticService.getByParam(statistic);
         if (statistic != null) {
-            StringBuffer stringBuffer = new StringBuffer(statistic.getStatisticValue());
-            stringBuffer.insert(stringBuffer.length() - 2, ".");
-            return querySuccessResponse(stringBuffer.toString());
+            String totleIncome = f2y(statistic.getStatisticValue());
+            return querySuccessResponse(totleIncome);
         }
         return querySuccessResponse("0.00");
     }
-
+    public static String f2y(String balance) {
+        StringBuffer stringBuffer = new StringBuffer();
+        if (StringUtils.isBlank(balance)) {
+            stringBuffer.append("0.00");
+        } else if (balance.length() > 2) {
+            stringBuffer.append(balance);
+            stringBuffer.insert(stringBuffer.length() - 2, ".");
+        } else if (balance.length() == 2) {
+            stringBuffer.append("0.");
+            stringBuffer.append(balance);
+        } else if (balance.length() == 1) {
+            stringBuffer.append("0.0");
+            stringBuffer.append(balance);
+        }
+        return stringBuffer.toString();
+    }
 
     /**
      * 医生 查看医生主页触发

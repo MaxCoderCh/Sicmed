@@ -9,7 +9,7 @@ import java.util.Map;
 @Component
 public class OrderServerHystrix extends BaseServerHystrix implements OrderServer {
     @Override
-    public Map getOrder(String orderId) {
-        return BaseServerHystrix.resultMap;
+    public Map<String,Object> getOrder(String orderId) {
+        return resultMap;
     }
 }
