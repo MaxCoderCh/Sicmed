@@ -64,12 +64,13 @@ public class GoodsInquiryController extends BaseController {
             return queryEmptyResponse();
         }
         for (GoodsInquiry inquiry : goodsInquiryList) {
-            StringBuffer stringBuffer = new StringBuffer(inquiry.getGoodsPrice());
-            stringBuffer.insert(stringBuffer.length() - 2, ".");
-            inquiry.setGoodsPrice(stringBuffer.toString());
+
+                inquiry.setGoodsPrice(f2y(inquiry.getGoodsPrice()));
         }
         return querySuccessResponse(goodsInquiryList);
     }
+
+
 
     /**
      * 查询列表
@@ -83,6 +84,9 @@ public class GoodsInquiryController extends BaseController {
         List<GoodsInquiry> goodsInquiryList = goodsInquiryService.selectByParams(goodsInquiry);
         if (goodsInquiryList == null || goodsInquiryList.isEmpty()) {
             return queryEmptyResponse();
+        }
+        for (GoodsInquiry inquiry : goodsInquiryList) {
+            inquiry.setGoodsPrice(f2y(inquiry.getGoodsPrice()));
         }
         return querySuccessResponse(goodsInquiryList);
     }
@@ -118,5 +122,22 @@ public class GoodsInquiryController extends BaseController {
             return queryEmptyResponse();
         }
         return querySuccessResponse(goodsPrice);
+    }
+
+    public static String f2y(String balance) {
+        StringBuffer stringBuffer = new StringBuffer();
+        if (StringUtils.isBlank(balance)) {
+            stringBuffer.append("0.00");
+        } else if (balance.length() > 2) {
+            stringBuffer.append(balance);
+            stringBuffer.insert(stringBuffer.length() - 2, ".");
+        } else if (balance.length() == 2) {
+            stringBuffer.append("0.");
+            stringBuffer.append(balance);
+        } else if (balance.length() == 1) {
+            stringBuffer.append("0.0");
+            stringBuffer.append(balance);
+        }
+        return stringBuffer.toString();
     }
 }
