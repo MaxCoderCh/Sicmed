@@ -7,6 +7,7 @@ import com.prostate.wallet.entity.GroupWithoutID;
 import com.prostate.wallet.feignService.ThirdService;
 import com.prostate.wallet.service.DoctorWalletService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +58,9 @@ public class DoctorWalletController  extends BaseController {
     public Map selectByDoctorId( String token){
         //查询钱包信息====因为token和id的值相等，所以把token当做id当做查询条件
         DoctorWallet doctorWallet = doctorWalletService.selectByDoctorId(token);
+        if (doctorWallet==null){
+            doctorWallet = doctorWalletService.create(token);
+        }
         //查询结果为空
         if (doctorWallet == null ){
             return  queryEmptyResponse();
@@ -115,13 +119,33 @@ public class DoctorWalletController  extends BaseController {
     public Map getBalance(){
         //查询钱包信息====因为token和id的值相等，所以把token当做id当做查询条件
         DoctorWallet doctorWallet = doctorWalletService.selectByDoctorId(getToken());
+        if (doctorWallet==null){
+            doctorWallet = doctorWalletService.create(getToken());
+        }
         //查询结果为空
         if (doctorWallet == null ){
             return  queryEmptyResponse();
         } else {
-            StringBuffer stringBuffer = new StringBuffer(doctorWallet.getWalletBalance());
-            stringBuffer.insert(stringBuffer.length() - 2, ".");
-            return querySuccessResponse(stringBuffer.toString());
+            String balance = f2y(doctorWallet.getWalletBalance());
+            return querySuccessResponse(balance);
         }
     }
+
+    public static String f2y(String balance) {
+        StringBuffer stringBuffer = new StringBuffer();
+        if (StringUtils.isBlank(balance)) {
+            stringBuffer.append("0.00");
+        } else if (balance.length() > 2) {
+            stringBuffer.append(balance);
+            stringBuffer.insert(stringBuffer.length() - 2, ".");
+        } else if (balance.length() == 2) {
+            stringBuffer.append("0.");
+            stringBuffer.append(balance);
+        } else if (balance.length() == 1) {
+            stringBuffer.append("0.0");
+            stringBuffer.append(balance);
+        }
+        return stringBuffer.toString();
+    }
+
 }

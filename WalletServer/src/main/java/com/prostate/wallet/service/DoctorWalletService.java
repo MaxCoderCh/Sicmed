@@ -29,4 +29,5 @@ public interface DoctorWalletService extends BaseService<DoctorWallet>{
 
     DoctorWallet selectByDoctorId(String doctorId);
 
+    DoctorWallet create(String doctorId);
 }

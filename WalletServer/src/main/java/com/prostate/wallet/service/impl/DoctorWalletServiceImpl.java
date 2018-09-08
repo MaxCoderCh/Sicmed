@@ -1,8 +1,8 @@
 package com.prostate.wallet.service.impl;
 
 import com.prostate.wallet.entity.DoctorWallet;
-import com.prostate.wallet.mapper.slaver.DoctorWalletReadMapper;
 import com.prostate.wallet.mapper.master.DoctorWalletWriteMapper;
+import com.prostate.wallet.mapper.slaver.DoctorWalletReadMapper;
 import com.prostate.wallet.service.DoctorWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,18 @@ public class DoctorWalletServiceImpl implements DoctorWalletService {
 
     @Override
     public int insertSelective(DoctorWallet e) {
-       return doctorWalletWriteMapper.insertSelective(e);
+        return doctorWalletWriteMapper.insertSelective(e);
+    }
+
+    @Override
+    public DoctorWallet create(String userId) {
+        DoctorWallet doctorWallet = new DoctorWallet();
+        doctorWallet.setWalletBalance("0");
+        doctorWallet.setCreateUser(userId);
+        doctorWallet.setDoctorId(userId);
+        doctorWallet.setId(userId);
+        doctorWalletWriteMapper.insertSelective(doctorWallet);
+        return doctorWallet;
     }
 
     @Override
