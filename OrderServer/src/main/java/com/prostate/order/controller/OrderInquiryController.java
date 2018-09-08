@@ -554,7 +554,7 @@ public class OrderInquiryController extends BaseController {
             orderInquiryBean.setOrderDescription(inquiry.getOrderDescription());
             orderInquiryBean.setPatientId(inquiry.getPatient());
             orderInquiryBean.setCreateTime(inquiry.getCreateTime());
-            orderInquiryBean.setOrderPrice(inquiry.getOrderPrice());
+            orderInquiryBean.setOrderPrice(f2y(inquiry.getOrderPrice()));
 
             orderInquiryBeanList.add(orderInquiryBean);
             if (i != 0) {
@@ -574,5 +574,22 @@ public class OrderInquiryController extends BaseController {
             }
         }
         return orderInquiryBeanList;
+    }
+
+    public static String f2y(String balance) {
+        StringBuffer stringBuffer = new StringBuffer();
+        if (StringUtils.isBlank(balance)) {
+            stringBuffer.append("0.00");
+        } else if (balance.length() > 2) {
+            stringBuffer.append(balance);
+            stringBuffer.insert(stringBuffer.length() - 2, ".");
+        } else if (balance.length() == 2) {
+            stringBuffer.append("0.");
+            stringBuffer.append(balance);
+        } else if (balance.length() == 1) {
+            stringBuffer.append("0.0");
+            stringBuffer.append(balance);
+        }
+        return stringBuffer.toString();
     }
 }
