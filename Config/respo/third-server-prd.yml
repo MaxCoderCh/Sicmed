@@ -5,6 +5,12 @@ ipAddress:
 server:
   port: 8806
 spring:
+ servlet:
+  multipart:
+    enabled: true
+    file-size-threshold: 0
+    max-file-size: 100Mb
+    max-request-size: 100Mb
   profiles:
     active: prd
   cloud:
@@ -27,12 +33,7 @@ spring:
         min-idle: 50
         max-active: 2000
         max-wait: 1000
- servlet:
-  multipart:
-    enabled: true
-    file-size-threshold: 0
-    max-file-size: 100Mb
-    max-request-size: 100Mb
+
 eureka:
   client:
     serviceUrl:
