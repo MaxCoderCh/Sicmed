@@ -63,6 +63,10 @@ public class DoctorServiceImpl implements DoctorService{
         return doctorReadMapper.selectByPhone(phone);
     }
 
+    @Override
+    public String getPhoneNumberById(String userId) {
+        return doctorReadMapper.getPhoneNumberById(userId);
+    }
 
 
 }

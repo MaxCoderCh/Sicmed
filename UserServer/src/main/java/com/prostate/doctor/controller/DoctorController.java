@@ -293,4 +293,19 @@ public class DoctorController extends BaseController {
             return false;
         }
     }
+
+    /**
+     * Provider
+     */
+    @GetMapping(value = "getPhoneNumber")
+    public Map getPhoneNumber(String userId) {
+
+        String phoneNumber = doctorService.getPhoneNumberById(userId);
+
+        if (StringUtils.isBlank(phoneNumber)) {
+            return queryEmptyResponse();
+        }
+        return querySuccessResponse(phoneNumber);
+    }
+
 }

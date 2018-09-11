@@ -18,5 +18,5 @@ public interface DoctorService extends BaseService<Doctor>{
     Doctor selectByPhone(String phone);
 
 
-
+    String getPhoneNumberById(String userId);
 }

@@ -8,4 +8,6 @@ import java.util.List;
 public interface DoctorReadMapper extends BaseReadMapper<Doctor>{
 
     Doctor selectByPhone(String phone);
+
+    String getPhoneNumberById(String userId);
 }
