@@ -8,9 +8,11 @@
     <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
     <result column="head_img_url" jdbcType="VARCHAR" property="headImgUrl" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="access_token" jdbcType="VARCHAR" property="accessToken" />
+    <result column="refresh_token" jdbcType="VARCHAR" property="refreshToken" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, patient_id, openid, nick_name, head_img_url, create_time
+    id, patient_id, openid, nick_name, head_img_url, create_time,access_token,refresh_token
   </sql>
   <select id="selectByOpenid" parameterType="java.lang.String" resultMap="BaseResultMap">
     select

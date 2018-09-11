@@ -7,6 +7,10 @@
     where report_url = #{imgPath,jdbcType=VARCHAR}
   </delete>
 
+  <delete id="deleteReportByGroup" parameterType="java.lang.String">
+    delete from medical_report
+    where report_group = #{reportGroup,jdbcType=VARCHAR}
+  </delete>
   <insert id="insertSelective" parameterType="com.sicmed.archive.entity.MedicalReport">
     <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
       select replace(uuid(),'-','') from dual

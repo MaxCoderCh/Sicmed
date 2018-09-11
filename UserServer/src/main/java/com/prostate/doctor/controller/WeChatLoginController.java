@@ -68,13 +68,13 @@ public class WeChatLoginController extends BaseController {
         //获取ACCESS_TOKEN
         Map<String, Object> resultMap = weChatOauthService.getAccessToken(code);
         //刷新ACCESS_TOKEN
-        resultMap = weChatOauthService.refreshAccessToken(resultMap.get("refresh_token").toString());
+        resultMap = weChatOauthService.refreshAccessToken(String.valueOf(resultMap.get("refresh_token")));
         //获取 用户信息
         Map<String, Object> wechatUserInfoMap = weChatOauthService.getUserInfo(resultMap.get("access_token").toString(), resultMap.get("openid").toString());
 
 
         //保存用户信息
-        String openid = wechatUserInfoMap.get("openid").toString();
+        String openid = String.valueOf(wechatUserInfoMap.get("openid"));
         WeChatUser wechatUser = wechatUserService.selectByOpenid(openid);
         if (wechatUser != null) {
             log.info("111111");
@@ -87,9 +87,11 @@ public class WeChatLoginController extends BaseController {
         }
         wechatUser = new WeChatUser();
         wechatUser.setOpenid(openid);
-        String nickname = filterEmoji(wechatUserInfoMap.get("nickname").toString());
+        String nickname = filterEmoji(String.valueOf(wechatUserInfoMap.get("nickname")));
         wechatUser.setNickName(nickname);
-        wechatUser.setHeadImgUrl(wechatUserInfoMap.get("headimgurl").toString());
+        wechatUser.setHeadImgUrl(String.valueOf(wechatUserInfoMap.get("headimgurl")));
+        wechatUser.setAccessToken(String.valueOf(wechatUserInfoMap.get("access_token")));
+        wechatUser.setRefreshToken(String.valueOf(wechatUserInfoMap.get("refresh_token")));
         log.info(wechatUser.toString());
         wechatUserService.insertSelective(wechatUser);
         //shiro 登陆授权

@@ -42,6 +42,24 @@ public class MedicalReportController extends BaseController {
     }
 
     /**
+     * WeChat 修改 问诊 报告
+     * @param imgUrlArr
+     * @param patientId
+     * @return
+     */
+    @PostMapping(value = "updateInquiryReport")
+    public Map addInquiryReport(String[] imgUrlArr, String patientId,String reportGroup) {
+        if (imgUrlArr != null && imgUrlArr.length > 0) {
+            String newReportGroup = this.addReport(imgUrlArr, patientId, MedicalReportConstants.INQUIRY_REPORT_TYPE);
+
+            medicalReportService.deleteReportByGroup(reportGroup);
+
+            return insertSuccseeResponse(newReportGroup);
+        }
+        return emptyParamResponse();
+    }
+
+    /**
      * PAD 添加 体检 报告
      *
      * @param imgUrlArr

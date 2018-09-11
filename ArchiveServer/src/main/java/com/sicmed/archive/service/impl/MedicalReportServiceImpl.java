@@ -52,4 +52,9 @@ public class MedicalReportServiceImpl implements MedicalReportService {
     public int deleteByImgPath(String imgPath) {
         return medicalReportWriteMapper.deleteByImgPath(imgPath);
     }
+
+    @Override
+    public int deleteReportByGroup(String reportGroup) {
+        return medicalReportWriteMapper.deleteReportByGroup(reportGroup);
+    }
 }

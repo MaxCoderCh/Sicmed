@@ -49,9 +49,7 @@ public class HttpClient {
     }
 
     @Bean
-    public CloseableHttpClient getCloseableHttpClient(@Qualifier("httpClientBuilder")
-
-                                                              HttpClientBuilder httpClientBuilder) {
+    public CloseableHttpClient getCloseableHttpClient(@Qualifier("httpClientBuilder") HttpClientBuilder httpClientBuilder) {
         return httpClientBuilder.build();
     }
 
