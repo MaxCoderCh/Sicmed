@@ -4,6 +4,7 @@ package com.sicmed.statistic.controller;
 import com.sicmed.statistic.entity.Statistic;
 import com.sicmed.statistic.entity.StatisticConstant;
 import com.sicmed.statistic.feignService.OrderServer;
+import com.sicmed.statistic.feignService.RecordServer;
 import com.sicmed.statistic.service.StatisticService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class StatisticController extends BaseController {
 
     @Autowired
     private OrderServer orderServer;
+
+    @Autowired
+    private RecordServer recordServer;
 
     @PostMapping(value = "addTotleIncome")
     public Map addTotleIncome(String orderId) {
@@ -329,6 +333,17 @@ public class StatisticController extends BaseController {
         } else {
             countMap.put("inquiryCount", inquiryStatistic.getStatisticValue());
         }
+        //查询 待接受 问诊订单 数量
+        String acceptedOrderCount = orderServer.getAcceptedOrderCount(getToken());
+        countMap.put("acceptedOrderCount", acceptedOrderCount);
+
+        //查询 待接受 转诊订单 数量
+        String acceptedTurnOrderCount = orderServer.getAcceptedTurnOrderCount(getToken());
+        countMap.put("acceptedTurnOrderCount",acceptedTurnOrderCount);
+
+        //查询 待接受 转诊患者 数量
+        String acceptedTurnPatientCount = recordServer.getAcceptedTurnPatientCount(getToken());
+        countMap.put("acceptedTurnPatientCount",acceptedTurnPatientCount);
 
         return querySuccessResponse(countMap);
 
@@ -383,6 +398,9 @@ public class StatisticController extends BaseController {
         } else {
             countMap.put("focusCount", focusStatistic.getStatisticValue());
         }
+
+
+
         return querySuccessResponse(countMap);
     }
 }
