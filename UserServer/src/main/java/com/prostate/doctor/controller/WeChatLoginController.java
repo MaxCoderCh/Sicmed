@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.prostate.doctor.cache.redis.RedisSerive;
 import com.prostate.doctor.entity.WeChatUser;
 import com.prostate.doctor.service.WeChatOauthService;
-import com.prostate.doctor.service.WechatUserService;
+import com.prostate.doctor.service.WeChatUserService;
 import com.prostate.doctor.util.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
@@ -27,7 +27,7 @@ public class WeChatLoginController extends BaseController {
     private WeChatOauthService weChatOauthService;
 
     @Autowired
-    private WechatUserService wechatUserService;
+    private WeChatUserService wechatUserService;
     @Autowired
     private RedisSerive redisSerive;
 
