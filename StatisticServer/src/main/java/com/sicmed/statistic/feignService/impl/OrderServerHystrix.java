@@ -12,4 +12,14 @@ public class OrderServerHystrix extends BaseServerHystrix implements OrderServer
     public Map<String,Object> getOrder(String orderId) {
         return resultMap;
     }
+
+    @Override
+    public String getAcceptedOrderCount(String userId) {
+        return "0";
+    }
+
+    @Override
+    public String getAcceptedTurnOrderCount(String userId) {
+        return "0";
+    }
 }

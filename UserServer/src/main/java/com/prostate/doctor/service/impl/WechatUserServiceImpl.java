@@ -1,25 +1,25 @@
 package com.prostate.doctor.service.impl;
 
 import com.prostate.doctor.entity.WeChatUser;
-import com.prostate.doctor.mapper.master.WechatUserWriteMapper;
-import com.prostate.doctor.mapper.slaver.WechatUserReadMapper;
-import com.prostate.doctor.service.WechatUserService;
+import com.prostate.doctor.mapper.master.WeChatUserWriteMapper;
+import com.prostate.doctor.mapper.slaver.WeChatUserReadMapper;
+import com.prostate.doctor.service.WeChatUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class WechatUserServiceImpl implements WechatUserService {
+public class WeChatUserServiceImpl implements WeChatUserService {
 
     @Autowired
-    private WechatUserWriteMapper wechatUserWriteMapper;
+    private WeChatUserWriteMapper weChatUserWriteMapper;
     @Autowired
-    private WechatUserReadMapper wechatUserReadMapper;
+    private WeChatUserReadMapper weChatUserReadMapper;
 
     @Override
     public int insertSelective(WeChatUser wechatUser) {
-        return wechatUserWriteMapper.insertSelective(wechatUser);
+        return weChatUserWriteMapper.insertSelective(wechatUser);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class WechatUserServiceImpl implements WechatUserService {
 
     @Override
     public WeChatUser selectById(String id) {
-        return wechatUserReadMapper.selectById(id);
+        return weChatUserReadMapper.selectById(id);
     }
 
     @Override
@@ -44,11 +44,16 @@ public class WechatUserServiceImpl implements WechatUserService {
 
     @Override
     public WeChatUser selectByOpenid(String openid) {
-        return wechatUserReadMapper.selectByOpenid(openid);
+        return weChatUserReadMapper.selectByOpenid(openid);
     }
 
     @Override
     public int insertSelectiveById(WeChatUser wechatUser) {
-        return wechatUserWriteMapper.insertSelectiveById(wechatUser);
+        return weChatUserWriteMapper.insertSelectiveById(wechatUser);
+    }
+
+    @Override
+    public String getOpenidById(String userId) {
+        return weChatUserReadMapper.getOpenidById(userId);
     }
 }

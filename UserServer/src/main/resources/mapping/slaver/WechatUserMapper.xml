@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.prostate.doctor.mapper.slaver.WechatUserReadMapper">
+<mapper namespace="com.prostate.doctor.mapper.slaver.WeChatUserReadMapper">
   <resultMap id="BaseResultMap" type="com.prostate.doctor.entity.WeChatUser">
     <result column="id" jdbcType="VARCHAR" property="id" />
     <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
@@ -25,4 +25,11 @@
     from wechat_user
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  <select id="getOpenidById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    openid
+    from wechat_user
+    where id = #{userId,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

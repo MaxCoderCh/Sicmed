@@ -3,6 +3,7 @@ package com.sicmed.statistic.feignService;
 
 import com.sicmed.statistic.feignService.impl.OrderServerHystrix;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -13,4 +14,10 @@ public interface OrderServer {
 
     @PostMapping(value = "order/inquiry/getOrder")
     Map<String,Object> getOrder(@RequestParam("orderId") String orderId);
+
+    @GetMapping(value = "getAcceptedOrderCount")
+    String getAcceptedOrderCount(@RequestParam("userId") String userId);
+
+    @GetMapping(value = "getAcceptedTurnOrderCount")
+    String getAcceptedTurnOrderCount(@RequestParam("userId")String userId);
 }
