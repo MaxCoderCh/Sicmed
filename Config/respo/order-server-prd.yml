@@ -6,6 +6,9 @@ ipAddress:
 server:
   port: 8901
 spring:
+  servlet:
+    multipart:
+      location: /app/tmp
   profiles:
     active: prd
   datasource:
