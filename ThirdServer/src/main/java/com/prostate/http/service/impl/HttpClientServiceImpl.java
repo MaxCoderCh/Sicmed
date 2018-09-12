@@ -25,6 +25,7 @@ public class HttpClientServiceImpl implements HttpClientService {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         ResponseHandler<String> responseHandler = new BasicResponseHandler();
         try {
+
             //第一步：创建HttpClient对象
             httpClient = HttpClients.createDefault();
 
@@ -32,11 +33,8 @@ public class HttpClientServiceImpl implements HttpClientService {
             HttpPost httpPost = new HttpPost(url);
 
             //第三步：给httpPost设置JSON格式的参数
-            StringEntity requestEntity = new StringEntity(json, "utf-8");
-            requestEntity.setContentEncoding("UTF-8");
-            httpPost.setHeader("Content-type", "application/json");
+            StringEntity requestEntity = new StringEntity(json,"UTF-8");
             httpPost.setEntity(requestEntity);
-
             //第四步：发送HttpPost请求，获取返回值
             returnValue = httpClient.execute(httpPost, responseHandler); //调接口获取返回值时，必须用此方法
 

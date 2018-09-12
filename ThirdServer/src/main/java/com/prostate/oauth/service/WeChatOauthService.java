@@ -2,12 +2,11 @@ package com.prostate.oauth.service;
 
 
 import com.alibaba.fastjson.JSONObject;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-@Slf4j
 @Service
 public class WeChatOauthService {
 
@@ -15,7 +14,6 @@ public class WeChatOauthService {
      * 公众号AppId
      */
     public static final String APP_ID = "wx879a26e37acadb20";
-
     /**
      * 公众号AppSecret
      */
@@ -35,7 +33,6 @@ public class WeChatOauthService {
         urlStr.append("&grant_type=authorization_code");
 
         String responseStr = HttpsConnectionUtils.conn(urlStr.toString());
-        log.debug(responseStr);
         return JSONObject.parseObject(responseStr);
     }
 
@@ -52,7 +49,6 @@ public class WeChatOauthService {
         urlStr.append(accessToken);
 
         String responseStr = HttpsConnectionUtils.conn(urlStr.toString());
-        log.debug(responseStr);
         return JSONObject.parseObject(responseStr);
 
     }
@@ -68,7 +64,6 @@ public class WeChatOauthService {
         urlStr.append("&openid=");
         urlStr.append(openid);
         String responseStr = HttpsConnectionUtils.conn(urlStr.toString());
-        log.debug(responseStr);
         return JSONObject.parseObject(responseStr);
     }
 
@@ -84,8 +79,17 @@ public class WeChatOauthService {
         urlStr.append(openid);
 
         String responseStr = HttpsConnectionUtils.conn(urlStr.toString());
-        log.debug(responseStr);
         return JSONObject.parseObject(responseStr);
     }
 
+    /**
+     * 获取公众号 的 AccessToken
+     */
+    public String getAccessToken() {
+        String urlStr = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APP_ID + "&secret=" + APP_SECRET;
+        String responseStr = HttpsConnectionUtils.conn(urlStr);
+        Map<String, Object> resultMap = JSONObject.parseObject(responseStr);
+        String accessToken = String.valueOf(resultMap.get("access_token"));
+        return accessToken;
+    }
 }

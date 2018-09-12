@@ -43,4 +43,15 @@ public class RedisSerive {
         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
         return jsonObject.get("openid").toString();
     }
+
+    public String getAccessToken() {
+        ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
+
+        return valueOperations.get("ACCESS_TOKEN");
+    }
+
+    public void setAccessToken(String accessToken) {
+        ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
+        valueOperations.set("ACCESS_TOKEN", accessToken, 7100, TimeUnit.SECONDS);
+    }
 }
