@@ -5,6 +5,8 @@ ipAddress:
   mysql: 172.21.0.16
 server:
   port: 8802
+  tomcat:
+    basedir: H:/qlxlm/record
 spring:
   profiles:
     active: prd

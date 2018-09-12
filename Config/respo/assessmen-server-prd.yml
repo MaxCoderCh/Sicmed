@@ -5,6 +5,8 @@ ipAddress:
   mysql: 172.21.0.16
 server:
   port: 8804
+  tomcat:
+    basedir: H:/qlxlm/assessmen
 spring:
   profiles:
     active: prd

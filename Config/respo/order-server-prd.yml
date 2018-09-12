@@ -5,10 +5,9 @@ ipAddress:
   mysql: 172.21.0.16
 server:
   port: 8901
+  tomcat:
+    basedir: H:/qlxlm/order
 spring:
-  servlet:
-    multipart:
-      location: /app/tmp
   profiles:
     active: prd
   datasource:

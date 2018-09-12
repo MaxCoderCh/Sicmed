@@ -4,6 +4,8 @@ ipAddress:
   eureka: 172.21.0.9
 server:
   port: 80
+  tomcat:
+    basedir: H:/qlxlm/zuul
 spring:
   servlet:
     multipart:
