@@ -44,4 +44,19 @@ public class ThirdServerHystrix extends BaseServerHystrix implements ThirdServer
     public Map<String, Object> sendBalanceForCash(String phoneNumber) {
         return resultMap;
     }
+
+    @Override
+    public String pushPaymentSuccessToWechat(String openid, String orderId, String goodsInfo, String orderPrice) {
+        return "ERROR";
+    }
+
+    @Override
+    public String pushOrderSuccessToWechat(String openid, String orderId, String finishTime) {
+        return "ERROR";
+    }
+
+    @Override
+    public String pushOrderFailedToWechat(String openid, String refundInfo, String refundPrice) {
+        return "ERROR";
+    }
 }

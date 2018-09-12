@@ -30,4 +30,13 @@ public interface ThirdServer {
 
     @PostMapping(value = "sms/sendBalanceForCash")
     Map<String, Object> sendBalanceForCash(@RequestParam("phoneNumber") String phoneNumber);
+
+    @PostMapping(value = "push/weChat/pushPaymentSuccessToWechat")
+    String pushPaymentSuccessToWechat(String openid, String orderId, String goodsInfo, String orderPrice);
+
+    @PostMapping(value = "push/weChat/pushOrderSuccessToWechat")
+    String pushOrderSuccessToWechat(String openid, String orderId, String finishTime);
+
+    @PostMapping(value = "push/weChat/pushOrderFailedToWechat")
+    String pushOrderFailedToWechat(String openid, String refundInfo, String refundPrice);
 }
