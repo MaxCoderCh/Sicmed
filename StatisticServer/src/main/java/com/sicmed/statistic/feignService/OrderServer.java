@@ -12,12 +12,12 @@ import java.util.Map;
 @FeignClient(value = "order-server",fallback = OrderServerHystrix.class)
 public interface OrderServer {
 
-    @PostMapping(value = "order/inquiry/getOrder")
-    Map<String,Object> getOrder(@RequestParam("orderId") String orderId);
+    @GetMapping(value = "order/inquiry/getOrder")
+    Map<String,Object> getOrder(@RequestParam("userId") String userId);
 
-    @GetMapping(value = "getAcceptedOrderCount")
+    @GetMapping(value = "order/inquiry/getAcceptedOrderCount")
     String getAcceptedOrderCount(@RequestParam("userId") String userId);
 
-    @GetMapping(value = "getAcceptedTurnOrderCount")
+    @GetMapping(value = "order/inquiry/getAcceptedTurnOrderCount")
     String getAcceptedTurnOrderCount(@RequestParam("userId")String userId);
 }
