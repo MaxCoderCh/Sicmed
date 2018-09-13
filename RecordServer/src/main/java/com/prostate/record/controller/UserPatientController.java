@@ -6,6 +6,7 @@ import com.prostate.record.feignService.OrderServer;
 import com.prostate.record.feignService.StatisticServer;
 import com.prostate.record.service.PatientService;
 import com.prostate.record.service.UserPatientService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,11 +41,14 @@ public class UserPatientController extends BaseController {
      */
     @PostMapping(value = "addUserPatient")
     public Map<String, Object> addUserPatient(String patientId, String userId, String patientSource) {
+
         UserPatient userPatient = new UserPatient();
         userPatient.setUserId(userId);
         userPatient.setPatientId(patientId);
-
         List<UserPatient> userPatientList = userPatientService.selectByParams(userPatient);
+
+        userPatient.setPatientStatus("TO_BE_ACCEPTED");
+        userPatient.setPatientSource("转诊");
 
         if (userPatientList == null || userPatientList.isEmpty()) {
             int i = userPatientService.addUserPatient(patientId, userId, patientSource);
@@ -54,6 +58,79 @@ public class UserPatientController extends BaseController {
             return insertFailedResponse("添加失败");
         }
         return insertalreadyExistedResponse("记录已经存在");
+    }
+
+    /**
+     * 查询 带接受 转诊 患者列表
+     */
+
+    @GetMapping(value = "getAcceptedTurnPatientList")
+    public Map getAcceptedTurnPatientList() {
+
+        UserPatient userPatient = new UserPatient();
+        userPatient.setUserId(getToken());
+        userPatient.setPatientStatus("TO_BE_ACCEPTED");
+        List<WeChatPatientBean> weChatPatientBeanList = userPatientService.getAcceptedTurnPatientList(userPatient);
+
+        if (weChatPatientBeanList == null || weChatPatientBeanList.isEmpty()) {
+            return queryEmptyResponse();
+        }
+        return querySuccessResponse(weChatPatientBeanList);
+    }
+
+    /**
+     * 查询 带接受 转诊 患者数量
+     */
+
+    @GetMapping(value = "getAcceptedTurnPatientCount")
+    public String getAcceptedTurnPatientCount(String userId) {
+
+        UserPatient userPatient = new UserPatient();
+
+        userPatient.setUserId(userId);
+        userPatient.setPatientStatus("TO_BE_ACCEPTED");
+        String acceptedTurnPatientCount = userPatientService.countByParams(userPatient);
+
+        if (StringUtils.isBlank(acceptedTurnPatientCount)) {
+            return "0";
+        }
+        return acceptedTurnPatientCount;
+    }
+
+    /**
+     * 同意 接受转诊 患者
+     */
+
+    @PostMapping(value = "acceptedPatient")
+    public Map acceptedPatient(String id) {
+
+        UserPatient userPatient = new UserPatient();
+        userPatient.setId(id);
+        userPatient.setPatientStatus("BE_ACCEPTED");
+        int i = userPatientService.updateSelective(userPatient);
+
+        if (i > 0) {
+            return updateSuccseeResponse();
+        }
+        return updateFailedResponse();
+    }
+
+    /**
+     * 拒绝 接受转诊 患者
+     */
+
+    @PostMapping(value = "rejectedPatient")
+    public Map rejectedPatient(String id) {
+
+        UserPatient userPatient = new UserPatient();
+        userPatient.setId(id);
+        userPatient.setPatientStatus("BE_REJECTED");
+        int i = userPatientService.updateSelective(userPatient);
+
+        if (i > 0) {
+            return updateSuccseeResponse();
+        }
+        return updateFailedResponse();
     }
 
     /**
@@ -150,7 +227,7 @@ public class UserPatientController extends BaseController {
         userPatient.setUserId(userId);
         userPatient.setPatientId(orderMap.get("patient").toString());
         String orderType = orderMap.get("orderType").toString();
-        if ("".equals(orderType)) {
+        if ("PICTURE_INQUIRY_TYPE".equals(orderType)) {
             userPatient.setPatientSource("问诊");
         } else {
             userPatient.setPatientSource("转诊");
@@ -161,6 +238,7 @@ public class UserPatientController extends BaseController {
             return "SUCCESS";
         }
         //添加记录
+        userPatient.setPatientStatus("BE_ACCEPTED");
         i = userPatientService.insertSelective(userPatient);
         if (i > 0) {
             statisticServer.addOrderSuccess(userId);
@@ -174,17 +252,28 @@ public class UserPatientController extends BaseController {
      */
     @PostMapping(value = "turnPatient")
     public Map<String, Object> turnPatient(String patientId, String doctorId) {
+
         UserPatient userPatient = new UserPatient();
         userPatient.setUserId(doctorId);
         userPatient.setPatientId(patientId);
 
         int i = userPatientService.selectCountByParams(userPatient);
+
         if (i > 0) {
-            return insertSuccseeResponse("转诊成功");
+            return turnPatientExistResponse("该患者不可以转给该医生");
         }
+
         userPatient.setPatientSource("转诊");
+        userPatient.setPatientStatus("TO_BE_ACCEPTED");
         i = userPatientService.insertSelective(userPatient);
+
         if (i > 0) {
+
+            UserPatient oldUserPatient = new UserPatient();
+            oldUserPatient.setUserId(getToken());
+            oldUserPatient.setPatientId(patientId);
+            userPatientService.deleteByParam(oldUserPatient);
+
             return insertSuccseeResponse("转诊成功");
         }
         return insertFailedResponse("转诊失败");
