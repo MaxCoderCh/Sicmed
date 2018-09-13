@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping(value = "user/weChat")
 public class WeChatUserController extends BaseController{
@@ -20,13 +18,13 @@ public class WeChatUserController extends BaseController{
      * Provider
      */
     @GetMapping(value = "getOpenid")
-    public Map getOpenid(String userId) {
+    public String getOpenid(String userId) {
 
         String phoneNumber = weChatUserService.getOpenidById(userId);
 
         if (StringUtils.isBlank(phoneNumber)) {
-            return queryEmptyResponse();
+            return "ERROR";
         }
-        return querySuccessResponse(phoneNumber);
+        return phoneNumber;
     }
 }
