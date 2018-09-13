@@ -435,22 +435,24 @@ public class OrderInquiryController extends BaseController {
     @PostMapping(value = "rejectedOrder")
     public Map rejectedOrder(String orderId) {
 
-        OrderInquiry orderInquiry = new OrderInquiry();
-        orderInquiry.setId(orderId);
+
+        OrderInquiry orderInquiry = orderInquiryService.selectById(orderId);
         orderInquiry.setOrderStatus(OrderConstants.BE_REJECTED);
-        orderInquiry.setDoctor(getToken());
-
         int i = orderInquiryService.updateSelective(orderInquiry);
-
+        String orderPrice = orderInquiry.getOrderPrice();
         if (i > 0) {
             //调用退款 服务
-            String result = thirdServer.refund(orderId);
+            String result = thirdServer.refund(orderInquiry.getTransactionId(),f2y(orderPrice));
             if ("SUCCESS".equals(result)) {
                 //调用 weChat 模版推送服务
                 String weChatUserId = orderInquiry.getBuyer();
-                Map<String, Object> openidMap = userServer.getOpenid(weChatUserId);
-                String openid = String.valueOf(openidMap.get("result"));
-                thirdServer.pushOrderFailedToWechat(openid, "医生拒绝了您的问诊申请!", f2y(orderInquiry.getOrderPrice()));
+                String openid = userServer.getOpenid(weChatUserId);
+                if(openid.equals("ERROR")){
+                    log.error("调用 weChat 模版推送服务 失败");
+                }
+                thirdServer.pushOrderFailedToWechat(openid, "医生拒绝了您的问诊申请!", f2y(orderPrice));
+            }else{
+                log.error("ORDER_NO:"+orderId+"--调用退款 服务 失败");
             }
             return updateSuccseeResponse();
         }
