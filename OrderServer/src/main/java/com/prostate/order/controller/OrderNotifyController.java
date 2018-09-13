@@ -4,6 +4,7 @@ import com.prostate.order.entity.OrderConstants;
 import com.prostate.order.entity.OrderInquiry;
 import com.prostate.order.service.OrderInquiryService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -62,7 +63,7 @@ public class OrderNotifyController extends BaseController {
             orderInquiry.setTransactionId(transactionId);
             orderInquiryService.updateSelective(orderInquiry);
             //通知公众号端 支付成功
-            thirdServer.pushPaymentSuccessToWechat(openid, transactionId, "图文问诊服务", orderPrice);
+            thirdServer.pushPaymentSuccessToWechat(openid, transactionId, "图文问诊服务", f2y(orderPrice));
             return "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                     + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
         } else {
@@ -90,6 +91,21 @@ public class OrderNotifyController extends BaseController {
         log.error("订单完成状态修改失败");
         return "ERROR";
     }
-
+    public static String f2y(String balance) {
+        StringBuffer stringBuffer = new StringBuffer();
+        if (StringUtils.isBlank(balance)) {
+            stringBuffer.append("0.00");
+        } else if (balance.length() > 2) {
+            stringBuffer.append(balance);
+            stringBuffer.insert(stringBuffer.length() - 2, ".");
+        } else if (balance.length() == 2) {
+            stringBuffer.append("0.");
+            stringBuffer.append(balance);
+        } else if (balance.length() == 1) {
+            stringBuffer.append("0.0");
+            stringBuffer.append(balance);
+        }
+        return stringBuffer.toString();
+    }
 
 }
