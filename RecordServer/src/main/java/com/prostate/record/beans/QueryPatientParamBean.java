@@ -12,4 +12,5 @@ public class QueryPatientParamBean extends BaseEntity{
     private String doctorId;
     private String patientName;
     private String stickerId;
+    private String patientStatus;
 }
