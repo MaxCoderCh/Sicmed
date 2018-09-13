@@ -46,7 +46,7 @@
     </sql>
     <select id="selectByIdCard" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        <include refid="BaseList_Column_List"/>
+        <include refid="Base_Column_List"/>
         from pomr_patient
         <where>
             del_flag = 0
@@ -124,6 +124,10 @@
             </if>
             <if test="stickerId != null and stickerId != ''">
                 AND patientSticker.sticker_id = #{stickerId,jdbcType=VARCHAR}
+            </if>
+            <if test="patientStatus != null and patientStatus != ''">
+                AND userPatient.patient_status = #{patientStatus,jdbcType=VARCHAR}
+
             </if>
         </where>
         GROUP BY patient.id
