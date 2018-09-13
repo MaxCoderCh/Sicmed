@@ -38,9 +38,9 @@ public class ProviderController extends BaseController{
     public String addOrderIncome(String orderId) throws Exception {
         //查询订单 信息
         Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
-        log.error(orderResultMap.toString());
+
         Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
-        log.error(orderMap.toString());
+        log.info(orderMap.toString());
         String doctorId = orderMap.get("doctor").toString();
         String orderPriceStr = orderMap.get("orderPrice").toString();
 
