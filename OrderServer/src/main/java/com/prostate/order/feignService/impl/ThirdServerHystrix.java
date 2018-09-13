@@ -21,11 +21,6 @@ public class ThirdServerHystrix extends BaseServerHystrix implements ThirdServer
     }
 
     @Override
-    public Map<String, Object> sendInquiryEndToDoctor(String phoneNumber) {
-        return resultMap;
-    }
-
-    @Override
     public Map<String, Object> sendInquiryRefund(String phoneNumber) {
         return resultMap;
     }
@@ -51,12 +46,12 @@ public class ThirdServerHystrix extends BaseServerHystrix implements ThirdServer
     }
 
     @Override
-    public String pushOrderSuccessToWechat(String openid, String orderId, String finishTime) {
+    public String pushOrderFailedToWechat(String openid, String refundInfo, String refundPrice) {
         return "ERROR";
     }
 
     @Override
-    public String pushOrderFailedToWechat(String openid, String refundInfo, String refundPrice) {
+    public String refund(String orderId) {
         return "ERROR";
     }
 }

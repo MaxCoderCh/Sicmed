@@ -16,9 +16,6 @@ public interface ThirdServer {
     @PostMapping(value = "sms/sendInquiryEndToPatient")
     Map<String, Object> sendInquiryEndToPatient(@RequestParam("phoneNumber") String phoneNumber);
 
-    @PostMapping(value = "sms/sendInquiryEndToDoctor")
-    Map<String, Object> sendInquiryEndToDoctor(@RequestParam("phoneNumber") String phoneNumber);
-
     @PostMapping(value = "sms/sendInquiryRefund")
     Map<String, Object> sendInquiryRefund(@RequestParam("phoneNumber") String phoneNumber);
 
@@ -32,11 +29,11 @@ public interface ThirdServer {
     Map<String, Object> sendBalanceForCash(@RequestParam("phoneNumber") String phoneNumber);
 
     @PostMapping(value = "push/weChat/pushPaymentSuccessToWechat")
-    String pushPaymentSuccessToWechat(String openid, String orderId, String goodsInfo, String orderPrice);
-
-    @PostMapping(value = "push/weChat/pushOrderSuccessToWechat")
-    String pushOrderSuccessToWechat(String openid, String orderId, String finishTime);
+    String pushPaymentSuccessToWechat(@RequestParam("openid") String openid,@RequestParam("orderId") String orderId,@RequestParam("goodsInfo") String goodsInfo,@RequestParam("orderPrice") String orderPrice);
 
     @PostMapping(value = "push/weChat/pushOrderFailedToWechat")
-    String pushOrderFailedToWechat(String openid, String refundInfo, String refundPrice);
+    String pushOrderFailedToWechat(@RequestParam("openid") String openid,@RequestParam("refundInfo") String refundInfo,@RequestParam("refundPrice") String refundPrice);
+
+    @PostMapping(value = "pay/weChat/refund")
+    String refund(@RequestParam("orderId") String orderId);
 }
