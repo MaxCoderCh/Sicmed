@@ -1,6 +1,8 @@
 package com.prostate.order.controller;
 
 
+import com.prostate.order.feignService.ThirdServer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -18,6 +20,12 @@ public class BaseController {
 
         return request.getHeader("token");
     }
+
+    @Autowired
+    protected ThirdServer thirdServer;
+
+    @Autowired
+    protected UserServer userServer;
     /**
      * 参数为空返回值
      * @return
