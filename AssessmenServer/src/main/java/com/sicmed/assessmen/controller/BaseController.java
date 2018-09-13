@@ -1,10 +1,7 @@
 package com.sicmed.assessmen.controller;
 
 
-import com.sicmed.assessmen.feignService.OrderServer;
-import com.sicmed.assessmen.feignService.RecordServer;
-import com.sicmed.assessmen.feignService.StatisticServer;
-import com.sicmed.assessmen.feignService.WalletServer;
+import com.sicmed.assessmen.feignService.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -27,6 +24,12 @@ public class BaseController {
 
     @Autowired
     protected StatisticServer statisticServer;
+
+    @Autowired
+    protected ThirdServer thirdServer;
+
+    @Autowired
+    protected UserServer userServer;
 
     protected String getToken() {
 
