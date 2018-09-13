@@ -12,5 +12,5 @@ import java.util.Map;
 public interface WalletServer {
 
     @PostMapping(value = "provider/addOrderIncome")
-    Map addOrderIncome(@RequestParam("orderId") String orderId);
+    String addOrderIncome(@RequestParam("orderId") String orderId);
 }
