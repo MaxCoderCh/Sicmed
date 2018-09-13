@@ -77,7 +77,8 @@ public class ProviderController extends BaseController{
         doctorWallet.setWalletBalance(newWalletBalanceStr);
          i = doctorWalletService.updateSelective(doctorWallet);
         if (i<=0){
-            throw new Exception("医生余额修改失败");
+            log.error("医生余额修改失败");
+            return "ERROR";
         }
         return "SUCCESS";
     }
