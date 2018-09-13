@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.prostate.doctor.mapper.master.WeChatUserWriteMapper">
-
   <insert id="insertSelective" parameterType="com.prostate.doctor.entity.WeChatUser">
     <selectKey keyProperty="id" resultType="string" order="BEFORE">
       select replace(uuid(), '-', '') as id from dual
@@ -112,4 +111,28 @@
       </if>
     </trim>
   </insert>
+  <update id="updateSelective" parameterType="com.prostate.doctor.entity.WeChatUser">
+    update wechat_user
+    <set>
+      <if test="patientId != null">
+        patient_id = #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="headImgUrl != null">
+        head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="accessToken != null">
+        access_token = #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="refreshToken != null">
+        refresh_token = #{refreshToken,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
 </mapper>

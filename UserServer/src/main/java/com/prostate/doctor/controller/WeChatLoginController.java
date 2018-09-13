@@ -28,6 +28,7 @@ public class WeChatLoginController extends BaseController {
 
     @Autowired
     private WeChatUserService wechatUserService;
+
     @Autowired
     private RedisSerive redisSerive;
 
@@ -67,17 +68,25 @@ public class WeChatLoginController extends BaseController {
         }
         //获取ACCESS_TOKEN
         Map<String, Object> resultMap = weChatOauthService.getAccessToken(code);
+        String refreshToken = String.valueOf(resultMap.get("refresh_token"));
         //刷新ACCESS_TOKEN
-        resultMap = weChatOauthService.refreshAccessToken(String.valueOf(resultMap.get("refresh_token")));
-        //获取 用户信息
-        Map<String, Object> wechatUserInfoMap = weChatOauthService.getUserInfo(resultMap.get("access_token").toString(), resultMap.get("openid").toString());
+        resultMap = weChatOauthService.refreshAccessToken(refreshToken);
 
+        String accessToken = String.valueOf(resultMap.get("access_token"));
+        String openid = String.valueOf(resultMap.get("openid"));
+
+        //获取 用户信息
+        Map<String, Object> wechatUserInfoMap = weChatOauthService.getUserInfo(accessToken,openid);
 
         //保存用户信息
-        String openid = String.valueOf(wechatUserInfoMap.get("openid"));
         WeChatUser wechatUser = wechatUserService.selectByOpenid(openid);
         if (wechatUser != null) {
-            log.info("111111");
+            String nickname = filterEmoji(String.valueOf(wechatUserInfoMap.get("nickname")));
+            wechatUser.setNickName(nickname);
+            wechatUser.setHeadImgUrl(String.valueOf(wechatUserInfoMap.get("headimgurl")));
+            wechatUser.setAccessToken(accessToken);
+            wechatUser.setRefreshToken(refreshToken);
+            wechatUserService.updateSelective(wechatUser);
             //shiro 登陆授权
             String token = wechatUser.getId();
             JSONObject.toJSONString(wechatUser);
@@ -90,8 +99,8 @@ public class WeChatLoginController extends BaseController {
         String nickname = filterEmoji(String.valueOf(wechatUserInfoMap.get("nickname")));
         wechatUser.setNickName(nickname);
         wechatUser.setHeadImgUrl(String.valueOf(wechatUserInfoMap.get("headimgurl")));
-        wechatUser.setAccessToken(String.valueOf(wechatUserInfoMap.get("access_token")));
-        wechatUser.setRefreshToken(String.valueOf(wechatUserInfoMap.get("refresh_token")));
+        wechatUser.setAccessToken(accessToken);
+        wechatUser.setRefreshToken(refreshToken);
         log.info(wechatUser.toString());
         wechatUserService.insertSelective(wechatUser);
         //shiro 登陆授权

@@ -24,7 +24,7 @@ public class WeChatUserServiceImpl implements WeChatUserService {
 
     @Override
     public int updateSelective(WeChatUser wechatUser) {
-        return 0;
+        return weChatUserWriteMapper.updateSelective(wechatUser);
     }
 
     @Override
