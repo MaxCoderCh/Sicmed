@@ -8,6 +8,7 @@ import com.prostate.sms.entity.ParamTimeView;
 import com.prostate.sms.entity.PhoneNumberView;
 import com.prostate.sms.entity.SmsParams;
 import com.prostate.sms.service.SmsService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "sms")
 public class SmsController extends BaseController {
@@ -241,14 +243,15 @@ public class SmsController extends BaseController {
      * @templateId 162061
      */
     @PostMapping(value = "sendInquiryEndToDoctor")
-    public Map<String, Object> sendInquiryEndToDoctor(@Validated({PhoneNumberView.class}) SmsParams smsParams) throws HTTPException, IOException {
+    public String sendInquiryEndToDoctor(@Validated({PhoneNumberView.class}) SmsParams smsParams) throws HTTPException, IOException {
         ArrayList<String> params = new ArrayList<>();
 
         boolean b = smsService.singleSendByTemplate("86", smsParams.getPhoneNumber(), 162061, params);
         if (b) {
-            return smsSendSuccess("发送成功");
+            return "SUCCESS";
         }
-        return smsSendFailed("发送失败");
+        log.error("问诊结束向医生发送短信通知失败");
+        return "ERROR";
     }
 
 
