@@ -10,4 +10,7 @@ public interface WeChatPayService {
 
     //下单
     Map<String,String> unifiedOrder(Map<String, String> reqDate);
+
+    //下单
+    Map<String,String> refund(Map<String, String> reqDate) throws Exception;
 }

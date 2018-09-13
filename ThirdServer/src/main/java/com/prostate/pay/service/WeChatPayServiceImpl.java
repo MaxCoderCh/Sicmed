@@ -25,4 +25,9 @@ public class WeChatPayServiceImpl implements WeChatPayService {
         }
         return null;
     }
+
+    @Override
+    public Map<String, String> refund(Map<String, String> reqDate) throws Exception {
+        return weChatPay.refund(reqDate);
+    }
 }

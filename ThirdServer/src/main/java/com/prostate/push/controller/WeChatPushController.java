@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "push/weChat")
 public class WeChatPushController {
@@ -94,19 +95,11 @@ public class WeChatPushController {
         if ("0".equals(errcode)){
             return "SUCCESS";
         }
-        return "FAILED";
+        log.error(resultMap.toString());
+        return "ERROR";
 
     }
 
-    /**
-     *     订单完成通知
-     * GU4ICsPq4J_4HlkqELASgURzisDwMsL2yqAb3othnjI
-     *
-     * {{first.DATA}}
-     订单编号：{{keyword1.DATA}}
-     完成时间：{{keyword2.DATA}}
-     {{remark.DATA}}
-     */
     /**
      * 订单完成通知
      *
@@ -161,7 +154,8 @@ public class WeChatPushController {
         if ("0".equals(errcode)){
             return "SUCCESS";
         }
-        return "FAILED";
+        log.error(resultMap.toString());
+        return "ERROR";
 
     }
 
@@ -221,7 +215,8 @@ public class WeChatPushController {
         if ("0".equals(errcode)){
             return "SUCCESS";
         }
-        return "FAILED";
+        log.error(resultMap.toString());
+        return "ERROR";
 
     }
 

@@ -54,4 +54,15 @@ public class RedisSerive {
         ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
         valueOperations.set("ACCESS_TOKEN", accessToken, 7100, TimeUnit.SECONDS);
     }
+
+    public String getOutRefundNo(String orderId) {
+        ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
+
+        return valueOperations.get(orderId);
+    }
+
+
+    public void removeOutRefundNo(String orderId) {
+        stringRedisTemplate.delete(orderId);
+    }
 }
