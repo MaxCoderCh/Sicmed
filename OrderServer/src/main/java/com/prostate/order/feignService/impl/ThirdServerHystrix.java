@@ -51,7 +51,7 @@ public class ThirdServerHystrix extends BaseServerHystrix implements ThirdServer
     }
 
     @Override
-    public String refund(String orderId) {
+    public String refund(String transactionId, String orderPrice) {
         return "ERROR";
     }
 }

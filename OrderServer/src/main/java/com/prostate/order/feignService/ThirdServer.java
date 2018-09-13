@@ -35,5 +35,5 @@ public interface ThirdServer {
     String pushOrderFailedToWechat(@RequestParam("openid") String openid,@RequestParam("refundInfo") String refundInfo,@RequestParam("refundPrice") String refundPrice);
 
     @PostMapping(value = "pay/weChat/refund")
-    String refund(@RequestParam("orderId") String orderId);
+    String refund(@RequestParam("transactionId") String transactionId,@RequestParam("orderPrice") String orderPrice);
 }
