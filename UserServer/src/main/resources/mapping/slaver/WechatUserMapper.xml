@@ -27,7 +27,7 @@
     from wechat_user
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <select id="getOpenidById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="getOpenidById" parameterType="java.lang.String" resultType="java.lang.String">
     select
     openid
     from wechat_user
