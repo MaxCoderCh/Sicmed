@@ -6,6 +6,7 @@ import com.sicmed.statistic.entity.StatisticConstant;
 import com.sicmed.statistic.feignService.OrderServer;
 import com.sicmed.statistic.feignService.RecordServer;
 import com.sicmed.statistic.service.StatisticService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "statistic")
 public class StatisticController extends BaseController {
@@ -30,13 +32,13 @@ public class StatisticController extends BaseController {
     private RecordServer recordServer;
 
     @PostMapping(value = "addTotleIncome")
-    public Map addTotleIncome(String orderId) {
+    public String addTotleIncome(String orderId) {
 
         //查询订单 信息
         Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
         Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
 
-        String doctorId = orderMap.get("doctor").toString();
+        String doctorId = String.valueOf(orderMap.get("doctor"));
         String orderPriceStr = orderMap.get("orderPrice").toString();
 
         Statistic statistic = new Statistic();
@@ -55,9 +57,12 @@ public class StatisticController extends BaseController {
         statistic.setStatisticValue(String.valueOf(value));
         statistic.setStatisticName(StatisticConstant.DOCTOR_INCOME);
 
-        statisticService.insertSelective(statistic);
-
-        return insertSuccseeResponse();
+        int i = statisticService.insertSelective(statistic);
+        if (i > 0) {
+            return "SUCCESS";
+        }
+        log.info("医生总收益记录修改失败");
+        return "ERROR";
     }
 
     @GetMapping(value = "getTotleIncome")
