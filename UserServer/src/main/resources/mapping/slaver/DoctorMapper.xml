@@ -32,7 +32,7 @@
   </select>
 
   <!--通过ID查询电话号码-->
-  <select id="getPhoneNumberById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="getPhoneNumberById" parameterType="java.lang.String" resultType="java.lang.String">
     select
     doctor_phone
     from doctor_user
