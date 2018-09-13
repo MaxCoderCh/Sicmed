@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 患者用户 Controller
+ * 患者用户 controller
  *
  */
 @Slf4j
@@ -55,23 +55,28 @@ public class PatientController extends BaseController {
         }
         Map<String, Object> idCardMap = thirdServer.idCard(idCardUrl);
 
-        //
-        Patient patient = new Patient();
-        log.info(idCardMap.get("result").toString());
         Map<String, Object> idCardInfo = (Map<String, Object>) idCardMap.get("result");
+        String idCard = String.valueOf(idCardInfo.get("id"));
 
-        patient.setPatientCard(idCardInfo.get("id").toString());
-        patient.setPatientName(idCardInfo.get("name").toString());
-        patient.setPatientSex(idCardInfo.get("sex").toString());
-        patient.setDetailAddress(idCardInfo.get("address").toString());
+        Patient patient = patientService.selectByIdCard(idCard);
+        if (patient != null) {
+            return insertSuccseeResponse(patient);
+        }
+        patient = new Patient();
+        patient.setPatientCard(idCard);
+        patient.setPatientName(String.valueOf(idCardInfo.get("name")));
+        patient.setPatientSex(String.valueOf(idCardInfo.get("sex")));
+        patient.setDetailAddress(String.valueOf(idCardInfo.get("address")));
 
         patient.setCreateDoctor(getToken());
         patient.setPatientNumber("PRA" + System.currentTimeMillis());
         patient.setPatientAge(IdCardUtil.getAgeByIdCard(patient.getPatientCard()));
 
         int i = patientService.insertSelective(patient);
-
-        return insertSuccseeResponse(patient);
+        if(i>0){
+            return insertSuccseeResponse(patient);
+        }
+        return insertFailedResponse();
     }
 
     /**
@@ -246,7 +251,7 @@ public class PatientController extends BaseController {
         queryPatientParamBean.setDoctorId(getToken());
         queryPatientParamBean.setPatientName(patientName);
         queryPatientParamBean.setStickerId(stickerId);
-
+        queryPatientParamBean.setPatientStatus("BE_ACCEPTED");
         List<PatientListBean> patientListBeanList = patientService.queryByParams(queryPatientParamBean);
         if (patientListBeanList != null && patientListBeanList.size() > 0) {
             return querySuccessResponse(patientListBeanList);
