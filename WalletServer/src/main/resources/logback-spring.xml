@@ -3,8 +3,8 @@
 
 
     <!--自定义变量-->
-    <property name="logdir" value="LOG:/WalletServer/"/>
-    <property name="appname" value="WalletServer"/>
+    <property name="logdir" value="LOG:/"/>
+    <property name="appname" value="log"/>
 
     <!--日志上下文名称-->
     <contextName>${appname}</contextName>

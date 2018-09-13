@@ -3,8 +3,8 @@
 
 
     <!--自定义变量-->
-    <property name="logdir" value="LOG:/ArchiveServer/"/>
-    <property name="appname" value="ArchiveServer"/>
+    <property name="logdir" value="LOG:/"/>
+    <property name="appname" value="log"/>
 
     <!--日志上下文名称-->
     <contextName>${appname}</contextName>
@@ -21,7 +21,7 @@
     </appender>
 
     <!-- test 测试环境 输出到文件 info-->
-    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="INFO_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--如果只是想要 Info 级别的日志，只是过滤 info 还是会输出 Error 日志，因为 Error 的级别高，
         所以我们使用下面的策略，可以避免输出 Error 的日志-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -40,7 +40,7 @@
         <!--滚动策略，按照时间滚动 TimeBasedRollingPolicy-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间-->
-            <FileNamePattern>${logdir}/info.${appname}.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>${logdir}/info.%d{yyyy-MM-dd}.log</FileNamePattern>
             <!--只保留最近90天的日志-->
             <maxHistory>90</maxHistory>
             <!--用来指定日志文件的上限大小，那么到了这个值，就会删除旧的日志-->
@@ -49,7 +49,7 @@
         <!--日志输出编码格式化-->
         <encoder>
             <charset>UTF-8</charset>
-            <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+            <pattern>%d %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -99,6 +99,9 @@
     <springProfile name="dev">
         <logger name="com.sicmed" level="ERROR" additivity="false">
             <appender-ref ref="ERROR_LOG"/>
+        </logger>
+        <logger name="com.sicmed" level="INFO" additivity="false">
+            <appender-ref ref="INFO_LOG"/>
         </logger>
     </springProfile>
 

@@ -3,8 +3,8 @@
 
 
     <!--自定义变量-->
-    <property name="logdir" value="LOG:/RecordServer/"/>
-    <property name="appname" value="record"/>
+    <property name="logdir" value="LOG:/"/>
+    <property name="appname" value="log"/>
 
     <!--日志上下文名称-->
     <contextName>${appname}</contextName>
@@ -110,6 +110,12 @@
         <logger name="com.prostate" level="error" additivity="false">
             <appender-ref ref="ERROR_LOG"/>
         </logger>
+        <!--<logger name="com.prostate.record.mapper" level="DEBUG" additivity="false">-->
+            <!--<appender-ref ref="SQL_CONSOLE_LOG"/>-->
+        <!--</logger>-->
+        <!--<logger name="com.prostate" level="info" additivity="false">-->
+            <!--<appender-ref ref="SQL_CONSOLE_LOG"/>-->
+        <!--</logger>-->
     </springProfile>
 
     <root level="WARN">

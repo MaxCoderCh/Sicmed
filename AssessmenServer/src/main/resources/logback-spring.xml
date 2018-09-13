@@ -49,7 +49,7 @@
         <!--日志输出编码格式化-->
         <encoder>
             <charset>UTF-8</charset>
-            <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+            <pattern>%d %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
