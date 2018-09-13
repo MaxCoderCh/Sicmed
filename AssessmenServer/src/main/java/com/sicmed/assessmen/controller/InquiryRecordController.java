@@ -130,7 +130,7 @@ public class InquiryRecordController extends BaseController {
                 log.error("ORDER_NO:" + orderId + "---调用UserServer服务 查询weChat用户openid 失败!");
             }
             //调用ThirdServer 提醒公众号 订单结束
-            serverResult = thirdServer.pushOrderSuccessToWechat(serverResult, orderInquiry.get("TransactionId"), DateFormatUtils.format(updateTime, "yyyy-MM-dd HH:mm:ss"));
+            serverResult = thirdServer.pushOrderSuccessToWechat(serverResult, orderInquiry.get("transactionId"), DateFormatUtils.format(updateTime, "yyyy-MM-dd HH:mm:ss"));
             if (serverResult.equals("ERROR")) {
                 log.error("ORDER_NO:" + orderId + "---调用ThirdServer 提醒公众号 订单结束 失败!");
             }
