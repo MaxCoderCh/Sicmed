@@ -7,4 +7,6 @@ public interface UserPatientWriteMapper extends BaseWriteMapper<UserPatient>{
     int removeByParams(UserPatient userPatient);
 
     int updateByParams(UserPatient userPatient);
+
+    int deleteByParam(UserPatient oldUserPatient);
 }

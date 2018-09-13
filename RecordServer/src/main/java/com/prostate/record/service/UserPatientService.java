@@ -19,4 +19,10 @@ public interface UserPatientService extends BaseService<UserPatient> {
     UserPatient getByPatientIdAndToken(UserPatient userPatient);
 
     int selectCountByParams(UserPatient userPatient);
+
+    String countByParams(UserPatient userPatient);
+
+    List<WeChatPatientBean> getAcceptedTurnPatientList(UserPatient userPatient);
+
+    int deleteByParam(UserPatient oldUserPatient);
 }

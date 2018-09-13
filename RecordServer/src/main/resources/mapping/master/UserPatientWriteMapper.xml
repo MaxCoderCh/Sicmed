@@ -34,6 +34,12 @@
       <if test="patientSource != null">
         patient_source,
       </if>
+      <if test="patientType != null">
+        patient_type,
+      </if>
+      <if test="patientStatus != null">
+        patient_status,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -51,12 +57,18 @@
       <if test="patientSource != null">
         #{patientSource,jdbcType=VARCHAR},
       </if>
+      <if test="patientType != null">
+        #{patientType,jdbcType=VARCHAR},
+      </if>
+      <if test="patientStatus != null">
+        #{patientStatus,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.prostate.record.entity.UserPatient">
+  <update id="updateSelective" parameterType="com.prostate.record.entity.UserPatient">
     update user_patient
     <set>
       <if test="userId != null">
@@ -67,6 +79,12 @@
       </if>
       <if test="patientSource != null">
         patient_source = #{patientSource,jdbcType=VARCHAR},
+      </if>
+      <if test="patientType != null">
+        patient_type = #{patientType,jdbcType=VARCHAR},
+      </if>
+      <if test="patientStatus != null">
+        patient_status = #{patientStatus,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -90,4 +108,11 @@
     where user_id = #{userId,jdbcType=VARCHAR}
     AND patient_id = #{patientId,jdbcType=VARCHAR}
   </update>
+  <delete id="deleteByParam" parameterType="com.prostate.record.entity.UserPatient">
+    delete from user_patient
+    <where>
+      user_id = #{userId,jdbcType=VARCHAR}
+      AND patient_id = #{patientId,jdbcType=VARCHAR}
+    </where>
+  </delete>
 </mapper>

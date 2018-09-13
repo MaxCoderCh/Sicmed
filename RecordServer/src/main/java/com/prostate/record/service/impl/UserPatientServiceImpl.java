@@ -25,7 +25,7 @@ public class UserPatientServiceImpl implements UserPatientService {
 
     @Override
     public int updateSelective(UserPatient userPatient) {
-        return 0;
+        return userPatientWriteMapper.updateSelective(userPatient);
     }
 
     @Override
@@ -83,6 +83,21 @@ public class UserPatientServiceImpl implements UserPatientService {
     @Override
     public int selectCountByParams(UserPatient userPatient) {
         return userPatientReadMapper.selectCountByParams(userPatient);
+    }
+
+    @Override
+    public String countByParams(UserPatient userPatient) {
+        return userPatientReadMapper.countByParams(userPatient);
+    }
+
+    @Override
+    public List<WeChatPatientBean> getAcceptedTurnPatientList(UserPatient userPatient) {
+        return userPatientReadMapper.getAcceptedTurnPatientList(userPatient);
+    }
+
+    @Override
+    public int deleteByParam(UserPatient oldUserPatient) {
+        return userPatientWriteMapper.deleteByParam(oldUserPatient);
     }
 
 }

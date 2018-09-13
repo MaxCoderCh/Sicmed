@@ -6,10 +6,12 @@
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
     <result column="patient_source" jdbcType="VARCHAR" property="patientSource" />
+    <result column="patient_type" jdbcType="VARCHAR" property="patientType"/>
+    <result column="patient_status" jdbcType="VARCHAR" property="patientStatus"/>
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, patient_id, patient_source, create_time
+    id, user_id, patient_id, patient_source,patient_type,patient_status, create_time
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -61,6 +63,17 @@
     ORDER BY userPatient.create_time DESC
     limit #{beginNo}, #{pageSize}
   </select>
+  <select id="getAcceptedTurnPatientList" parameterType="com.prostate.record.entity.UserPatient" resultMap="PatientListMap">
+    select
+    userPatient.id AS id, patient.patient_name AS patientName, patient.patient_age AS patientAge, patient.patient_sex AS patientSex, userPatient.patient_source AS patientSource
+    from user_patient userPatient
+    LEFT JOIN pomr_patient patient ON patient.id = userPatient.patient_id
+    <where>
+      userPatient.user_id = #{userId,jdbcType=VARCHAR}
+      AND userPatient.patient_status = #{patientStatus,jdbcType=VARCHAR}
+    </where>
+    ORDER BY userPatient.create_time DESC
+  </select>
   <select id="selectCountByParams" parameterType="com.prostate.record.entity.UserPatient" resultType="java.lang.Integer">
     select COUNT(*)
     from user_patient userPatient
@@ -73,5 +86,12 @@
       </if>
     </where>
   </select>
-
+  <select id="countByParams" parameterType="com.prostate.record.entity.UserPatient" resultType="java.lang.String">
+    select COUNT(*)
+    from user_patient
+    <where>
+        user_id = #{userId,jdbcType=VARCHAR}
+        AND patient_status = #{patientStatus,jdbcType=VARCHAR}
+    </where>
+  </select>
 </mapper>

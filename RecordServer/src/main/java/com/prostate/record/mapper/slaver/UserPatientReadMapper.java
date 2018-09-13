@@ -12,4 +12,9 @@ public interface UserPatientReadMapper extends BaseReadMapper<UserPatient>{
     UserPatient getByPatientIdAndToken(UserPatient userPatient);
 
     int selectCountByParams(UserPatient userPatient);
+
+    String countByParams(UserPatient userPatient);
+
+    List<WeChatPatientBean> getAcceptedTurnPatientList(UserPatient userPatient);
+
 }
