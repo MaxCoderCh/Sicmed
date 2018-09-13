@@ -15,10 +15,10 @@ public class OrderInquiry extends BaseEntity implements Serializable{
 
     private String transactionId;
 
-    @JsonIgnore
+//    @JsonIgnore
     private String buyer;
 
-    @JsonIgnore
+//    @JsonIgnore
     private String seller;
 
     private String patient;

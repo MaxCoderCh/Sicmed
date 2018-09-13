@@ -2,6 +2,7 @@ package com.prostate.order.controller;
 
 
 import com.prostate.order.feignService.ThirdServer;
+import com.prostate.order.feignService.UserServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
