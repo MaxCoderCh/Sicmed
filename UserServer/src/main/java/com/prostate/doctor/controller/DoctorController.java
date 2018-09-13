@@ -298,14 +298,14 @@ public class DoctorController extends BaseController {
      * Provider
      */
     @GetMapping(value = "getPhoneNumber")
-    public Map getPhoneNumber(String userId) {
+    public String getPhoneNumber(String userId) {
 
         String phoneNumber = doctorService.getPhoneNumberById(userId);
 
         if (StringUtils.isBlank(phoneNumber)) {
-            return queryEmptyResponse();
+            return "ERROR";
         }
-        return querySuccessResponse(phoneNumber);
+        return phoneNumber;
     }
 
 }
