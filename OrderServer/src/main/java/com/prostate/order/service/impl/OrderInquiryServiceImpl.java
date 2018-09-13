@@ -57,4 +57,19 @@ public class OrderInquiryServiceImpl implements OrderInquiryService {
     public int updateOrderSuccess(String orderId) {
         return orderInquiryWriteMapper.updateOrderSuccess(orderId);
     }
+
+    @Override
+    public String countByParams(OrderInquiry orderInquiry) {
+        return orderInquiryReadMapper.countByParams(orderInquiry);
+    }
+
+    @Override
+    public List<OrderInquiry> queryProgressByParams(OrderInquiry orderInquiry) {
+        return orderInquiryReadMapper.queryProgressByParams(orderInquiry);
+    }
+
+    @Override
+    public List<OrderInquiry> queryDoneByParams(OrderInquiry orderInquiry) {
+        return orderInquiryReadMapper.queryDoneByParams(orderInquiry);
+    }
 }

@@ -11,4 +11,10 @@ public interface OrderInquiryService extends BaseService<OrderInquiry> {
     int falseDeleteById(String orderId);
 
     int updateOrderSuccess(String orderId);
+
+    String countByParams(OrderInquiry orderInquiry);
+
+    List<OrderInquiry> queryProgressByParams(OrderInquiry orderInquiry);
+
+    List<OrderInquiry> queryDoneByParams(OrderInquiry orderInquiry);
 }

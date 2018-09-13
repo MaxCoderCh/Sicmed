@@ -108,9 +108,8 @@ public class OrderInquiryController extends BaseController {
     public Map getProgressOrderList() {
         OrderInquiry orderInquiry = new OrderInquiry();
         orderInquiry.setBuyer(getToken());
-        orderInquiry.setOrderStatus(OrderConstants.TO_BE_ANSWERED);
 
-        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryProgressByParams(orderInquiry);
         if (orderInquiryList != null && orderInquiryList.size() > 0) {
             return querySuccessResponse(orderBeanBuilderForWeChat(orderInquiryList));
         }
@@ -119,7 +118,7 @@ public class OrderInquiryController extends BaseController {
 
 
     /**
-     * 公众号 修改 订单
+     * 公众号 修改 未支付订单
      *
      * @param orderId
      * @param doctorId
@@ -133,25 +132,19 @@ public class OrderInquiryController extends BaseController {
     @PostMapping(value = "updateOrder")
     public Map updateOrder(String orderId, String doctorId, String patientId, String goodsId, String orderDescription, String patientArchive, String orderPrice) {
 
-        orderInquiryService.falseDeleteById(orderId);
-
         OrderInquiry orderInquiry = new OrderInquiry();
-
+        orderInquiry.setId(orderId);
         orderInquiry.setDoctor(doctorId);
         orderInquiry.setPatient(patientId);
-        orderInquiry.setBuyer(getToken());
         orderInquiry.setSeller(doctorId);
         orderInquiry.setGoods(goodsId);
-        orderInquiry.setCreateUser(getToken());
         orderInquiry.setOrderType(OrderConstants.PICTURE_INQUIRY_TYPE);
-        orderInquiry.setOrderStatus(OrderConstants.TO_BE_PAYMENT);
         orderInquiry.setOrderDescription(orderDescription);
         orderInquiry.setPatientArchive(patientArchive);
         orderInquiry.setOrderNumber("ORDER_NUMBER");
         orderInquiry.setOrderPrice(orderPrice);
 
-        //调用insert 服务 向数据库插入数据
-        int result = orderInquiryService.insertSelective(orderInquiry);
+        int result = orderInquiryService.updateSelective(orderInquiry);
         //数据插入结果 校验
         if (result > 0) {
             return updateSuccseeResponse(orderInquiry.getId());
@@ -182,9 +175,8 @@ public class OrderInquiryController extends BaseController {
 
         OrderInquiry orderInquiry = new OrderInquiry();
         orderInquiry.setBuyer(getToken());
-        orderInquiry.setOrderStatus(OrderConstants.IS_DONE);
 
-        List<OrderInquiry> orderInquiryList = orderInquiryService.queryByParams(orderInquiry);
+        List<OrderInquiry> orderInquiryList = orderInquiryService.queryDoneByParams(orderInquiry);
 
         if (orderInquiryList != null && orderInquiryList.size() > 0) {
             return querySuccessResponse(orderBeanBuilderForWeChat(orderInquiryList));
@@ -300,6 +292,7 @@ public class OrderInquiryController extends BaseController {
         }
         return queryEmptyResponse();
     }
+
 
 
     /**
@@ -450,6 +443,15 @@ public class OrderInquiryController extends BaseController {
         int i = orderInquiryService.updateSelective(orderInquiry);
 
         if (i > 0) {
+            //调用退款 服务
+            String result = thirdServer.refund(orderId);
+            if ("SUCCESS".equals(result)) {
+                //调用 weChat 模版推送服务
+                String weChatUserId = orderInquiry.getBuyer();
+                Map<String, Object> openidMap = userServer.getOpenid(weChatUserId);
+                String openid = String.valueOf(openidMap.get("result"));
+                thirdServer.pushOrderFailedToWechat(openid, "医生拒绝了您的问诊申请!", f2y(orderInquiry.getOrderPrice()));
+            }
             return updateSuccseeResponse();
         }
         return updateFailedResponse();
@@ -500,6 +502,7 @@ public class OrderInquiryController extends BaseController {
         return queryEmptyResponse();
 
     }
+
 
     /**
      * 公众号 订单列表 数据 构建
@@ -592,4 +595,45 @@ public class OrderInquiryController extends BaseController {
         }
         return stringBuffer.toString();
     }
+
+    /**
+     * StatisticServer 查询 待接受 问诊订单 数量
+     */
+    @GetMapping(value = "getAcceptedOrderCount")
+    public String getAcceptedOrderCount(String userId) {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(userId);
+        orderInquiry.setOrderStatus(OrderConstants.TO_BE_ACCEPTED);
+        orderInquiry.setOrderType(OrderConstants.PICTURE_INQUIRY_TYPE);
+
+        String acceptedOrderCount = orderInquiryService.countByParams(orderInquiry);
+
+        if (StringUtils.isBlank(acceptedOrderCount)) {
+            return "0";
+        }
+        return acceptedOrderCount;
+    }
+
+    /**
+     * StatisticServer 查询 待接受 问诊订单 数量
+     */
+    @GetMapping(value = "getAcceptedTurnOrderCount")
+    public String getAcceptedTurnOrderCount(String userId) {
+
+        OrderInquiry orderInquiry = new OrderInquiry();
+
+        orderInquiry.setDoctor(userId);
+        orderInquiry.setOrderStatus(OrderConstants.TO_BE_ACCEPTED);
+        orderInquiry.setOrderType(OrderConstants.PICTURE_TURN_TYPE);
+
+        String acceptedTurnOrderCount = orderInquiryService.countByParams(orderInquiry);
+
+        if (StringUtils.isBlank(acceptedTurnOrderCount)) {
+            return "0";
+        }
+        return acceptedTurnOrderCount;
+    }
+
 }

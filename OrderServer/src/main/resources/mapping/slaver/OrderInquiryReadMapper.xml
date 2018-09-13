@@ -65,4 +65,59 @@
     ORDER BY create_time DESC
     limit #{beginNo},#{pageSize}
   </select>
+  <select id="queryProgressByParams" parameterType="com.prostate.order.entity.OrderInquiry" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from order_inquiry
+    <where>
+      del_flag = 0
+        AND buyer = #{buyer,jdbcType=VARCHAR}
+        AND (order_status = 'TO_BE_ACCEPTED' OR order_status = 'TO_BE_ANSWERED' OR order_status = 'TO_BE_ADD')
+    </where>
+    ORDER BY create_time DESC
+    limit #{beginNo},#{pageSize}
+  </select>
+  <select id="queryDoneByParams" parameterType="com.prostate.order.entity.OrderInquiry" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from order_inquiry
+    <where>
+      del_flag = 0
+      AND buyer = #{buyer,jdbcType=VARCHAR}
+      AND (order_status = 'IS_REFUSE' OR order_status = 'IS_DONE' OR order_status = 'BE_REJECTED')
+    </where>
+    ORDER BY create_time DESC
+    limit #{beginNo},#{pageSize}
+  </select>
+
+  <select id="countByParams" parameterType="com.prostate.order.entity.OrderInquiry" resultType="java.lang.String">
+    select
+    COUNT(*)
+    from order_inquiry
+    <where>
+      del_flag = 0
+      <if test="buyer != null and buyer != ''">
+        AND buyer = #{buyer,jdbcType=VARCHAR}
+      </if>
+      <if test="seller != null and seller != ''">
+        AND seller = #{seller,jdbcType=VARCHAR}
+      </if>
+      <if test="patient != null and patient != ''">
+        AND patient = #{patient,jdbcType=VARCHAR}
+      </if>
+      <if test="doctor != null and doctor != ''">
+        AND doctor = #{doctor,jdbcType=VARCHAR}
+      </if>
+      <if test="orderStatus != null and orderStatus != ''">
+        AND order_status = #{orderStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="orderType != null and orderType != ''">
+        AND order_type = #{orderType,jdbcType=VARCHAR}
+      </if>
+      <if test="orderStatus == null or orderStatus == ''">
+        AND order_status =  #{orderStatus,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
 </mapper>
