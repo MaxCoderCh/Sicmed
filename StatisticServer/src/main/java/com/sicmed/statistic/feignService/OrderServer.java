@@ -12,8 +12,8 @@ import java.util.Map;
 @FeignClient(value = "order-server",fallback = OrderServerHystrix.class)
 public interface OrderServer {
 
-    @GetMapping(value = "order/inquiry/getOrder")
-    Map<String,Object> getOrder(@RequestParam("userId") String userId);
+    @PostMapping(value = "order/inquiry/getOrder")
+    Map<String,Object> getOrder(@RequestParam("orderId") String orderId);
 
     @GetMapping(value = "order/inquiry/getAcceptedOrderCount")
     String getAcceptedOrderCount(@RequestParam("userId") String userId);
