@@ -9,7 +9,7 @@ import java.util.Map;
 public class StatisticServerHystrix extends BaseServerHystrix implements StatisticServer {
 
     @Override
-    public Map<String, Object> addTotleIncome(String orderId) {
-        return resultMap;
+    public String addTotleIncome(String orderId) {
+        return "ERROR";
     }
 }
