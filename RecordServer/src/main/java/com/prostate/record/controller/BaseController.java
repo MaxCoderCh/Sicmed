@@ -228,4 +228,16 @@ public class BaseController {
         return resultMap;
     }
 
+    /**
+     * 转诊已存在
+     * @param result
+     * @return
+     */
+    public Map<String, Object> turnPatientExistResponse(Object result){
+        resultMap = new LinkedHashMap<>();
+        resultMap.put("code","60002");
+        resultMap.put("msg","TURN_EXIST");
+        resultMap.put("result",result);
+        return resultMap;
+    }
 }
