@@ -295,8 +295,10 @@ public class PatientAnamnesisController extends BaseController {
         userPatient.setUserId(getToken());
         userPatient = userPatientService.getByPatientIdAndToken(userPatient);
         //查询结果校验
-        if (patientAnamnesisBean != null) {
-            patientAnamnesisBean.setPatientSource(userPatient.getPatientSource());
+        if (patientAnamnesisBean != null && userPatient != null) {
+            if ( userPatient != null){
+                patientAnamnesisBean.setPatientSource(userPatient.getPatientSource());
+            }
             return querySuccessResponse(patientAnamnesisBean);
         }
         return queryEmptyResponse();
