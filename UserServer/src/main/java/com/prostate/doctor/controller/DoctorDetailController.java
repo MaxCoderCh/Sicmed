@@ -61,6 +61,10 @@ public class DoctorDetailController extends BaseController {
             }
             //识别身份证信息
             Map<String, Object> idCardMap = thirdServer.idCard(doctorSign.getIdCardFront());
+            String resultCode = String.valueOf(idCardMap.get("code"));
+            if (!"20000".equals(resultCode)){
+                return queryEmptyResponse();
+            }
             //添加医生个人信息
             doctorDetail = new DoctorDetail();
             doctorDetail.setHospitalId(doctorSign.getHospitalId());
