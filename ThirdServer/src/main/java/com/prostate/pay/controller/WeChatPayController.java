@@ -113,30 +113,27 @@ public class WeChatPayController extends BaseController {
      *
      */
     @PostMapping(value = "refund")
-    public String refund(String transactionId, String orderPrice) throws Exception {
-
-
-
-        String outRefundNo = redisSerive.getOutRefundNo(transactionId);
-        if (StringUtils.isBlank(outRefundNo)) {
-            outRefundNo = RandomStringUtils.randomNumeric(64);
-            redisSerive.insert(transactionId, outRefundNo, -1);
-        }
+    public String refund(String transactionId, String orderPrice){
 
         Map<String, String> data = new HashMap();
         data.put("transaction_id", transactionId);
-        data.put("out_refund_no", outRefundNo);
+        data.put("out_refund_no", transactionId);
         data.put("total_fee", orderPrice);
         data.put("refund_fee", orderPrice);
 
 
-        Map<String, String> map = weChatPayService.refund(data);
+        Map<String, String> map = null;
+        try {
+            map = weChatPayService.refund(data);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
         log.info("map" + map.toString());
 
         if (map.get("return_code").equals("SUCCESS")) {
-            redisSerive.removeOutRefundNo(transactionId);
             return "SUCCESS";
         }
+        log.error("退款失败");
         return "ERROR";
     }
 }
