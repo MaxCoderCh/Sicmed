@@ -55,6 +55,10 @@ public class PatientController extends BaseController {
         }
         Map<String, Object> idCardMap = thirdServer.idCard(idCardUrl);
 
+        String resultCode = String.valueOf(idCardMap.get("code"));
+        if (!"20000".equals(resultCode)){
+            return insertFailedResponse();
+        }
         Map<String, Object> idCardInfo = (Map<String, Object>) idCardMap.get("result");
         String idCard = String.valueOf(idCardInfo.get("id"));
 
