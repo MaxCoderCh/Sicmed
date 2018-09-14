@@ -8,4 +8,6 @@ public interface AnamnesisService extends BaseService<Anamnesis> {
 
     boolean checkRepeated(Anamnesis anamnesis);
 
+    int deleteById(String id,String patientId);
+
 }

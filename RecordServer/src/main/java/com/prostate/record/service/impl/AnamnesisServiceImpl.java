@@ -44,9 +44,14 @@ public class AnamnesisServiceImpl implements AnamnesisService {
         return anamnesisReadMapper.selectByParams(anamnesis);
     }
 
-    @CacheEvict(value = "HealthRrecord", key = "#patientId", condition = "true", beforeInvocation = true)
     @Override
     public int deleteById(String id) {
+        return 0;
+    }
+
+    @CacheEvict(value = "HealthRrecord", key = "#patientId", condition = "true", beforeInvocation = true)
+    @Override
+    public int deleteById(String id,String patientId) {
         return anamnesisWriteMapper.deleteById(id);
     }
 

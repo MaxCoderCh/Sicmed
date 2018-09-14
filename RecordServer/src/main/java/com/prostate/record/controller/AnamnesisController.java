@@ -2,21 +2,18 @@ package com.prostate.record.controller;
 
 import com.prostate.record.cache.redis.RedisSerive;
 import com.prostate.record.entity.Anamnesis;
-import com.prostate.record.entity.Doctor;
 import com.prostate.record.entity.ParamEntiey;
 import com.prostate.record.feignService.StaticServer;
 import com.prostate.record.service.AnamnesisService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -113,11 +110,11 @@ public class AnamnesisController extends BaseController {
      * @return
      */
     @PostMapping(value = "delete")
-    public Map deleteAnamnesis(String id) {
+    public Map deleteAnamnesis(String id, String patientId) {
         if (id == null || "".equals(id)) {
             return emptyParamResponse();
         }
-        int i = anamnesisService.deleteById(id);
+        int i = anamnesisService.deleteById(id, patientId);
         if (i >= 0) {
             return deleteSuccseeResponse();
         }
