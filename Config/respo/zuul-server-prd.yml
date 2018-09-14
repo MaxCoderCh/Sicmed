@@ -5,12 +5,6 @@ ipAddress:
 server:
   port: 80
 spring:
-  servlet:
-    multipart:
-      enabled: true
-      file-size-threshold: 0
-      max-file-size: 5Mb
-      max-request-size: 5Mb
   profiles:
     active: prd
   cloud:
