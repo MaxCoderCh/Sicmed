@@ -16,10 +16,10 @@ public class UpdateDoctorDetailParams implements Serializable {
     @Size(min = 50, max = 240, message = "头像地址错误!")
     private String headImg;
 
-    @Size(max = 300, message = "简介信息错误")
+    @Size(max = 1024, message = "简介信息错误")
     private String doctorResume;
 
-    @Size(max = 300, message = "简介信息错误")
+    @Size(max = 1024, message = "简介信息错误")
     private String doctorStrong;
 
     @Size(min = 3, max = 3, message = "会诊类型标签错误")
