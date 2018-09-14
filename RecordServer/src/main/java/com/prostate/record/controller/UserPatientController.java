@@ -177,12 +177,23 @@ public class UserPatientController extends BaseController {
      */
     @PostMapping(value = "update")
     public Map update(String patientId,String patientSource){
-
         UserPatient userPatient = new UserPatient();
         userPatient.setUserId(getToken());
         userPatient.setPatientId(patientId);
-        userPatient.setPatientSource(patientSource);
-        int i = userPatientService.updateByParams(userPatient);
+        userPatient = userPatientService.getByPatientIdAndToken(userPatient);
+        int i;
+        if (userPatient != null) {
+            userPatient.setPatientSource(patientSource);
+            i = userPatientService.updateByParams(userPatient);
+        } else {
+            userPatient = new UserPatient();
+
+            userPatient.setUserId(getToken());
+            userPatient.setPatientId(patientId);
+            userPatient.setPatientSource(patientSource);
+
+            i = userPatientService.insertSelective(userPatient);
+        }
 
         if (i > 0){
             return deleteSuccseeResponse();
