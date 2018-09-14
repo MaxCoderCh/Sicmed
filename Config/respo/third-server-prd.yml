@@ -4,15 +4,13 @@ ipAddress:
   eureka: 172.21.0.9
 server:
   port: 8806
-  tomcat:
-    basedir: H:/qlxlm/third
 spring:
   servlet:
     multipart:
       enabled: true
       file-size-threshold: 0
-      max-file-size: 100Mb
-      max-request-size: 100Mb
+      max-file-size: 5Mb
+      max-request-size: 5Mb
   profiles:
     active: prd
   cloud:
