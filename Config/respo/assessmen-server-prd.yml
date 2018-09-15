@@ -1,6 +1,6 @@
 ipAddress:
   client: 172.21.0.14
-  redis: 172.21.0.9
+  redis: 172.21.0.6
   eureka: 172.21.0.9
   mysql: 172.21.0.16
 server:
@@ -31,7 +31,7 @@ spring:
   #################redis基础配置#################
     database: 8
     host: ${ipAddress.redis}
-    password:
+    password: Qlxlm123456
     port: 6379
     timeout: 5000
   #################redis线程池设置#################
