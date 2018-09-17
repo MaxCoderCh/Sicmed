@@ -124,10 +124,10 @@
             </if>
             <if test="stickerId != null and stickerId != ''">
                 AND patientSticker.sticker_id = #{stickerId,jdbcType=VARCHAR}
+                AND patientSticker.create_user = #{doctorId,jdbcType=VARCHAR}
             </if>
             <if test="patientStatus != null and patientStatus != ''">
                 AND userPatient.patient_status = #{patientStatus,jdbcType=VARCHAR}
-
             </if>
         </where>
         GROUP BY patient.id
