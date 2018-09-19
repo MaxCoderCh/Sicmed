@@ -57,8 +57,8 @@ public class Patient extends BaseEntity implements Serializable {
     @Null
     private String createDoctor;
 
-    //    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+08")
-    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+08")
+//    @JsonFormat(pattern = "yyyyMMdd", timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @Null
     private Date createTime;
 
