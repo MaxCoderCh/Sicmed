@@ -3,9 +3,9 @@ package com.prostate.order.controller;
 import com.prostate.order.entity.OrderConstants;
 import com.prostate.order.entity.OrderInquiry;
 import com.prostate.order.service.OrderInquiryService;
+import com.prostate.order.service.OrderStatusChangeService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -61,9 +61,21 @@ public class OrderNotifyController extends BaseController {
             OrderInquiry orderInquiry = orderInquiryService.selectById(out_trade_no);
             orderInquiry.setOrderStatus(OrderConstants.TO_BE_ACCEPTED);
             orderInquiry.setTransactionId(transactionId);
-            orderInquiryService.updateSelective(orderInquiry);
+            int i = orderInquiryService.updateSelective(orderInquiry);
+            if (i > 0) {
+                new Thread(() -> {
+                    try {
+                        orderStatusChangeService.notifyThirdServerPushPaymentSuccess(openid, transactionId, "图文问诊服务", f2y(orderPrice));
+                    } catch (Exception e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    Thread.currentThread().interrupt();
+                }).start();
+            } else {
+                log.error("out_trade_no:" + out_trade_no + "---订单 支付状态修改失败 失败!" + "transactionId:" + transactionId);
+            }
             //通知公众号端 支付成功
-            thirdServer.pushPaymentSuccessToWechat(openid, transactionId, "图文问诊服务", f2y(orderPrice));
+
             return "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                     + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
         } else {
@@ -79,18 +91,18 @@ public class OrderNotifyController extends BaseController {
      * 订单完成 通知 接口
      */
     @PostMapping(value = "orderDoneSuccess")
-    public String orderDoneSuccess(String orderId) {
+    public Map<String,Object> orderDoneSuccess(String orderId) {
         OrderInquiry orderInquiry = orderInquiryService.selectById(orderId);
         orderInquiry.setOrderStatus(OrderConstants.IS_DONE);
         Date updateTime = new Date();
         orderInquiry.setUpdateTime(updateTime);
         int i = orderInquiryService.updateSelective(orderInquiry);
         if (i > 0) {
-            return "SUCCESS";
+            return updateSuccseeResponse(orderInquiry);
         }
-        log.error("订单完成状态修改失败");
-        return "ERROR";
+        return updateFailedResponse();
     }
+
     public static String f2y(String balance) {
         StringBuffer stringBuffer = new StringBuffer();
         if (StringUtils.isBlank(balance)) {
