@@ -10,5 +10,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface RecordServer {
 
     @PostMapping(value = "userPatient/addUserPatientByOrder")
-    String addUserPatientByOrder(@RequestParam("orderId") String orderId);
+    String addUserPatientByOrder(@RequestParam("userId") String userId,@RequestParam("patientId") String patientId,@RequestParam("orderType")String orderType);
 }
