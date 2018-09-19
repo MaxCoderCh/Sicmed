@@ -35,16 +35,16 @@ public class ProviderController extends BaseController{
      * @throws Exception
      */
     @PostMapping(value = "addOrderIncome")
-    public String addOrderIncome(String orderId) throws Exception {
+    public String addOrderIncome(String orderId,String doctorId,String orderPrice) throws Exception {
         //查询订单 信息
-        Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
+//        Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
 
-        Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
-        log.info(orderMap.toString());
-        String doctorId = orderMap.get("doctor").toString();
-        String orderPriceStr = orderMap.get("orderPrice").toString();
+//        Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
 
-        int orderPrice = Integer.parseInt(orderPriceStr);
+//        String doctorId = orderMap.get("doctor").toString();
+//        String orderPriceStr = orderMap.get("orderPrice").toString();
+
+        int orderPriceInt = Integer.parseInt(orderPrice);
         //获取 医生钱包
         DoctorWallet doctorWallet = doctorWalletService.selectByDoctorId(doctorId);
         if (doctorWallet==null){
@@ -53,7 +53,7 @@ public class ProviderController extends BaseController{
         String walletBalanceStr = doctorWallet.getWalletBalance();
         int walletBalance = Integer.parseInt(walletBalanceStr);
 
-        int newWalletBalance = orderPrice + walletBalance;
+        int newWalletBalance = orderPriceInt + walletBalance;
         String newWalletBalanceStr = String.valueOf(newWalletBalance);
 
         //添加 收支明细
@@ -67,7 +67,7 @@ public class ProviderController extends BaseController{
         dealRecord.setOrderId(orderId);
         dealRecord.setWalletId(doctorWallet.getId());
         dealRecord.setSerialNumber(RandomStringUtils.randomNumeric(24));
-        dealRecord.setDealAmount(orderMap.get("orderPrice").toString());
+        dealRecord.setDealAmount(orderPrice);
         dealRecord.setDealType(DealRecordConstant.INCOME_TYPE);
         dealRecord.setPaymentType("微信支付");
         dealRecord.setWalletBalance(newWalletBalanceStr);
