@@ -11,6 +11,7 @@ import com.prostate.record.service.PatientAnamnesisService;
 import com.prostate.record.service.PatientService;
 import com.prostate.record.service.UserPatientService;
 import com.prostate.record.util.IdCardUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -313,21 +314,28 @@ public class PatientAnamnesisController extends BaseController {
     @PostMapping(value = "weChatAdd")
     public Map weChatAdd(Patient patient, ParamEntiey paramEntiey) {
 
-        if (patient.getPatientName() == null || "".equals(patient.getPatientName())) {
+
+        String idCard = patient.getPatientCard();
+        String patientId;
+        if (StringUtils.isBlank(idCard)) {
             return emptyParamResponse();
         }
 
-        patient.setId(getToken());
-        patient.setCreateDoctor(getToken());
-        patient.setPatientNumber("PRA" + System.currentTimeMillis());
-        patient.setPatientAge(IdCardUtil.getAgeByIdCard(patient.getPatientCard()));
-
-        int i = patientService.insertSelectiveById(patient);
-
-
-        if (i < 0) {
-            return insertFailedResponse();
+        Patient cardPatient = patientService.selectByIdCard(idCard);
+        if (cardPatient == null) {
+            patient.setId(getToken());
+            patient.setCreateDoctor(getToken());
+            patient.setPatientNumber("PRA" + System.currentTimeMillis());
+            patient.setPatientAge(IdCardUtil.getAgeByIdCard(patient.getPatientCard()));
+            int i = patientService.insertSelectiveById(patient);
+            if (i < 0) {
+                return insertFailedResponse();
+            }
+            userPatientService.addUserPatient(getToken(), getToken(), "自己");
+        } else {
+            return insertSuccseeResponse(getToken());
         }
+        patientId = patient.getId();
 
         String[] anamnesisAllergyDrugIds = paramEntiey.getAnamnesisAllergyDrugIds();
         String[] anamnesisEatingDrugIds = paramEntiey.getAnamnesisEatingDrugIds();
@@ -338,7 +346,7 @@ public class PatientAnamnesisController extends BaseController {
         if (anamnesisAllergyDrugIds != null && anamnesisAllergyDrugIds.length > 0) {
             for (String anamnesisAllergyDrugId : anamnesisAllergyDrugIds) {
                 Anamnesis anamnesis = new Anamnesis();
-                anamnesis.setPatientId(patient.getId());
+                anamnesis.setPatientId(patientId);
                 anamnesis.setOrderId(anamnesisAllergyDrugId);
                 anamnesis.setAnamnesisTypeId("0007fe67fa7c4c4195018ebe7926a7c7");
                 anamnesisService.insertSelective(anamnesis);
@@ -347,7 +355,7 @@ public class PatientAnamnesisController extends BaseController {
         if (anamnesisEatingDrugIds != null && anamnesisEatingDrugIds.length > 0) {
             for (String anamnesisEatingDrugId : anamnesisEatingDrugIds) {
                 Anamnesis anamnesis = new Anamnesis();
-                anamnesis.setPatientId(patient.getId());
+                anamnesis.setPatientId(patientId);
                 anamnesis.setOrderId(anamnesisEatingDrugId);
                 anamnesis.setAnamnesisTypeId("00163e4597b14fe787c86e22b7946790");
                 anamnesisService.insertSelective(anamnesis);
@@ -357,7 +365,7 @@ public class PatientAnamnesisController extends BaseController {
         if (anamnesisIllnessIds != null && anamnesisIllnessIds.length > 0) {
             for (String anamnesisIllnessId : anamnesisIllnessIds) {
                 Anamnesis anamnesis = new Anamnesis();
-                anamnesis.setPatientId(patient.getId());
+                anamnesis.setPatientId(patientId);
                 anamnesis.setOrderId(anamnesisIllnessId);
                 anamnesis.setAnamnesisTypeId("00106a226f04411b885e3f328acba4d7");
                 anamnesisService.insertSelective(anamnesis);
@@ -367,7 +375,7 @@ public class PatientAnamnesisController extends BaseController {
         if (otherIds != null && otherIds.length > 0) {
             for (String otherId : otherIds) {
                 Anamnesis anamnesis = new Anamnesis();
-                anamnesis.setPatientId(patient.getId());
+                anamnesis.setPatientId(patientId);
                 anamnesis.setAnamnesisRemark(otherId);
                 anamnesis.setAnamnesisTypeId("0045a520eb9d4a3f93fbef4a2e9de0cf");
                 anamnesisService.insertSelective(anamnesis);
@@ -376,7 +384,7 @@ public class PatientAnamnesisController extends BaseController {
         if (anamnesisSurgicalHistoryIds != null && anamnesisSurgicalHistoryIds.length > 0) {
             for (String anamnesisSurgicalHistoryId : anamnesisSurgicalHistoryIds) {
                 Anamnesis anamnesis = new Anamnesis();
-                anamnesis.setPatientId(patient.getId());
+                anamnesis.setPatientId(patientId);
                 anamnesis.setOrderId(anamnesisSurgicalHistoryId);
                 anamnesis.setAnamnesisTypeId("0007fe67fa7c4c4195018ede7926a7c7");
                 anamnesisService.insertSelective(anamnesis);
