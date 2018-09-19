@@ -3,6 +3,7 @@ package com.prostate.order.controller;
 
 import com.prostate.order.feignService.ThirdServer;
 import com.prostate.order.feignService.UserServer;
+import com.prostate.order.service.OrderStatusChangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -27,6 +28,9 @@ public class BaseController {
 
     @Autowired
     protected UserServer userServer;
+
+    @Autowired
+    protected OrderStatusChangeService orderStatusChangeService;
     /**
      * 参数为空返回值
      * @return
