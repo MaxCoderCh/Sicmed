@@ -12,7 +12,7 @@ import java.util.Map;
 public interface StatisticServer {
 
     @PostMapping(value = "statistic/addTotleIncome")
-    String addTotleIncome(@RequestParam("orderId") String orderId);
+    String addTotleIncome(@RequestParam("userId")String userId,@RequestParam("orderPrice") String orderPrice);
 
 
 }
