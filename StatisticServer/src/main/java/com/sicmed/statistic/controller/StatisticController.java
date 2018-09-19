@@ -32,17 +32,17 @@ public class StatisticController extends BaseController {
     private RecordServer recordServer;
 
     @PostMapping(value = "addTotleIncome")
-    public String addTotleIncome(String orderId) {
+    public String addTotleIncome(String userId,String orderPrice) {
 
         //查询订单 信息
-        Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
-        Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
+//        Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
+//        Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
 
-        String doctorId = String.valueOf(orderMap.get("doctor"));
-        String orderPriceStr = orderMap.get("orderPrice").toString();
+//        String doctorId = String.valueOf(orderMap.get("doctor"));
+//        String orderPriceStr = orderMap.get("orderPrice").toString();
 
         Statistic statistic = new Statistic();
-        statistic.setUserId(doctorId);
+        statistic.setUserId(userId);
         statistic.setStatisticType(StatisticConstant.INCOME_STATISTIC);
         statistic.setStatisticStatus(StatisticConstant.USABLE);
 
@@ -53,7 +53,7 @@ public class StatisticController extends BaseController {
             statisticService.updateSelective(oldStatistic);
             value = Integer.parseInt(oldStatistic.getStatisticValue());
         }
-        value = value + Integer.parseInt(orderPriceStr);
+        value = value + Integer.parseInt(orderPrice);
         statistic.setStatisticValue(String.valueOf(value));
         statistic.setStatisticName(StatisticConstant.DOCTOR_INCOME);
 
