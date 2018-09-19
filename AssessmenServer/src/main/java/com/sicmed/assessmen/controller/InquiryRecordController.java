@@ -3,9 +3,9 @@ package com.sicmed.assessmen.controller;
 import com.sicmed.assessmen.entity.InquiryRecord;
 import com.sicmed.assessmen.entity.InquiryRecordConstants;
 import com.sicmed.assessmen.service.InquiryRecordService;
+import com.sicmed.assessmen.service.RPCService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +22,9 @@ public class InquiryRecordController extends BaseController {
 
     @Autowired
     private InquiryRecordService inquiryRecordService;
+
+    @Autowired
+    private RPCService rpcService;
 
     /**
      * 添加草稿
@@ -66,7 +69,7 @@ public class InquiryRecordController extends BaseController {
      * @return
      */
     @PostMapping(value = "addFinal")
-    public Map addFinal(String inquiryRecordId, String patientId, String patientArchive, String inquiryDescription, String inquiryAnswer, String orderId) {
+    public Map addFinal(String inquiryRecordId, String patientId, String patientArchive, String inquiryDescription, String inquiryAnswer, String orderId) throws Exception {
 
         InquiryRecord inquiryRecord = new InquiryRecord();
         Date updateTime = new Date();
@@ -85,55 +88,30 @@ public class InquiryRecordController extends BaseController {
             i = inquiryRecordService.updateSelective(inquiryRecord);
         }
         if (i > 0) {
-            String serverResult;
-            //调用订单服务 修改订单状态
-            serverResult = orderServer.orderDoneSuccess(orderId);
-            if (serverResult.equals("ERROR")) {
-                log.error("ORDER_NO:" + orderId + "---调用订单服务 修改订单状态 失败!");
-            }
-            //调用钱包服务 订单收益 存入医生零钱
-            serverResult = walletServer.addOrderIncome(orderId);
-            if (serverResult.equals("ERROR")) {
-                log.error("ORDER_NO:" + orderId + "---调用钱包服务 订单收益 存入医生零钱 失败!");
-            }
-            //调用档案服务 建立医生-患者关系
-            serverResult = recordServer.addUserPatientByOrder(orderId);
-            if (serverResult.equals("ERROR")) {
-                log.error("ORDER_NO:" + orderId + "---调用档案服务 建立医生-患者关系 失败!");
-            }
-            //调用统计服务 修改总收益
-            serverResult = statisticServer.addTotleIncome(orderId);
-            if (serverResult.equals("ERROR")) {
-                log.error("ORDER_NO:" + orderId + "---调用统计服务 修改总收益 失败!");
-            }
-            //调用订单服务 查询订单信息
-            Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
-            if (!String.valueOf(orderResultMap.get("code")).equals("20000")) {
-                log.error("ORDER_NO:" + orderId + "---调用订单服务 查询订单信息 失败!");
-            }
-            Map<String, String> orderInquiry = (Map<String, String>) orderResultMap.get("result");
-            //调用UserServer服务 查询医生手机号
-            String appUserId = orderInquiry.get("seller");
-            serverResult = userServer.getPhoneNumber(appUserId);
-            if (serverResult.equals("ERROR")) {
-                log.error("ORDER_NO:" + orderId + "---调用UserServer服务 查询医生手机号 失败!");
-            }
-            //调用ThirdServer 短信提醒医生订单结束
-            serverResult = thirdServer.sendInquiryEndToDoctor(serverResult);
-            if (serverResult.equals("ERROR")) {
-                log.error("ORDER_NO:" + orderId + "---调用ThirdServer 短信提醒医生订单结束 失败!");
-            }
-            //调用UserServer服务 查询weChat用户openid
-            String weChatUserId = orderInquiry.get("buyer");
-            serverResult = userServer.getOpenid(weChatUserId);
-            if (serverResult.equals("ERROR")) {
-                log.error("ORDER_NO:" + orderId + "---调用UserServer服务 查询weChat用户openid 失败!");
-            }
-            //调用ThirdServer 提醒公众号 订单结束
-            serverResult = thirdServer.pushOrderSuccessToWechat(serverResult, orderInquiry.get("transactionId"), DateFormatUtils.format(updateTime, "yyyy-MM-dd HH:mm:ss"));
-            if (serverResult.equals("ERROR")) {
-                log.error("ORDER_NO:" + orderId + "---调用ThirdServer 提醒公众号 订单结束 失败!");
-            }
+            // 通知其他服务订单回复成功
+            new Thread(() -> {
+                try {
+                    Map<String, String> orderInquiry = rpcService.notifyOrderServerOrderDoneSuccess(orderId);
+
+                    String doctorId = orderInquiry.get("seller");
+                    String buyer = orderInquiry.get("buyer");
+                    String orderPrice = orderInquiry.get("orderPrice");
+                    String orderType = orderInquiry.get("orderType");
+
+                    rpcService.notifyWalletServerAddOrderIncome(orderId, doctorId, orderPrice);
+                    rpcService.notifyRecordServerAddUserPatientByOrder(doctorId, patientId, orderType);
+                    rpcService.notifyStatisticServerAddTotleIncome(doctorId, orderPrice);
+                    String phoneNumber = rpcService.notifyUserServerGetPhoneNumber(doctorId);
+                    rpcService.notifyThirdServerSendInquiryEndToDoctor(phoneNumber);
+                    String openid = rpcService.notifyUserServerGetOpenid(buyer);
+                    rpcService.notifyThirdServerPushOrderSuccessToWechat(openid, orderInquiry.get("transactionId"));
+
+                } catch (Exception e) {
+                    Thread.currentThread().interrupt();
+                }
+                Thread.currentThread().interrupt();
+            }).start();
+
             return insertSuccseeResponse();
         }
         return insertFailedResponse();

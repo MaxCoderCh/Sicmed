@@ -8,8 +8,8 @@ import java.util.Map;
 @Component
 public class OrderServerHystrix extends BaseServerHystrix implements OrderServer {
     @Override
-    public String orderDoneSuccess(String orderId) {
-        return resultStr;
+    public  Map<String,Object> orderDoneSuccess(String orderId) {
+        return resultMap;
     }
 
     @Override

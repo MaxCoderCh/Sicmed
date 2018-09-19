@@ -11,7 +11,7 @@ import java.util.Map;
 public interface OrderServer {
 
     @PostMapping(value = "order/notify/orderDoneSuccess")
-    String orderDoneSuccess(@RequestParam("orderId") String orderId);
+    Map<String,Object> orderDoneSuccess(@RequestParam("orderId") String orderId);
 
     @PostMapping(value = "order/inquiry/getOrder")
     Map<String,Object> getOrder(@RequestParam("orderId") String orderId);

@@ -7,8 +7,9 @@ import java.util.Map;
 
 @Component
 public class WalletServerHystrix extends BaseServerHystrix implements WalletServer {
+
     @Override
-    public String addOrderIncome(String orderId) {
+    public String addOrderIncome(String orderId, String doctorId, String orderPrice) {
         return "ERROR";
     }
 }
