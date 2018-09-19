@@ -86,18 +86,16 @@ public class PatientController extends BaseController {
     /**
      * 添加患者 信息
      * @param patient
-     * @param token
      * @return
      */
     @PostMapping(value = "addPatient")
-    public Object addPatient(@Valid Patient patient, String token) {
+    public Object addPatient(@Valid Patient patient) {
         resultMap = new LinkedHashMap<>();
         if (patient.getPatientName() == null || "".equals(patient.getPatientName())) {
 
             return emptyParamResponse();
         }
-        Doctor doctor = redisSerive.getDoctor(token);
-        patient.setCreateDoctor(doctor.getId());
+        patient.setCreateDoctor(getToken());
         patient.setPatientNumber("PRA" + System.currentTimeMillis());
         patient.setPatientAge(IdCardUtil.getAgeByIdCard(patient.getPatientCard()));
         if (patient.getId() == null || "".equals(patient.getId()) || patient.getId().length() < 32) {
@@ -140,17 +138,15 @@ public class PatientController extends BaseController {
     /**
      * 查询患者列表
      *
-     * @param token
      * @return
      */
     @PostMapping(value = "getPatientList")
-    public Map getPatientList(String token, String patientName, String number) {
+    public Map getPatientList(String patientName, String number) {
         log.info("#########医生端查询患者列表########");
 
-        Doctor doctor = redisSerive.getDoctor(token);
         //创建查询条件
         PatientBean patientBean = new PatientBean();
-        patientBean.setCreateDoctor(doctor.getId());
+        patientBean.setCreateDoctor(getToken());
 
         if (patientName != null && !"".equals(patientName)) {
             patientBean.setPatientName(patientName);
@@ -197,9 +193,8 @@ public class PatientController extends BaseController {
      * @return
      */
     @PostMapping(value = "getPatientDetailByToken")
-    public Map getPatientDetailByToken(String token) {
-        WechatUser wechatUser = redisSerive.getWechatUser(token);
-        PatientBean patientBean = patientService.selectPatientDetailById(wechatUser.getId());
+    public Map getPatientDetailByToken() {
+        PatientBean patientBean = patientService.selectPatientDetailById(getToken());
         if (patientBean != null) {
             return querySuccessResponse(patientBean);
         }
