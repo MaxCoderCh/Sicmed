@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class RecordServerHystrix extends BaseServerHystrix implements RecordServer {
 
     @Override
-    public String addUserPatientByOrder(String orderId) {
+    public String addUserPatientByOrder(String userId, String patientId, String orderType) {
         return resultStr;
     }
 }
