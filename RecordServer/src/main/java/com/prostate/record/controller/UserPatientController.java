@@ -226,18 +226,18 @@ public class UserPatientController extends BaseController {
      * 订单完成 添加 医生 患者 关系
      */
     @PostMapping(value = "addUserPatientByOrder")
-    public String addUserPatientByOrder(String orderId) {
+    public String addUserPatientByOrder(String userId,String patientId,String orderType) {
 
         //查询订单 信息
-        Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
-        Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
+//        Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
+//        Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
         //插入对象 赋值
         UserPatient userPatient = new UserPatient();
 
-        String userId = orderMap.get("doctor").toString();
+//        String userId = orderMap.get("doctor").toString();
         userPatient.setUserId(userId);
-        userPatient.setPatientId(orderMap.get("patient").toString());
-        String orderType = orderMap.get("orderType").toString();
+        userPatient.setPatientId(patientId);
+//        String orderType = orderMap.get("orderType").toString();
         if ("PICTURE_INQUIRY_TYPE".equals(orderType)) {
             userPatient.setPatientSource("问诊");
         } else {
