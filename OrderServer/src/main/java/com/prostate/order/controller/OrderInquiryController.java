@@ -441,34 +441,17 @@ public class OrderInquiryController extends BaseController {
         int i = orderInquiryService.updateSelective(orderInquiry);
         String orderPrice = orderInquiry.getOrderPrice();
         if (i > 0) {
-
             new Thread(() -> {
                 try {
-                    orderStatusChangeService.notifyThirdServerRefund(orderInquiry.getTransactionId(), orderPrice);
-                    String openid = orderStatusChangeService.notifyUserServerGetOpenid(orderInquiry.getBuyer());
-                    orderStatusChangeService.notifyThirdServerPushRefundSuccess(openid, "医生拒绝了您的问诊申请!", f2y(orderPrice));
+                    feignService.ThirdServerRefund(orderInquiry.getTransactionId(), orderPrice);
+                    String openid = feignService.UserServerGetOpenid(orderInquiry.getBuyer());
+                    feignService.ThirdServerPushOrderFailedToWechat(openid, "医生拒绝了您的问诊申请!", f2y(orderPrice));
                 } catch (Exception e) {
+                    log.error("订单被拒绝 支线业务 执行 失败");
                     Thread.currentThread().interrupt();
                 }
                 Thread.currentThread().interrupt();
             }).start();
-
-////            //调用退款 服务
-////            String result = thirdServer.refund(orderInquiry.getTransactionId(), orderPrice);
-////            if ("ERROR".equals(result)) {
-////                log.error("ORDER_NO:" + orderId + "--调用退款 服务 失败");
-////            }
-//            //调用 weChat 模版推送服务
-//            String weChatUserId = orderInquiry.getBuyer();
-//            String openid = userServer.getOpenid(weChatUserId);
-//            if (openid.equals("ERROR")) {
-//                log.error("调用 userServer 查询 openid 失败");
-//            }
-//            String thirdResult = thirdServer.pushOrderFailedToWechat(openid, "医生拒绝了您的问诊申请!", f2y(orderPrice));
-//            if ("ERROR".equals(thirdResult)) {
-//                log.error("ORDER_NO:" + orderId + "--调用退款 通知服务 失败");
-//            }
-
             return updateSuccseeResponse();
         }
         return updateFailedResponse();

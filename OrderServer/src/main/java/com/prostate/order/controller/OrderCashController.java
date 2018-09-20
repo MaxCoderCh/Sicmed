@@ -2,9 +2,8 @@ package com.prostate.order.controller;
 
 import com.prostate.order.entity.OrderCash;
 import com.prostate.order.entity.OrderConstants;
-import com.prostate.order.entity.OrderInquiry;
-import com.prostate.order.feignService.WalletServer;
 import com.prostate.order.service.OrderCashService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "order/cash")
 public class OrderCashController extends BaseController {
@@ -19,8 +19,6 @@ public class OrderCashController extends BaseController {
     @Autowired
     private OrderCashService orderCashService;
 
-    @Autowired
-    private WalletServer walletServer;
     /**
      * 添加 提现 订单
      */
@@ -38,11 +36,22 @@ public class OrderCashController extends BaseController {
 
         int i = orderCashService.insertSelective(orderCash);
         if (i > 0) {
-            walletServer.cashOrder(orderCash.getId());
+
+            new Thread(() -> {
+                try {
+                    feignService.WalletServerCashOrder(orderCash.getId(), getToken(), orderPrice);
+                } catch (Exception e) {
+                    log.error("提现申请成功 通知 WalletServer 修改 钱包余额  失败");
+                    Thread.currentThread().interrupt();
+                }
+                Thread.currentThread().interrupt();
+            }).start();
+
             return insertSuccseeResponse();
         }
         return insertFailedResponse();
     }
+
     /**
      * 2.查询提现订单
      */

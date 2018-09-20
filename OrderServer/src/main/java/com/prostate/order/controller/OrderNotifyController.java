@@ -65,8 +65,9 @@ public class OrderNotifyController extends BaseController {
             if (i > 0) {
                 new Thread(() -> {
                     try {
-                        orderStatusChangeService.notifyThirdServerPushPaymentSuccess(openid, transactionId, "图文问诊服务", f2y(orderPrice));
+                        feignService.ThirdServerPushPaymentSuccessToWechat(openid, transactionId, "图文问诊服务", f2y(orderPrice));
                     } catch (Exception e) {
+                        log.error("调用 ThirdServer 发送支付成功模版消息 给 OPENID:" + openid + " 失败");
                         Thread.currentThread().interrupt();
                     }
                     Thread.currentThread().interrupt();
