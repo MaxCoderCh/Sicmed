@@ -3,7 +3,6 @@ package com.prostate.wallet.controller;
 import com.prostate.wallet.entity.DealRecord;
 import com.prostate.wallet.entity.DealRecordConstant;
 import com.prostate.wallet.entity.DoctorWallet;
-import com.prostate.wallet.feignService.OrderServer;
 import com.prostate.wallet.service.DealRecordService;
 import com.prostate.wallet.service.DoctorWalletService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -25,9 +22,6 @@ public class ProviderController extends BaseController{
     @Autowired
     private DealRecordService dealRecordService;
 
-    @Autowired
-    private OrderServer orderServer;
-
     /**
      *
      * @param orderId
@@ -36,14 +30,7 @@ public class ProviderController extends BaseController{
      */
     @PostMapping(value = "addOrderIncome")
     public String addOrderIncome(String orderId,String doctorId,String orderPrice) throws Exception {
-        //查询订单 信息
-//        Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
-
-//        Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
-
-//        String doctorId = orderMap.get("doctor").toString();
-//        String orderPriceStr = orderMap.get("orderPrice").toString();
-
+        
         int orderPriceInt = Integer.parseInt(orderPrice);
         //获取 医生钱包
         DoctorWallet doctorWallet = doctorWalletService.selectByDoctorId(doctorId);
@@ -90,15 +77,9 @@ public class ProviderController extends BaseController{
      * @throws Exception
      */
     @PostMapping(value = "cashOrder")
-    public String cashOrder(String orderId) throws Exception {
-        //查询订单 信息
-        Map<String, Object> orderResultMap = orderServer.getOrderCash(orderId);
-        Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
+    public String cashOrder(String orderId,String doctorId,String orderPrice) throws Exception {
 
-        String doctorId = orderMap.get("createUser").toString();
-        String orderPriceStr = orderMap.get("orderPrice").toString();
-
-        int orderPrice = Integer.parseInt(orderPriceStr);
+        int orderPriceInt = Integer.parseInt(orderPrice);
         //获取 医生钱包
         DoctorWallet doctorWallet = doctorWalletService.selectByDoctorId(doctorId);
         if (doctorWallet==null){
@@ -107,7 +88,7 @@ public class ProviderController extends BaseController{
         String walletBalanceStr = doctorWallet.getWalletBalance();
         int walletBalance = Integer.parseInt(walletBalanceStr);
 
-        int newWalletBalance = walletBalance - orderPrice;
+        int newWalletBalance = walletBalance - orderPriceInt;
         String newWalletBalanceStr = String.valueOf(newWalletBalance);
 
         //添加 收支明细
@@ -121,7 +102,7 @@ public class ProviderController extends BaseController{
         dealRecord.setOrderId(orderId);
         dealRecord.setWalletId(doctorWallet.getId());
         dealRecord.setSerialNumber(RandomStringUtils.randomNumeric(24));
-        dealRecord.setDealAmount(orderMap.get("orderPrice").toString());
+        dealRecord.setDealAmount(orderPrice);
         dealRecord.setDealType(DealRecordConstant.EXPEND_TYPE);
         dealRecord.setPaymentType("微信支付");
         dealRecord.setWalletBalance(newWalletBalanceStr);
