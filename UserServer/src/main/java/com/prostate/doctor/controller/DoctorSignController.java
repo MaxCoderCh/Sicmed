@@ -68,9 +68,24 @@ public class DoctorSignController extends BaseController {
             return queryEmptyResponse();
         }
 
-        String hospitalName = staticServer.getHospitalById(doctorSignBean.getHospitalId()).get("result").toString();
-        String branchName = staticServer.getBranchById(doctorSignBean.getBranchId()).get("result").toString();
-        String titleName = staticServer.getTitleById(doctorSignBean.getTitleId()).get("result").toString();
+        String hospitalName = "";
+        try {
+            hospitalName = feignService.StaticServerGetHospitalById(doctorSignBean.getHospitalId());
+        } catch (Exception e) {
+            log.error("调用 StaticServer 根据 BRANCH ID:" + doctorSignBean.getHospitalId() + "查询科室信息成功");
+        }
+        String branchName = "";
+        try {
+            branchName = feignService.StaticServerGetBranchById(doctorSignBean.getBranchId());
+        } catch (Exception e) {
+            log.error("调用 StaticServer 根据 TITLE ID:" + doctorSignBean.getBranchId() + "查询职称信息成功");
+        }
+        String titleName = "";
+        try {
+            titleName = feignService.StaticServerGetTitleById(doctorSignBean.getTitleId());
+        } catch (Exception e) {
+            log.error("调用 StaticServer 根据 TITLE ID:" + doctorSignBean.getTitleId() + "查询职称信息成功");
+        }
 
         doctorSignBean.setHospitalName(hospitalName);
         doctorSignBean.setBranchName(branchName);

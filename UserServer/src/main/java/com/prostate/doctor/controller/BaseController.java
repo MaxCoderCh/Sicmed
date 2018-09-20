@@ -5,7 +5,9 @@ import com.prostate.doctor.cache.redis.RedisSerive;
 import com.prostate.doctor.feignService.StatisticServer;
 import com.prostate.doctor.feignService.StaticServer;
 import com.prostate.doctor.feignService.ThirdServer;
+import com.prostate.doctor.service.FeignService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -15,19 +17,13 @@ import java.util.Map;
 
 public class BaseController {
 
-    public static Map<String, Object> resultMap;
-
     @Autowired
     protected RedisSerive redisSerive;
 
     @Autowired
-    protected ThirdServer thirdServer;
+    protected FeignService feignService;
 
-    @Autowired
-    protected StatisticServer statisticServer;
-
-    @Autowired
-    protected StaticServer staticServer;
+    public static Map<String, Object> resultMap;
 
     public String getToken() {
 

@@ -1,7 +1,6 @@
 package com.prostate.doctor.controller;
 
 import com.prostate.doctor.entity.Doctor;
-import com.prostate.doctor.feignService.ThirdServer;
 import com.prostate.doctor.param.DoctorRegisteParams;
 import com.prostate.doctor.service.DoctorService;
 import com.prostate.doctor.util.JsonUtils;
@@ -10,7 +9,10 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -25,10 +27,6 @@ public class DoctorController extends BaseController {
 
     @Autowired
     private JsonUtils<Doctor> jsonUtil;
-
-
-    @Autowired
-    private ThirdServer thirdServer;
 
 
     /**
@@ -227,7 +225,14 @@ public class DoctorController extends BaseController {
         if (doctor != null) {
             return registerFiledResponse("手机号码已注册过");
         }
-        return thirdServer.sendRegisterCode(registerPhone);
+        try {
+            feignService.ThirdServerSendRegisterCode(registerPhone);
+        } catch (Exception e) {
+            log.error("发送注册验证码到 phoneNumber:" + registerPhone + "失败");
+            return insertFailedResponse(null);
+        }
+        return insertSuccseeResponse(null);
+
     }
 
 
@@ -245,7 +250,13 @@ public class DoctorController extends BaseController {
         if (doctor == null) {
             return loginFailedResponse("手机号码未注册!");
         }
-        return thirdServer.sendLoginCode(loginPhone);
+        try {
+            feignService.ThirdServerSendLoginCode(loginPhone);
+        } catch (Exception e) {
+            log.info("发送登陆验证码到 phoneNumber:" + loginPhone + "失败");
+            return insertFailedResponse(null);
+        }
+        return insertSuccseeResponse(null);
     }
 
     /**
@@ -256,13 +267,18 @@ public class DoctorController extends BaseController {
      */
     @GetMapping(value = "passwordSms")
     public Map passwordSms(String passwordPhone) {
-
         Doctor doctor = doctorService.selectByPhone(passwordPhone);
 
         if (doctor == null) {
             return loginFailedResponse("手机号码未注册!");
         }
-        return thirdServer.sendPasswordReplaceCode(passwordPhone);
+        try {
+            feignService.ThirdServerSendPasswordReplaceCode(passwordPhone);
+        } catch (Exception e) {
+            log.info("发送密码重置验证码到 phoneNumber:" + passwordPhone + "失败");
+            return insertFailedResponse(null);
+        }
+        return insertSuccseeResponse(null);
     }
 
     @PostMapping(value = "logOut")

@@ -60,23 +60,25 @@ public class DoctorDetailController extends BaseController {
                 return queryEmptyResponse();
             }
             //识别身份证信息
-            Map<String, Object> idCardMap = thirdServer.idCard(doctorSign.getIdCardFront());
-            String resultCode = String.valueOf(idCardMap.get("code"));
-            if (!"20000".equals(resultCode)){
+            Map<String, String> idCardInfo = null;
+            try {
+                idCardInfo = feignService.ThirdServeridCard(doctorSign.getIdCardFront());
+            } catch (Exception e) {
+                log.error("根据身份证:" + doctorSign.getIdCardFront() + " 获取 身份证信息 失败!");
                 return queryEmptyResponse();
             }
+
             //添加医生个人信息
             doctorDetail = new DoctorDetail();
             doctorDetail.setHospitalId(doctorSign.getHospitalId());
             doctorDetail.setBranchId(doctorSign.getBranchId());
             doctorDetail.setTitleId(doctorSign.getTitleId());
             doctorDetail.setId(doctor.getId());
-            Map<String, Object> idCardInfo = (Map<String, Object>) idCardMap.get("result");
 
-            doctorDetail.setDoctorCardNumber(idCardInfo.get("id").toString());
-            doctorDetail.setDoctorName(idCardInfo.get("name").toString());
-            doctorDetail.setDoctorSex(idCardInfo.get("sex").toString());
-            doctorDetail.setDoctorAddress(idCardInfo.get("address").toString());
+            doctorDetail.setDoctorCardNumber(idCardInfo.get("id"));
+            doctorDetail.setDoctorName(idCardInfo.get("name"));
+            doctorDetail.setDoctorSex(idCardInfo.get("sex"));
+            doctorDetail.setDoctorAddress(idCardInfo.get("address"));
             int i = doctorDetailService.insertSelective(doctorDetail);
             if (i <= 0) {
                 return queryEmptyResponse();
@@ -87,9 +89,24 @@ public class DoctorDetailController extends BaseController {
         doctorOwnDetailBean.setDoctorDetail(doctorDetail);
 
         //
-        String hospitalName = staticServer.getHospitalById(doctorDetail.getHospitalId()).get("result").toString();
-        String branchName = staticServer.getBranchById(doctorDetail.getBranchId()).get("result").toString();
-        String titleName = staticServer.getTitleById(doctorDetail.getTitleId()).get("result").toString();
+        String hospitalName = "";
+        try {
+            hospitalName = feignService.StaticServerGetHospitalById(doctorDetail.getHospitalId());
+        } catch (Exception e) {
+            log.error("调用 StaticServer 根据 BRANCH ID:" + doctorDetail.getHospitalId() + "查询科室信息成功");
+        }
+        String branchName = "";
+        try {
+            branchName = feignService.StaticServerGetBranchById(doctorDetail.getBranchId());
+        } catch (Exception e) {
+            log.error("调用 StaticServer 根据 TITLE ID:" + doctorDetail.getBranchId() + "查询职称信息成功");
+        }
+        String titleName = "";
+        try {
+            titleName = feignService.StaticServerGetTitleById(doctorDetail.getTitleId());
+        } catch (Exception e) {
+            log.error("调用 StaticServer 根据 TITLE ID:" + doctorDetail.getTitleId() + "查询职称信息成功");
+        }
 
         doctorOwnDetailBean.setHospitalName(hospitalName);
         doctorOwnDetailBean.setBranchName(branchName);
@@ -204,7 +221,12 @@ public class DoctorDetailController extends BaseController {
 
         doctorDetailBuilder(doctorDetailBean);
         new Thread(() -> {
-            statisticServer.addDoctorClick(doctorId);
+            try {
+                feignService.StatisticServerAddDoctorClick(doctorId);
+            } catch (Exception e) {
+                log.error("调用 StatisticServer 统计医生点击 USER ID:" + doctorId + "失败");
+                Thread.currentThread().interrupt();
+            }
             Thread.currentThread().interrupt();
         }).start();
         return querySuccessResponse(doctorDetailBean);
@@ -250,17 +272,29 @@ public class DoctorDetailController extends BaseController {
      */
     private void doctorDetailBuilder(List<DoctorDetailListBean> doctorDetailListBeans) {
 
-        Map<String, Object> hospitalMap = staticServer.hospitalJson();
-        Map<String, Object> doctorTitleMap = staticServer.doctorTitleJson();
+
         Map<String, String> starJson = fansStarService.starJson(getToken());
 
-        Map<String, String> hospitalJson = (Map<String, String>) hospitalMap.get("result");
-        Map<String, String> doctorTitleJson = (Map<String, String>) doctorTitleMap.get("result");
+        Map<String, String> hospitalJson = null;
+        try {
+            hospitalJson = feignService.StaticServerHospitalJson();
+        } catch (Exception e) {
+            log.error("调用 StaticServer 查询医院信息失败");
+        }
+        Map<String, String> doctorTitleJson = null;
+        try {
+            doctorTitleJson = feignService.StaticServerDoctorTitleJson();
+        } catch (Exception e) {
+            log.error("调用 StaticServer 查询职称信息失败");
+        }
 
         for (DoctorDetailListBean doctorDetailListBean : doctorDetailListBeans) {
-
-            doctorDetailListBean.setHospitalName(hospitalJson.get(doctorDetailListBean.getHospitalId()));
-            doctorDetailListBean.setTitleName(doctorTitleJson.get(doctorDetailListBean.getTitleId()));
+            if (hospitalJson != null) {
+                doctorDetailListBean.setHospitalName(hospitalJson.get(doctorDetailListBean.getHospitalId()));
+            }
+            if (doctorTitleJson != null) {
+                doctorDetailListBean.setTitleName(doctorTitleJson.get(doctorDetailListBean.getTitleId()));
+            }
             if (starJson != null) {
                 doctorDetailListBean.setAreFans(starJson.get(doctorDetailListBean.getId()) != null);
             }
@@ -272,9 +306,24 @@ public class DoctorDetailController extends BaseController {
      */
     private void doctorDetailBuilder(DoctorDetailBean doctorDetailBean) {
 
-        String hospitalName = staticServer.getHospitalById(doctorDetailBean.getHospitalId()).get("result").toString();
-        String branchName = staticServer.getBranchById(doctorDetailBean.getBranchId()).get("result").toString();
-        String titleName = staticServer.getTitleById(doctorDetailBean.getTitleId()).get("result").toString();
+        String hospitalName = "";
+        try {
+            hospitalName = feignService.StaticServerGetHospitalById(doctorDetailBean.getHospitalId());
+        } catch (Exception e) {
+            log.error("调用 StaticServer 根据 BRANCH ID:" + doctorDetailBean.getHospitalId() + "查询科室信息成功");
+        }
+        String branchName = "";
+        try {
+            branchName = feignService.StaticServerGetBranchById(doctorDetailBean.getBranchId());
+        } catch (Exception e) {
+            log.error("调用 StaticServer 根据 TITLE ID:" + doctorDetailBean.getBranchId() + "查询职称信息成功");
+        }
+        String titleName = "";
+        try {
+            titleName = feignService.StaticServerGetTitleById(doctorDetailBean.getTitleId());
+        } catch (Exception e) {
+            log.error("调用 StaticServer 根据 TITLE ID:" + doctorDetailBean.getTitleId() + "查询职称信息成功");
+        }
         Map<String, String> starJson = fansStarService.starJson(getToken());
         doctorDetailBean.setHospitalName(hospitalName);
         doctorDetailBean.setBranchName(branchName);
@@ -283,8 +332,12 @@ public class DoctorDetailController extends BaseController {
         if (starJson != null) {
             doctorDetailBean.setAreFans(starJson.get(doctorDetailBean.getId()) != null);
         }
-        Map<String, Object> resultMap = statisticServer.getDoctorCount(doctorDetailBean.getId());
-        Map<String, String> countMap = (Map<String, String>) resultMap.get("result");
+        Map<String, String> countMap = null;
+        try {
+            countMap = feignService.StatisticServerGetDoctorCount(doctorDetailBean.getId());
+        } catch (Exception e) {
+            log.error("调用 StatisticServer 查询医生统计数据 USER ID:" + doctorDetailBean.getId() + "失败");
+        }
         doctorDetailBean.setFansCount(countMap.get("focusCount"));
         doctorDetailBean.setHitsCount(countMap.get("clickCount"));
         doctorDetailBean.setPatientCount(countMap.get("inquiryCount"));

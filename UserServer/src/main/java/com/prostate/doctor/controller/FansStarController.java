@@ -6,6 +6,7 @@ import com.prostate.doctor.entity.FansStar;
 import com.prostate.doctor.entity.WeChatUser;
 import com.prostate.doctor.service.DoctorDetailService;
 import com.prostate.doctor.service.FansStarService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "fansStar")
 public class FansStarController extends BaseController {
@@ -45,7 +47,12 @@ public class FansStarController extends BaseController {
 
         if (result > 0) {
             new Thread(() -> {
-                statisticServer.addDoctorFocus(doctorId);
+                try {
+                    feignService.StatisticServerAddDoctorFocus(doctorId);
+                } catch (Exception e) {
+                    log.error("调用 StatisticServer 统计医生关注医生 USER ID:" + doctorId + "失败");
+                    Thread.currentThread().interrupt();
+                }
                 Thread.currentThread().interrupt();
             }).start();
             return insertSuccseeResponse("关注成功");
@@ -73,7 +80,12 @@ public class FansStarController extends BaseController {
 
         if (result > 0) {
             new Thread(() -> {
-                statisticServer.addDoctorUnFocus(doctorId);
+                try {
+                    feignService.StatisticServerAddDoctorUnFocus(doctorId);
+                } catch (Exception e) {
+                    log.error("调用 StatisticServer 统计医生取消关注 USER ID:" + doctorId + "失败");
+                    Thread.currentThread().interrupt();
+                }
                 Thread.currentThread().interrupt();
             }).start();
             return deleteSuccseeResponse("取消关注成功");
@@ -102,7 +114,12 @@ public class FansStarController extends BaseController {
 
         if (result > 0) {
             new Thread(() -> {
-                statisticServer.addPatientFocus(doctorId);
+                try {
+                    feignService.StatisticServerAddPatientFocus(doctorId);
+                } catch (Exception e) {
+                    log.error("调用 StatisticServer 统计患者关注医生 USER ID:" + doctorId + "失败");
+                    Thread.currentThread().interrupt();
+                }
                 Thread.currentThread().interrupt();
             }).start();
             return insertSuccseeResponse("关注成功");
@@ -130,7 +147,12 @@ public class FansStarController extends BaseController {
 
         if (result > 0) {
             new Thread(() -> {
-                statisticServer.addPatientUnFocus(doctorId);
+                try {
+                    feignService.StatisticServerAddPatientUnFocus(doctorId);
+                } catch (Exception e) {
+                    log.error("调用 StatisticServer 统计患者取消关注 USER ID:" + doctorId + "失败");
+                    Thread.currentThread().interrupt();
+                }
                 Thread.currentThread().interrupt();
             }).start();
             return deleteSuccseeResponse("取消关注成功");

@@ -29,8 +29,6 @@ public class WeChatLoginController extends BaseController {
     @Autowired
     private WeChatUserService wechatUserService;
 
-    @Autowired
-    private RedisSerive redisSerive;
 
 
     /**
