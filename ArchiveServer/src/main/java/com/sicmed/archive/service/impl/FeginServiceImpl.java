@@ -25,7 +25,7 @@ public class FeginServiceImpl implements FeginService {
         if ("20000".equals(resultCode)) {
             log.info("调用 ThirdServer 删除文件:" + imgPath + "成功!");
         } else {
-            log.error("调用 ThirdServer 删除文件:" + imgPath + "失败!");
+            log.info("调用 ThirdServer 删除文件:" + imgPath + "失败!");
             throw new Exception("RPC调用异常");
         }
     }
