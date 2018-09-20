@@ -3,8 +3,6 @@ package com.sicmed.statistic.controller;
 
 import com.sicmed.statistic.entity.Statistic;
 import com.sicmed.statistic.entity.StatisticConstant;
-import com.sicmed.statistic.feignService.OrderServer;
-import com.sicmed.statistic.feignService.RecordServer;
 import com.sicmed.statistic.service.StatisticService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -25,21 +23,8 @@ public class StatisticController extends BaseController {
     @Autowired
     private StatisticService statisticService;
 
-    @Autowired
-    private OrderServer orderServer;
-
-    @Autowired
-    private RecordServer recordServer;
-
     @PostMapping(value = "addTotleIncome")
     public String addTotleIncome(String userId,String orderPrice) {
-
-        //查询订单 信息
-//        Map<String, Object> orderResultMap = orderServer.getOrder(orderId);
-//        Map<String, Object> orderMap = (Map<String, Object>) orderResultMap.get("result");
-
-//        String doctorId = String.valueOf(orderMap.get("doctor"));
-//        String orderPriceStr = orderMap.get("orderPrice").toString();
 
         Statistic statistic = new Statistic();
         statistic.setUserId(userId);
@@ -339,15 +324,31 @@ public class StatisticController extends BaseController {
             countMap.put("inquiryCount", inquiryStatistic.getStatisticValue());
         }
         //查询 待接受 问诊订单 数量
-        String acceptedOrderCount = orderServer.getAcceptedOrderCount(getToken());
+        String acceptedOrderCount = null;
+        try {
+            acceptedOrderCount = feignService.OrderServerGetAcceptedOrderCount(getToken());
+        } catch (Exception e) {
+            log.error("根据USER ID:" + getToken() + " 查询 未接受问诊订单数量 失败");
+        }
+
         countMap.put("acceptedOrderCount", acceptedOrderCount);
 
         //查询 待接受 转诊订单 数量
-        String acceptedTurnOrderCount = orderServer.getAcceptedTurnOrderCount(getToken());
+        String acceptedTurnOrderCount = null;
+        try {
+            acceptedTurnOrderCount = feignService.OrderServerGetAcceptedTurnOrderCount(getToken());
+        } catch (Exception e) {
+            log.error("根据USER ID:" + getToken() + " 查询 未接受转诊订单数量 失败");
+        }
         countMap.put("acceptedTurnOrderCount",acceptedTurnOrderCount);
 
         //查询 待接受 转诊患者 数量
-        String acceptedTurnPatientCount = recordServer.getAcceptedTurnPatientCount(getToken());
+        String acceptedTurnPatientCount = null;
+        try {
+            acceptedTurnPatientCount = feignService.OrderServerGetAcceptedTurnPatientCount(getToken());
+        } catch (Exception e) {
+            log.error("根据USER ID:" + getToken() + " 查询 未接受转诊患者数量 失败");
+        }
         countMap.put("acceptedTurnPatientCount",acceptedTurnPatientCount);
 
         return querySuccessResponse(countMap);

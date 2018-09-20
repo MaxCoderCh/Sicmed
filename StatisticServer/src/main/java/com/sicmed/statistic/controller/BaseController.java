@@ -1,6 +1,8 @@
 package com.sicmed.statistic.controller;
 
 
+import com.sicmed.statistic.service.FeignService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -9,7 +11,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BaseController {
-
+    @Autowired
+    protected FeignService feignService;
     public  Map<String,Object> resultMap;
 
     public String getToken() {
