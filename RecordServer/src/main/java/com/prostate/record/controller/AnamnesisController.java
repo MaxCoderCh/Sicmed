@@ -1,9 +1,7 @@
 package com.prostate.record.controller;
 
-import com.prostate.record.cache.redis.RedisSerive;
 import com.prostate.record.entity.Anamnesis;
 import com.prostate.record.entity.ParamEntiey;
-import com.prostate.record.feignService.StaticServer;
 import com.prostate.record.service.AnamnesisService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -26,12 +24,6 @@ public class AnamnesisController extends BaseController {
 
     @Autowired
     private AnamnesisService anamnesisService;
-
-    @Autowired
-    private RedisSerive redisSerive;
-
-    @Autowired
-    private StaticServer staticServer;
 
 
     /**

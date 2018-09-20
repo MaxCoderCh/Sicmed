@@ -14,13 +14,4 @@ public interface ThirdServer {
     @GetMapping(value = "ocr/idCard")
     Map<String, Object> idCard(@RequestParam("url") String url);
 
-
-    @PostMapping(value = "sms/sendRegisterCode")
-    Map<String, Object> sendRegisterCode(@RequestParam("phoneNumber") String phoneNumber);
-
-    @PostMapping(value = "sms/sendLoginCode")
-    Map<String, Object> sendLoginCode(@RequestParam("phoneNumber") String phoneNumber);
-
-    @PostMapping(value = "sms/sendPasswordReplaceCode")
-    Map<String, Object> sendPasswordReplaceCode(@RequestParam("phoneNumber") String phoneNumber);
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -37,7 +38,7 @@ public class PatientAnamnesisBean extends Patient implements Serializable {
 
     private String patientSource;
 
-    private LinkedHashMap cityDetailBean;
+    private Map<String,String> cityDetailMap;
 
     public void setPatient(Patient patient) {
         super.setId(patient.getId());

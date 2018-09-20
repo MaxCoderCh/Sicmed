@@ -3,6 +3,7 @@ package com.prostate.record.controller;
 
 import com.prostate.record.cache.redis.RedisSerive;
 import com.prostate.record.feignService.ThirdServer;
+import com.prostate.record.service.FeignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisServer;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -20,7 +21,7 @@ public class BaseController {
     protected RedisSerive redisSerive;
 
     @Autowired
-    protected ThirdServer thirdServer;
+    protected FeignService feignService;
 
     public String getToken() {
 
