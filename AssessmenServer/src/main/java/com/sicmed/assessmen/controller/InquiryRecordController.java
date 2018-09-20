@@ -3,7 +3,7 @@ package com.sicmed.assessmen.controller;
 import com.sicmed.assessmen.entity.InquiryRecord;
 import com.sicmed.assessmen.entity.InquiryRecordConstants;
 import com.sicmed.assessmen.service.InquiryRecordService;
-import com.sicmed.assessmen.service.RPCService;
+import com.sicmed.assessmen.service.FeignService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +22,6 @@ public class InquiryRecordController extends BaseController {
 
     @Autowired
     private InquiryRecordService inquiryRecordService;
-
-    @Autowired
-    private RPCService rpcService;
 
     /**
      * 添加草稿
@@ -91,20 +88,20 @@ public class InquiryRecordController extends BaseController {
             // 通知其他服务订单回复成功
             new Thread(() -> {
                 try {
-                    Map<String, String> orderInquiry = rpcService.notifyOrderServerOrderDoneSuccess(orderId);
+                    Map<String, String> orderInquiry = feignService.notifyOrderServerOrderDoneSuccess(orderId);
 
                     String doctorId = orderInquiry.get("seller");
                     String buyer = orderInquiry.get("buyer");
                     String orderPrice = orderInquiry.get("orderPrice");
                     String orderType = orderInquiry.get("orderType");
 
-                    rpcService.notifyWalletServerAddOrderIncome(orderId, doctorId, orderPrice);
-                    rpcService.notifyRecordServerAddUserPatientByOrder(doctorId, patientId, orderType);
-                    rpcService.notifyStatisticServerAddTotleIncome(doctorId, orderPrice);
-                    String phoneNumber = rpcService.notifyUserServerGetPhoneNumber(doctorId);
-                    rpcService.notifyThirdServerSendInquiryEndToDoctor(phoneNumber);
-                    String openid = rpcService.notifyUserServerGetOpenid(buyer);
-                    rpcService.notifyThirdServerPushOrderSuccessToWechat(openid, orderInquiry.get("transactionId"));
+                    feignService.notifyWalletServerAddOrderIncome(orderId, doctorId, orderPrice);
+                    feignService.notifyRecordServerAddUserPatientByOrder(doctorId, patientId, orderType);
+                    feignService.notifyStatisticServerAddTotleIncome(doctorId, orderPrice);
+                    String phoneNumber = feignService.notifyUserServerGetPhoneNumber(doctorId);
+                    feignService.notifyThirdServerSendInquiryEndToDoctor(phoneNumber);
+                    String openid = feignService.notifyUserServerGetOpenid(buyer);
+                    feignService.notifyThirdServerPushOrderSuccessToWechat(openid, orderInquiry.get("transactionId"));
 
                 } catch (Exception e) {
                     Thread.currentThread().interrupt();

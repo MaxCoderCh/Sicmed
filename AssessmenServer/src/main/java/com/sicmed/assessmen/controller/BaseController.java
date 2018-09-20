@@ -1,7 +1,7 @@
 package com.sicmed.assessmen.controller;
 
 
-import com.sicmed.assessmen.feignService.*;
+import com.sicmed.assessmen.service.FeignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -14,22 +14,7 @@ public class BaseController {
     public LinkedHashMap<String, Object> resultMap;
 
     @Autowired
-    protected OrderServer orderServer;
-
-    @Autowired
-    protected RecordServer recordServer;
-
-    @Autowired
-    protected WalletServer walletServer;
-
-    @Autowired
-    protected StatisticServer statisticServer;
-
-    @Autowired
-    protected ThirdServer thirdServer;
-
-    @Autowired
-    protected UserServer userServer;
+    protected FeignService feignService;
 
     protected String getToken() {
 

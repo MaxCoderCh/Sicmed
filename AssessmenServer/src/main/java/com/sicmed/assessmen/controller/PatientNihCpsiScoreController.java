@@ -1,8 +1,6 @@
 package com.sicmed.assessmen.controller;
 
 import com.sicmed.assessmen.beans.NihCpsiScoreBean;
-import com.sicmed.assessmen.cache.redis.RedisSerive;
-import com.sicmed.assessmen.entity.Doctor;
 import com.sicmed.assessmen.entity.PatientNihCpsiScore;
 import com.sicmed.assessmen.service.PatientNihCpsiScoreService;
 import com.sicmed.assessmen.util.DateUtils;
@@ -25,8 +23,6 @@ public class PatientNihCpsiScoreController extends BaseController {
     @Autowired
     private PatientNihCpsiScoreService patientNihCpsiScoreService;
 
-    @Autowired
-    private RedisSerive redisSerive;
 
     /**
      * WeChat 慢性前列腺炎症状评分添加
@@ -67,18 +63,16 @@ public class PatientNihCpsiScoreController extends BaseController {
      * 慢性前列腺炎症状评分修改
      *
      * @param patientNihNpsiScore
-     * @param token
      * @return
      */
     @RequestMapping(value = "update")
-    public Map update(PatientNihCpsiScore patientNihNpsiScore, String token) {
+    public Map update(PatientNihCpsiScore patientNihNpsiScore) {
         //参数校验
         if (patientNihNpsiScore == null || patientNihNpsiScore.getId() == null) {
             return emptyParamResponse();
         }
 
-        Doctor doctor = redisSerive.getDoctor(token);
-        patientNihNpsiScore.setUpdateDoctor(doctor.getId());
+        patientNihNpsiScore.setUpdateDoctor(getToken());
 
         List<Integer> scoreList = NihCpsiScoreUtils.getScores(patientNihNpsiScore.getAnswer());
         String caution = NihCpsiScoreUtils.checkDegree(scoreList);

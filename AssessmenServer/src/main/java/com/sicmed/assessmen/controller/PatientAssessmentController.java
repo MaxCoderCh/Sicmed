@@ -1,8 +1,6 @@
 package com.sicmed.assessmen.controller;
 
-import com.sicmed.assessmen.cache.redis.RedisSerive;
 import com.sicmed.assessmen.entity.PatientAssessment;
-import com.sicmed.assessmen.entity.WechatUser;
 import com.sicmed.assessmen.service.PatientAssessmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +20,6 @@ public class PatientAssessmentController extends BaseController {
     @Autowired
     private PatientAssessmentService assessmentService;
 
-    @Autowired
-    private RedisSerive redisSerive;
     /**
      * 根据患者ID查询 所有评估结果列表
      * @param patientId

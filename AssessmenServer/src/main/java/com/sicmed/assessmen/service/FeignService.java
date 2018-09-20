@@ -3,7 +3,7 @@ package com.sicmed.assessmen.service;
 
 import java.util.Map;
 
-public interface RPCService {
+public interface FeignService {
 
     Map<String, String> notifyOrderServerOrderDoneSuccess(String orderId) throws Exception;
 

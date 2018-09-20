@@ -1,7 +1,5 @@
 package com.sicmed.assessmen.controller;
 
-import com.sicmed.assessmen.cache.redis.RedisSerive;
-import com.sicmed.assessmen.entity.Doctor;
 import com.sicmed.assessmen.entity.PatientScaleScore;
 import com.sicmed.assessmen.service.ScaleScoreService;
 import com.sicmed.assessmen.util.ScaleScoreUtils;
@@ -23,25 +21,20 @@ public class ScaleScoreController extends BaseController {
     @Autowired
     private ScaleScoreService scaleScoreService;
 
-    @Autowired
-    private RedisSerive redisSerive;
-
 
     /**
      * 添加IPSS评估结果
      * @param scaleScore
-     * @param token
      * @return
      */
     @PostMapping(value = "add")
-    public Map add(PatientScaleScore scaleScore, String token, Integer patientAge){
+    public Map add(PatientScaleScore scaleScore, Integer patientAge){
         log.info("#########前列腺症状量表评估结果添加############"+scaleScore.getAnswer().length());
         //参数校验
         if(scaleScore==null||scaleScore.getAnswer().length()<80){
             return emptyParamResponse();
         }
-        Doctor doctor = redisSerive.getDoctor(token);
-        scaleScore.setCreateDoctor(doctor.getId());
+        scaleScore.setCreateDoctor(getToken());
         List<Integer> scoreList = ScaleScoreUtils.getScores(scaleScore.getAnswer());
         String caution = ScaleScoreUtils.checkIllnessType(scoreList,'0',patientAge);
         scaleScore.setCaution(caution);

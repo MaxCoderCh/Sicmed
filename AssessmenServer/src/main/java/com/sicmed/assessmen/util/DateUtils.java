@@ -376,7 +376,6 @@ public class DateUtils {
      * 在输入日期上增加（+）或减去（-）天数
      *
      * @param date   输入日期
-     * @param imonth 要增加或减少的天数
      */
     public static Date addDay(Date date, int iday) {
         Calendar cd = Calendar.getInstance();
@@ -408,7 +407,6 @@ public class DateUtils {
      * 在输入日期上增加（+）或减去（-）年份
      *
      * @param date   输入日期
-     * @param imonth 要增加或减少的年数
      */
     public static Date addYear(Date date, int iyear) {
         Calendar cd = Calendar.getInstance();
@@ -451,19 +449,19 @@ public class DateUtils {
     }
 
 
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        //String temp = DateUtil.dateToString(getLastDayOfMonth(new Date()),
-        ///   DateUtil.DATE_FORMAT_CHINESE);
-        //String s=DateUtil.dateToString(DateUtil.addDay(DateUtil.addYear(new Date(),1),-1));
-
-
-        long s = DateUtils.getDayByMinusDate("2012-01-01", "2012-12-31");
-        System.err.println(s);
-
-
-    }
+//    /**
+//     * @param args
+//     */
+//    public static void main(String[] args) {
+//        //String temp = DateUtil.dateToString(getLastDayOfMonth(new Date()),
+//        ///   DateUtil.DATE_FORMAT_CHINESE);
+//        //String s=DateUtil.dateToString(DateUtil.addDay(DateUtil.addYear(new Date(),1),-1));
+//
+//
+//        long s = DateUtils.getDayByMinusDate("2012-01-01", "2012-12-31");
+//        System.err.println(s);
+//
+//
+//    }
 
 }

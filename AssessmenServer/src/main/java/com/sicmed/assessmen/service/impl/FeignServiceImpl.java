@@ -1,7 +1,7 @@
 package com.sicmed.assessmen.service.impl;
 
 import com.sicmed.assessmen.feignService.*;
-import com.sicmed.assessmen.service.RPCService;
+import com.sicmed.assessmen.service.FeignService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,8 @@ import java.util.Map;
 
 @Slf4j
 @Service
-public class RPCServiceImpl implements RPCService {
+public class FeignServiceImpl implements FeignService {
 
-    private final DoctorServer doctorServer;
-    private final FileServer fileServer;
     private final OrderServer orderServer;
     private final RecordServer recordServer;
     private final StatisticServer statisticServer;
@@ -27,9 +25,7 @@ public class RPCServiceImpl implements RPCService {
 
 
     @Autowired
-    public RPCServiceImpl(DoctorServer doctorServer, FileServer fileServer, OrderServer orderServer, RecordServer recordServer, StatisticServer statisticServer, ThirdServer thirdServer, UserServer userServer, WalletServer walletServer) {
-        this.doctorServer = doctorServer;
-        this.fileServer = fileServer;
+    public FeignServiceImpl(OrderServer orderServer, RecordServer recordServer, StatisticServer statisticServer, ThirdServer thirdServer, UserServer userServer, WalletServer walletServer) {
         this.orderServer = orderServer;
         this.recordServer = recordServer;
         this.statisticServer = statisticServer;

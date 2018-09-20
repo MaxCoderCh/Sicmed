@@ -1,8 +1,6 @@
 package com.sicmed.assessmen.controller;
 
 import com.sicmed.assessmen.beans.IpssScoreBean;
-import com.sicmed.assessmen.cache.redis.RedisSerive;
-import com.sicmed.assessmen.entity.Doctor;
 import com.sicmed.assessmen.entity.PatientIpssScore;
 import com.sicmed.assessmen.service.PatientIpssScoreService;
 import com.sicmed.assessmen.util.DateUtils;
@@ -25,9 +23,6 @@ public class PatientIpssScoreController extends BaseController {
 
     @Autowired
     private PatientIpssScoreService patientIpssScoreService;
-
-    @Autowired
-    private RedisSerive redisSerive;
 
     /**
      * WeChat 添加IPSS评估结果
@@ -66,18 +61,16 @@ public class PatientIpssScoreController extends BaseController {
      * 修改IPSS评估结果
      *
      * @param patientIpssScore
-     * @param token
      * @return
      */
     @PostMapping(value = "update")
-    public Map update(PatientIpssScore patientIpssScore, String token) {
+    public Map update(PatientIpssScore patientIpssScore) {
         log.info("#########前列腺症状评分（IPSS）结果修改############生活质量指数评分（QOL)结果修改############");
         //参数校验
         if (patientIpssScore == null) {
             return emptyParamResponse();
         }
-        Doctor doctor = redisSerive.getDoctor(token);
-        patientIpssScore.setUpdateDoctor(doctor.getId());
+        patientIpssScore.setUpdateDoctor(getToken());
 
         List<Integer> scoreList = IpssScoreUtils.getScores(patientIpssScore.getAnswer());
         String caution = IpssScoreUtils.checkDegree(scoreList);

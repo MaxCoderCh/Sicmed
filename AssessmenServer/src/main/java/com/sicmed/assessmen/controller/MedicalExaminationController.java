@@ -1,7 +1,6 @@
 package com.sicmed.assessmen.controller;
 
 import com.sicmed.assessmen.beans.MedicalExaminationBean;
-import com.sicmed.assessmen.cache.redis.RedisSerive;
 import com.sicmed.assessmen.entity.ProstaticMedicalExamination;
 import com.sicmed.assessmen.service.ProstaticMedicalExaminationService;
 import com.sicmed.assessmen.util.*;
