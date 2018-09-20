@@ -4,6 +4,7 @@ import com.sicmed.archive.entity.MedicalReport;
 import com.sicmed.archive.entity.MedicalReportConstants;
 import com.sicmed.archive.service.MedicalReportService;
 import com.sicmed.archive.util.DateFormatUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "medical/report")
 public class MedicalReportController extends BaseController {
@@ -143,6 +145,7 @@ public class MedicalReportController extends BaseController {
         }
         return reportGroup;
     }
+
     /**
      * APP WeChat 根据分组编号 查询 档案
      * @param groupNumber
@@ -202,7 +205,12 @@ public class MedicalReportController extends BaseController {
 
             int i = medicalReportService.deleteByImgPath(imgPath);
             if (i >= 0) {
-                thirdServer.delete(imgPath);
+                try {
+                    feginService.notifyThirdServerDeleteFile(imgPath);
+                } catch (Exception e) {
+                    log.error("调用 ThirdServer 删除文件:" + imgPath + "失败!");
+                    return deleteFailedResponse();
+                }
                 return deleteSuccseeResponse();
             }
             return deleteFailedResponse();

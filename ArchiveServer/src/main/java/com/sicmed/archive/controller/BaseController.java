@@ -1,7 +1,7 @@
 package com.sicmed.archive.controller;
 
 
-import com.sicmed.archive.feignService.ThirdServer;
+import com.sicmed.archive.service.FeginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -14,16 +14,14 @@ public class BaseController {
 
     public Map<String, Object> resultMap;
 
-    @Autowired
-    protected ThirdServer thirdServer;
-
     public String getToken() {
 
         HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
 
         return request.getHeader("token");
     }
-
+    @Autowired
+    protected FeginService feginService;
     /**
      * 参数为空返回值
      *
