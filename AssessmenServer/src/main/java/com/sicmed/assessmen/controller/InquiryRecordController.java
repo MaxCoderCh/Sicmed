@@ -104,6 +104,7 @@ public class InquiryRecordController extends BaseController {
                     feignService.notifyThirdServerPushOrderSuccessToWechat(openid, orderInquiry.get("transactionId"));
 
                 } catch (Exception e) {
+                    log.error("通知其他服务订单ORDER ID:"+orderId+"回复成功 失败!");
                     Thread.currentThread().interrupt();
                 }
                 Thread.currentThread().interrupt();
