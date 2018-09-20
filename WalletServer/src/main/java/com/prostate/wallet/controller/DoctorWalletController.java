@@ -4,7 +4,6 @@ import com.prostate.wallet.cache.redis.RedisSerive;
 import com.prostate.wallet.entity.DoctorWallet;
 import com.prostate.wallet.entity.GroupID;
 import com.prostate.wallet.entity.GroupWithoutID;
-import com.prostate.wallet.feignService.ThirdService;
 import com.prostate.wallet.service.DoctorWalletService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -31,9 +30,6 @@ public class DoctorWalletController  extends BaseController {
 
     @Autowired
     private  DoctorWallet doctorWallet;
-
-    @Autowired
-    private ThirdService thirdService;
 
     @Autowired
     private RedisSerive redisSerive;
@@ -101,8 +97,8 @@ public class DoctorWalletController  extends BaseController {
                 //取提现金额的绝对值========发短信的接口要求金额必须大于0
                 String amount = money.substring(1,money.length());
                 //发送短信
-               Map map = thirdService.sendBalanceForCash(phoneNumber,paramTime,amount);
-                log.info("提现短信通知结果 : " + map);
+//               Map map = thirdService.sendBalanceForCash(phoneNumber,paramTime,amount);
+//                log.info("提现短信通知结果 : " + map);
             }
             log.info("修改金额成功");
             return updateSuccseeResponse();
