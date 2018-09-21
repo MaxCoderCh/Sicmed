@@ -1,6 +1,5 @@
 package com.prostate.stata.controller;
 
-import com.prostate.stata.beans.ChNameBean;
 import com.prostate.stata.entity.AnamnesisAllergyDrug;
 import com.prostate.stata.service.AnamnesisAllergyDrugService;
 import com.prostate.stata.util.SpellUtils;
@@ -18,6 +17,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping(value = "anamnesisAllergyDrug")
+
 public class AnamnesisAllergyDrugController extends BaseController {
 
 

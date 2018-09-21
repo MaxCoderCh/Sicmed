@@ -1,6 +1,5 @@
 package com.prostate.stata.service.impl;
 
-import com.prostate.stata.beans.ChNameBean;
 import com.prostate.stata.entity.AnamnesisAllergyDrug;
 import com.prostate.stata.mapper.master.AnamnesisAllergyDrugWriteMapper;
 import com.prostate.stata.mapper.slaver.AnamnesisAllergyDrugReadMapper;
