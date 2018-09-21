@@ -3,7 +3,6 @@ package com.prostate.order.controller;
 import com.prostate.order.beans.OrderInquiryBean;
 import com.prostate.order.entity.OrderConstants;
 import com.prostate.order.entity.OrderInquiry;
-import com.prostate.order.feignService.RecordServer;
 import com.prostate.order.service.OrderInquiryService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -28,8 +27,6 @@ public class OrderInquiryController extends BaseController {
 
     private final OrderInquiryService orderInquiryService;
 
-    @Autowired
-    private RecordServer recordServer;
     @Autowired
     public OrderInquiryController(OrderInquiryService orderInquiryService) {
         this.orderInquiryService = orderInquiryService;
@@ -503,6 +500,27 @@ public class OrderInquiryController extends BaseController {
 
     }
 
+    /**
+     * 问诊订单支付
+     *
+     * @param orderId
+     * @return
+     */
+    @PostMapping(value = "orderPay")
+    public Map orderPay(String orderId) {
+        OrderInquiry orderInquiry = orderInquiryService.selectById(orderId);
+        if (orderInquiry == null) {
+            return queryEmptyResponse();
+        }
+        Map<String, String> signMap;
+        try {
+            signMap = feignService.ThirdServerOrderPay(orderInquiry.getId(), orderInquiry.getOrderPrice(),redisSerive.getOpenid());
+        } catch (Exception e) {
+            log.error("调用 ThirdServer 获取订单支付信息 失败");
+            return insertFailedResponse();
+        }
+        return insertSuccseeResponse(signMap);
+    }
 
     /**
      * 公众号 订单列表 数据 构建
@@ -513,10 +531,16 @@ public class OrderInquiryController extends BaseController {
 
     private List<OrderInquiryBean> orderBeanBuilderForWeChat(List<OrderInquiry> orderInquiryList) {
 
+
         List<OrderInquiryBean> orderInquiryBeanList = new ArrayList<>();
+        List<LinkedHashMap<String, String>> weChatPatientBeanList;
+        try {
+            weChatPatientBeanList = feignService.RecordServerGetPatientListById(getToken());
+        } catch (Exception e) {
+            return orderInquiryBeanList;
+        }
         for (OrderInquiry inquiry : orderInquiryList) {
-            Map<String, Object> patientResult = recordServer.getPatientListById(getToken());
-            List<LinkedHashMap<String, String>> weChatPatientBeanList = (List<LinkedHashMap<String, String>>) patientResult.get("result");
+
             OrderInquiryBean orderInquiryBean = new OrderInquiryBean();
 
             for (LinkedHashMap<String, String> patientLinkedHashMap : weChatPatientBeanList) {
@@ -566,9 +590,13 @@ public class OrderInquiryController extends BaseController {
             patientIds.append(inquiry.getPatient());
             i++;
         }
-        Map<String, Object> patientResult = recordServer.getPatientListByIds(patientIds.toString());
+        List<LinkedHashMap<String, String>> weChatPatientBeanList;
+        try {
+            weChatPatientBeanList = feignService.RecordServerGetPatientListByIds(patientIds.toString());
+        } catch (Exception e) {
+            return orderInquiryBeanList;
+        }
         for (OrderInquiryBean orderInquiryBean : orderInquiryBeanList) {
-            List<LinkedHashMap<String, String>> weChatPatientBeanList = (List<LinkedHashMap<String, String>>) patientResult.get("result");
             for (LinkedHashMap<String, String> patientLinkedHashMap : weChatPatientBeanList) {
                 if (patientLinkedHashMap.get("id").equals(orderInquiryBean.getPatientId())) {
                     orderInquiryBean.setPatientSex(patientLinkedHashMap.get("patientSex"));

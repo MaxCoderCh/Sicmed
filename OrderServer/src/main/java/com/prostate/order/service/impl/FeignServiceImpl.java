@@ -10,7 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -36,12 +40,13 @@ public class FeignServiceImpl implements FeignService {
      * @throws Exception
      */
     @Retryable(value = {Exception.class}, maxAttempts = 3, backoff = @Backoff(delay = 5000l, multiplier = 2))
-    public void RecordServerGetPatientListById(String userId) throws Exception {
+    public List<LinkedHashMap<String, String>> RecordServerGetPatientListById(String userId) throws Exception {
         Map<String, Object> serverResultMap = recordServer.getPatientListById(userId);
         String resultCode = String.valueOf(serverResultMap.get("code"));
         if (SUCCESS_CODE.equals(resultCode)) {
-            serverResultMap.get("result");
+            List<LinkedHashMap<String, String>> weChatPatientBeanList = (List<LinkedHashMap<String, String>>) serverResultMap.get("result");
             log.info("根据USER ID:" + userId + " 查询 患者列表 成功");
+            return weChatPatientBeanList;
         } else {
             log.info("根据USER ID:" + userId + " 查询 患者列表 失败");
             throw new Exception("");
@@ -55,12 +60,13 @@ public class FeignServiceImpl implements FeignService {
      * @throws Exception
      */
     @Retryable(value = {Exception.class}, maxAttempts = 3, backoff = @Backoff(delay = 5000l, multiplier = 2))
-    public void RecordServerGetPatientListByIds(String patientIds) throws Exception {
+    public List<LinkedHashMap<String, String>> RecordServerGetPatientListByIds(String patientIds) throws Exception {
         Map<String, Object> serverResultMap = recordServer.getPatientListByIds(patientIds);
         String resultCode = String.valueOf(serverResultMap.get("code"));
         if (SUCCESS_CODE.equals(resultCode)) {
-            serverResultMap.get("result");
+            List<LinkedHashMap<String, String>> weChatPatientBeanList = (List<LinkedHashMap<String, String>>) serverResultMap.get("result");
             log.info("根据patientIds:" + patientIds + " 查询 患者列表 成功");
+            return weChatPatientBeanList;
         } else {
             log.info("根据patientIds:" + patientIds + " 查询 患者列表 失败");
             throw new Exception("");
@@ -239,6 +245,20 @@ public class FeignServiceImpl implements FeignService {
         }
     }
 
+    @Retryable(value = {Exception.class}, maxAttempts = 3, backoff = @Backoff(delay = 5000l, multiplier = 2))
+    public Map<String,String> ThirdServerOrderPay(String orderId,String orderPrice,String openid) throws Exception {
+        Map<String,Object> serverResult = thirdServer.orderPay(orderId,orderPrice,openid);
+        String resultCode = String.valueOf(serverResult.get("code"));
+        if (SUCCESS_CODE.equals(resultCode)) {
+            Map<String,String> signMap = (Map<String, String>) serverResult.get("result");
+            log.info("调用 ThirdServer 获取订单支付信息 成功");
+            return signMap;
+        } else {
+            log.info("调用 ThirdServer 获取订单支付信息 失败");
+            throw new Exception("RPC 调用异常");
+
+        }
+    }
     /***************************** ThirdServer *****************************/
     /**
      * 根据 用户 ID查询 openid

@@ -1,10 +1,14 @@
 package com.prostate.order.service;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 public interface FeignService {
 
-    void RecordServerGetPatientListById(String userId) throws Exception;
+    List<LinkedHashMap<String, String>> RecordServerGetPatientListById(String userId) throws Exception;
 
-    void RecordServerGetPatientListByIds(String patientIds) throws Exception;
+    List<LinkedHashMap<String, String>> RecordServerGetPatientListByIds(String patientIds) throws Exception;
 
     void ThirdServerSendPaymentSuccess(String phoneNumber) throws Exception;
 
@@ -17,6 +21,8 @@ public interface FeignService {
     void ThirdServerSendProveFailed(String phoneNumber) throws Exception;
 
     void ThirdServerSendBalanceForCash(String phoneNumber) throws Exception;
+
+    Map<String,String> ThirdServerOrderPay(String orderId,String orderPrice,String openid) throws Exception;
 
     void ThirdServerPushPaymentSuccessToWechat(String openid, String orderId, String goodsInfo, String orderPrice) throws Exception;
 

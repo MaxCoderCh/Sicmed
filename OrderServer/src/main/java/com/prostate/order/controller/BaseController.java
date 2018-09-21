@@ -2,6 +2,7 @@ package com.prostate.order.controller;
 
 
 import com.prostate.order.service.FeignService;
+import com.prostate.order.service.impl.RedisSerive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,6 +24,8 @@ public class BaseController {
 
     @Autowired
     protected FeignService feignService;
+    @Autowired
+    protected RedisSerive redisSerive;
     /**
      * 参数为空返回值
      * @return

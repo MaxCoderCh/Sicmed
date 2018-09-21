@@ -36,4 +36,7 @@ public interface ThirdServer {
 
     @PostMapping(value = "pay/weChat/refund")
     String refund(@RequestParam("transactionId") String transactionId,@RequestParam("orderPrice") String orderPrice);
+
+    @PostMapping(value = "pay/weChat/orderPay")
+    Map<String, Object> orderPay(@RequestParam("orderId") String orderId,@RequestParam("orderPrice") String orderPrice,@RequestParam("openid") String openid);
 }
