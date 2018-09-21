@@ -48,7 +48,7 @@ eureka:
     instance-id: ${ipAddress.client}:${server.port}
 feign:
   hystrix:
-    enabled: true
+    enabled: false
 logging:
   level:
     root: debug

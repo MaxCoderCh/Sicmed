@@ -43,7 +43,7 @@ eureka:
       instance-id: ${ipAddress.client}:${server.port}
 feign:
   hystrix:
-    enabled: true
+    enabled: false
 #httpClient 配置信息
 http:
   maxTotal: 80
