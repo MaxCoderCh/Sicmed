@@ -45,6 +45,4 @@ feign:
     enabled: true
 logging:
   level:
-    root: debug
-mybatis:
-  mapper-locations: classpath:mapping/*.xml
+    root: info
