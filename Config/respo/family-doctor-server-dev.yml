@@ -2,16 +2,16 @@ ipAddress:
   client: 192.168.0.228
   redis: 192.168.0.222
   eureka: 192.168.0.222
-  mysql: www.yilaiyiwang.com
+  mysql: bj-cdb-0srt3yo9.sql.tencentcdb.com
 server:
   port: 8502
 spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://${ipAddress.mysql}:3306/jeefd?characterEncoding=utf-8
-    username: admin
-    password: ylyw20170930
+    url: jdbc:mysql://${ipAddress.mysql}:63422/sicmed_master_familydoctor?characterEncoding=utf-8
+    username: root
+    password: Qlxlm123456
     driver-class-name: com.mysql.jdbc.Driver
   cloud:
     discovery:
