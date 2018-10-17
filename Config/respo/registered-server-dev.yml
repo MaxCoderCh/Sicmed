@@ -21,7 +21,7 @@ spring:
       ipAddress: ${ipAddress.client}
   redis:
   #################redis基础配置#################
-    database: 8
+    database: 9
     host: ${ipAddress.redis}
     password:
     port: 6379
