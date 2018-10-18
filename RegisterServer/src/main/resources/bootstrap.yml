@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: register-server
+  cloud:
+    config:
+      uri: http://192.168.0.222:8880
+      label: master
+      profile: dev
+#192.168.0.222/api-registered/

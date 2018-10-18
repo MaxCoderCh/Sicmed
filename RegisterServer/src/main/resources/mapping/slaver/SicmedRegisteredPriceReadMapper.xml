@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicmed.register.mapper.slaver.SicmedRegisteredPriceReadMapper">
+  <resultMap id="BaseResultMap" type="com.sicmed.register.entity.SicmedRegisteredPrice">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="material_fee" jdbcType="VARCHAR" property="materialFee" />
+    <result column="clinics_fee" jdbcType="VARCHAR" property="clinicsFee" />
+    <result column="registered_fee" jdbcType="VARCHAR" property="registeredFee" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
+    <result column="delete_date" jdbcType="TIMESTAMP" property="deleteDate" />
+    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, material_fee, clinics_fee, registered_fee, remarks, create_user, create_date, 
+    update_user, update_date, delete_user, delete_date, del_flag
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sicmed_registered_price
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+</mapper>
