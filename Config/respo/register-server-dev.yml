@@ -9,7 +9,7 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://${ipAddress.mysql}:3306/register?characterEncoding=utf-8
+    url: jdbc:mysql://${ipAddress.mysql}:3306/jeesite?characterEncoding=utf-8
     username: admin
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
