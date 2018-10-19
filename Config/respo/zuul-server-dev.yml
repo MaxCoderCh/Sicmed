@@ -70,7 +70,7 @@ zuul:
       path: /api-familyDoctor/**
       service-id: family-doctor-server
     api-l:
-      path: /api-registered/**
+      path: /api-register/**
       service-id: register-server
     api-m:
       path: /api-charge/**
