@@ -69,9 +69,12 @@ zuul:
     api-k:
       path: /api-familyDoctor/**
       service-id: family-doctor-server
-    api-:
+    api-l:
       path: /api-registered/**
       service-id: registered-server
+    api-m:
+      path: /api-charge/**
+      service-id: charge-server
     api-qlxlm:
       path: /
       url: http://139.199.97.82
