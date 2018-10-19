@@ -1,0 +1,48 @@
+ipAddress:
+  client: 192.168.0.105
+  redis: 192.168.0.222
+  eureka: 192.168.0.222
+  mysql: bj-cdb-0srt3yo9.sql.tencentcdb.com
+server:
+  port: 9000
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://${ipAddress.mysql}:63422/ehis_master_charge?characterEncoding=utf-8
+    username: root
+    password: Qlxlm123456
+    driver-class-name: com.mysql.jdbc.Driver
+  cloud:
+    discovery:
+      enabled: true
+      serviceId: eureka-server
+    client:
+      ipAddress: ${ipAddress.client}
+  redis:
+  #################redis基础配置#################
+    database: 9
+    host: ${ipAddress.redis}
+    password:
+    port: 6379
+    timeout: 5000
+  #################redis线程池设置#################
+    jedis:
+      pool:
+        max-idle: 500
+        min-idle: 50
+        max-active: 2000
+        max-wait: 1000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone:  http://${ipAddress.eureka}:8888/eureka/
+  instance:
+    preferIpAddress: true
+    instance-id: ${ipAddress.client}:${server.port}
+feign:
+  hystrix:
+    enabled: true
+logging:
+  level:
+    root: info
