@@ -8,7 +8,8 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
     serviceUrl:
-      defaultZone:  http://172.21.0.9:8888/eureka/
+#      defaultZone:  http://172.21.0.9:8888/eureka/ #泌尿 生产环境地址
+      defaultZone:  http://192.168.0.222:8888/eureka/  #开发环境 地址
   instance:
     prefer-ip-address: true
   server:

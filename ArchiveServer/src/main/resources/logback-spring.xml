@@ -96,7 +96,7 @@
     </springProfile>
 
     <!-- 生产环境. -->
-    <springProfile name="dev">
+    <springProfile name="prd">
         <logger name="com.sicmed" level="ERROR" additivity="false">
             <appender-ref ref="ERROR_LOG"/>
         </logger>

@@ -3,7 +3,7 @@
 
 
     <!--自定义变量-->
-    <property name="logdir" value="LOG:/"/>
+    <property name="logdir" value="d:/"/>
     <property name="appname" value="user"/>
 
     <!--日志上下文名称-->

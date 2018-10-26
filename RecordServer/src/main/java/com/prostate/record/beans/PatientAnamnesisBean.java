@@ -14,6 +14,8 @@ import java.util.Map;
 @Getter
 public class PatientAnamnesisBean extends Patient implements Serializable {
 
+    private static final long serialVersionUID = 7226090218569549907l;
+
     private List<Anamnesis> anamnesisAllergyDrugList;
 
     private List<Anamnesis> anamnesisEatingDrugList;
