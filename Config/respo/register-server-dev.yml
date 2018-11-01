@@ -9,10 +9,16 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://${ipAddress.mysql}:63422/ehis_master_register?characterEncoding=utf-8
-    username: root
-    password: Qlxlm123456
-    driver-class-name: com.mysql.jdbc.Driver
+    registerRead:
+      url: jdbc:mysql://${ipAddress.mysql}:63422/ehis_master_register?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
+    registerWrite:
+      url: jdbc:mysql://${ipAddress.mysql}:63422/ehis_master_register?characterEncoding=utf-8
+      username: root
+      password: Qlxlm123456
+      driver-class-name: com.mysql.jdbc.Driver
   cloud:
     discovery:
       enabled: true
