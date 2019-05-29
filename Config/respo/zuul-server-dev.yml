@@ -1,3 +1,6 @@
+
+static:
+  resource: /web
 ipAddress:
   client: 192.168.20.222
   redis: 192.168.20.104
@@ -5,6 +8,8 @@ ipAddress:
 server:
   port: 80
 spring:
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/, classpath:/public/, file:${static.resource}, file:${static.resource}/qlxlm
   profiles:
     active: dev
   cloud:
