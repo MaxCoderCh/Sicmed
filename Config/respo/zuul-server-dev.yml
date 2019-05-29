@@ -1,6 +1,6 @@
 ipAddress:
   client: 192.168.20.222
-  redis: 192.168.20.4
+  redis: 192.168.20.104
   eureka: 192.168.20.222
 server:
   port: 80
@@ -77,7 +77,7 @@ zuul:
       service-id: charge-server
     api-qlxlm:
       path: /
-      url: http://www.yilaiyiwang.com
+      url: http://www.baidu.com
 #      url: http://139.199.97.82
 ribbon:
   ReadTimeout: 40000
