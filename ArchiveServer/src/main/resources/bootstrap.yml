@@ -3,6 +3,6 @@ spring:
     name: archive-server
   cloud:
     config:
-      uri: http://172.21.0.9:8880
+      uri: http://192.168.20.222:8880
       label: master
-      profile: prd
+      profile: dev

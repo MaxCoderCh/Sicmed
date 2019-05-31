@@ -63,4 +63,9 @@ public class BranchServiceImpl implements BranchService {
         }
         return map;
     }
+
+    @Override
+    public List<Branch> getBranchList() {
+        return branchReadMapper.getBranchList();
+    }
 }

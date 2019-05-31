@@ -11,4 +11,6 @@ public interface BranchReadMapper extends BaseReadMapper<Branch>{
 
 
     List<Branch> selectByParams(Branch e);
+
+    List<Branch> getBranchList();
 }

@@ -39,7 +39,14 @@ public class BaseController {
         resultMap.put("result", result);
         return resultMap;
     }
-
+    public Map hisLoginSuccessResponse(Object result,Object role) {
+        resultMap = new LinkedHashMap<>();
+        resultMap.put("code", "20000");
+        resultMap.put("msg", "LOGIN_SUCCESS");
+        resultMap.put("result", result);
+        resultMap.put("role", role);
+        return resultMap;
+    }
     public Map loginFailedResponse(Object result) {
         resultMap = new LinkedHashMap<>();
         resultMap.put("code", "20005");

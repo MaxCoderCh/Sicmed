@@ -1,82 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.prostate.stata.mapper.slaver.BranchReadMapper">
-  <resultMap id="BaseResultMap" type="com.prostate.stata.entity.Branch">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="parent_branch_id" jdbcType="VARCHAR" property="parentBranchId" />
-    <result column="branch_name" jdbcType="VARCHAR" property="branchName" />
-    <result column="branch_grade" jdbcType="VARCHAR" property="branchGrade" />
-    <result column="branch_inform" jdbcType="VARCHAR" property="branchInform" />
-    <result column="branch_weight" jdbcType="INTEGER" property="branchWeight" />
-    <result column="order_weight" jdbcType="VARCHAR" property="orderWeight" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="delete_user" jdbcType="VARCHAR" property="deleteUser" />
-    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
-    <result column="del_flag" jdbcType="CHAR" property="delFlag" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, parent_branch_id, branch_name, branch_grade, branch_inform, branch_weight, order_weight, 
-    create_user, create_time, update_user, update_time, delete_user, delete_time, del_flag
-  </sql>
-  <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from base_branch
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
+    <resultMap id="BaseResultMap" type="com.prostate.stata.entity.Branch">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="parent_branch_id" jdbcType="VARCHAR" property="parentBranchId"/>
+        <result column="branch_name" jdbcType="VARCHAR" property="branchName"/>
+        <result column="branch_grade" jdbcType="VARCHAR" property="branchGrade"/>
+        <result column="branch_inform" jdbcType="VARCHAR" property="branchInform"/>
+        <result column="branch_weight" jdbcType="INTEGER" property="branchWeight"/>
+        <result column="order_weight" jdbcType="VARCHAR" property="orderWeight"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="delete_user" jdbcType="VARCHAR" property="deleteUser"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+        <result column="del_flag" jdbcType="CHAR" property="delFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, parent_branch_id, branch_name, branch_grade, branch_inform, branch_weight, order_weight,
+        create_user, create_time, update_user, update_time, delete_user, delete_time, del_flag
+    </sql>
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from base_branch
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
 
+    <select id="getBranchList" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select id, branch_name
+        from base_branch
+        where del_flag = "0"
+    </select>
 
-  <select id="selectByParams" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from base_branch
-    <where>
-      <if test="id != null">
-        id = #{id,jdbcType=VARCHAR}
-      </if>
-      <if test="parentBranchId != null">
-        AND parent_branch_id = #{parentBranchId,jdbcType=VARCHAR}
-      </if>
-      <if test="branchName != null">
-        AND branch_name = #{branchName,jdbcType=VARCHAR}
-      </if>
-      <if test="branchGrade != null">
-        AND branch_grade = #{branchGrade,jdbcType=VARCHAR}
-      </if>
-      <if test="branchInform != null">
-        AND branch_inform = #{branchInform,jdbcType=VARCHAR}
-      </if>
-      <if test="branchWeight != null">
-        AND branch_weight = #{branchWeight,jdbcType=TIMESTAMP}
-      </if>
-      <if test="orderWeight != null">
-        AND order_weight = #{orderWeight,jdbcType=VARCHAR}
-      </if>
-      <if test="createUser != null">
-        AND create_user = #{createUser,jdbcType=VARCHAR}
-      </if>
-      <if test="createTime != null">
-        AND create_time = #{createTime,jdbcType=VARCHAR}
-      </if>
-      <if test="updateUser != null">
-        AND update_user = #{updateUser,jdbcType=VARCHAR}
-      </if>
-      <if test="updateTime != null">
-        AND update_time = #{updateTime,jdbcType=VARCHAR}
-      </if>
-      <if test="deleteUser != null">
-        AND delete_user = #{deleteUser,jdbcType=VARCHAR}
-      </if>
-      <if test="deleteTime != null">
-        AND delete_time = #{deleteTime,jdbcType=VARCHAR}
-      </if>
-      <if test="delFlag != null">
-        AND del_flag = #{delFlag,jdbcType=VARCHAR}
-      </if>
-    </where>
-  </select>
+    <select id="selectByParams" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from base_branch
+        <where>
+            <if test="id != null">
+                id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="parentBranchId != null">
+                AND parent_branch_id = #{parentBranchId,jdbcType=VARCHAR}
+            </if>
+            <if test="branchName != null">
+                AND branch_name = #{branchName,jdbcType=VARCHAR}
+            </if>
+            <if test="branchGrade != null">
+                AND branch_grade = #{branchGrade,jdbcType=VARCHAR}
+            </if>
+            <if test="branchInform != null">
+                AND branch_inform = #{branchInform,jdbcType=VARCHAR}
+            </if>
+            <if test="branchWeight != null">
+                AND branch_weight = #{branchWeight,jdbcType=TIMESTAMP}
+            </if>
+            <if test="orderWeight != null">
+                AND order_weight = #{orderWeight,jdbcType=VARCHAR}
+            </if>
+            <if test="createUser != null">
+                AND create_user = #{createUser,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime,jdbcType=VARCHAR}
+            </if>
+            <if test="updateUser != null">
+                AND update_user = #{updateUser,jdbcType=VARCHAR}
+            </if>
+            <if test="updateTime != null">
+                AND update_time = #{updateTime,jdbcType=VARCHAR}
+            </if>
+            <if test="deleteUser != null">
+                AND delete_user = #{deleteUser,jdbcType=VARCHAR}
+            </if>
+            <if test="deleteTime != null">
+                AND delete_time = #{deleteTime,jdbcType=VARCHAR}
+            </if>
+            <if test="delFlag != null">
+                AND del_flag = #{delFlag,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
 
 </mapper>

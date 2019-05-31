@@ -89,7 +89,7 @@ spring:
 #    # 合并多个DruidDataSource的监控数据
 #    #useGlobalDataSourceStat: true
   redis:
-      host: localhost
+      host: 192.168.20.104
       port: 6379
       password:
       # 连接超时时间（毫秒）

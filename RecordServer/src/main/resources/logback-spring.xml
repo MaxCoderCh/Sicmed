@@ -3,7 +3,7 @@
 
 
     <!--自定义变量-->
-    <property name="logdir" value="LOG:/"/>
+    <property name="logdir" value="/log"/>
     <property name="appname" value="record"/>
 
     <!--日志上下文名称-->
@@ -122,7 +122,7 @@
     </springProfile>
 
     <root level="WARN">
-        <!--<appender-ref ref="consoleLog"/>-->
+        <appender-ref ref="consoleLog"/>
         <!--<appender-ref ref="fileInfoLog"/>-->
         <!--<appender-ref ref="fileErrorLog"/>-->
     </root>

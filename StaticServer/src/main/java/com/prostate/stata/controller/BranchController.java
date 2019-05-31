@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -22,4 +23,15 @@ public class BranchController extends BaseController {
         Branch branch = branchService.selectById(id);
         return querySuccessResponse(branch.getBranchName());
     }
+
+    @GetMapping(value = "getBranchList")
+    public Map<String, Object> getBranchList() {
+
+        List<Branch> branchList = branchService.getBranchList();
+        if (branchList.isEmpty()){
+            return queryEmptyResponse();
+        }
+        return querySuccessResponse(branchList);
+    }
+
 }

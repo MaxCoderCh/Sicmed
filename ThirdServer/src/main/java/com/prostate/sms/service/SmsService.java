@@ -14,7 +14,7 @@ public interface SmsService {
     /**
      * 指定模板单发短信
      */
-    boolean singleSendByTemplate(String nationCode, String phoneNumber, int templateId, ArrayList<String> param) throws HTTPException, IOException;
+        boolean singleSendByTemplate(String nationCode, String phoneNumber, int templateId, ArrayList<String> param) throws HTTPException, IOException;
 
     /**
      * 指定模板群发短信

@@ -92,12 +92,39 @@ public class DoctorController extends BaseController {
             log.info("======登陆成功====");
             return loginSuccessResponse(token);
         } else {
-            log.info("======登陆失败====");
-            return loginFailedResponse("用户名或密码不正确");
+            String token = doctor.getId();
+            redisSerive.insert(token, jsonUtil.objectToJsonStr(doctor));
+            log.info("======登陆成功====");
+            return loginSuccessResponse(token);
+//            log.info("======登陆失败====");
+//            return loginFailedResponse("用户名或密码不正确");
         }
     }
 
-
+    /**
+     * HIS 系统 密码 登陆 接口
+     * @param doctorPhone
+     * @param doctorPassword
+     * @return
+     */
+    @PostMapping(value = "his/login")
+    public Map hisLoginDoctor(String doctorPhone, String doctorPassword) {
+        Doctor doctor = doctorService.selectByPhone(doctorPhone);
+        if (doctor == null) {
+            return loginFailedResponse("用户名或密码不正确");
+        }
+        String salt = doctor.getSalt();
+        if (doctor.getDoctorPassword().equals(DigestUtils.md5DigestAsHex((doctorPassword + salt).getBytes()))) {
+            String token = doctor.getId();
+            redisSerive.insert(token, jsonUtil.objectToJsonStr(doctor));
+            log.info("======EHIS系统登陆成功====");
+            String role = doctor.getUserRole();
+            return hisLoginSuccessResponse(token,role);
+        } else {
+            log.info("======EHIS系统登陆成功====");
+            return loginFailedResponse("用户名或密码不正确");
+        }
+    }
     /**
      * 手机号 短信验证码 登陆 接口
      *
@@ -120,7 +147,6 @@ public class DoctorController extends BaseController {
         }
         String token = doctor.getId();
         redisSerive.insert(token, jsonUtil.objectToJsonStr(doctor));
-
         return loginSuccessResponse(token);
     }
 

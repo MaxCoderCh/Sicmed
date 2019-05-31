@@ -7,9 +7,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
+/**
+ * @author MaxCoder
+ */
 @FeignClient(value = "third-server",fallback = ThirdServerHystrix.class)
 public interface ThirdServer {
 
+    /**
+     *
+     * @param imgPath
+     * @return
+     */
     @PostMapping(value = "cos/delete")
     Map<String, Object> delete(@RequestParam("imgPath") String imgPath);
 
